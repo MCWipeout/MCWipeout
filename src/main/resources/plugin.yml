@@ -1,0 +1,4 @@
+name: MCWipeout
+version: '${project.version}'
+main: org.stormdev.mcwipeout.Wipeout
+api-version: '1.20'
