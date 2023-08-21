@@ -14,7 +14,7 @@ public class FallingBlockFactory {
         FallingBlock fallingBlock = location.getWorld().spawnFallingBlock(location, material.createBlockData());
 
         fallingBlock.setCancelDrop(true);
-        fallingBlock.setGravity(false);
+        fallingBlock.setDropItem(false);
         fallingBlock.setHurtEntities(false);
 
         return fallingBlock;
