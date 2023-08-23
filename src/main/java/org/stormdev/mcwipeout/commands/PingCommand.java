@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormCommand;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.dev.floatytest.ShulkerTest;
+import org.stormdev.mcwipeout.dev.floatytest.ShulkerTestSide;
 import org.stormdev.mcwipeout.dev.showtest.ShowTest;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 
@@ -34,7 +36,22 @@ public class PingCommand extends StormCommand<Player> {
         Player player = commandContext.sender();
         WipeoutPlayer wipeoutPlayer = plugin.getTeamManager().fromUUID(player.getUniqueId());
 
-        new ShowTest();
-        player.sendMessage(ChatColor.GREEN + "Show Started!");
+        if (commandContext.args().length == 1) {
+            if (commandContext.args()[0].equalsIgnoreCase("water")) {
+                new ShowTest();
+                player.sendMessage(ChatColor.GREEN + "Show Started!");
+                return;
+            } else if (commandContext.args()[0].equalsIgnoreCase("shulkerup")) {
+                new ShulkerTest().setup();
+                player.sendMessage(ChatColor.GREEN + "Shulker Started!");
+                return;
+            } else if (commandContext.args()[0].equalsIgnoreCase("shulkerside")) {
+                new ShulkerTestSide().setup();
+                player.sendMessage(ChatColor.GREEN + "Shulker Started!");
+                return;
+            }
+        }
+
+        player.sendMessage(ChatColor.GREEN + "/ping");
     }
 }
