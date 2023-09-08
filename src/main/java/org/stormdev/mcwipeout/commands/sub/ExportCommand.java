@@ -43,5 +43,6 @@ public class ExportCommand extends StormSubCommand {
         }
 
         sender.sendMessage(ChatColor.YELLOW + "Map Active: " + (plugin.getGameManager().getActiveMap() != null));
+        sender.sendMessage(ChatColor.YELLOW + "Teams loaded: " + (plugin.getGameManager().getActiveMap() != null ? plugin.getGameManager().getActiveMap().getTeamsPlaying().size() : 0));
     }
 }

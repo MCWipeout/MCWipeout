@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.frame.obstacles;
+package org.stormdev.mcwipeout.frame.obstacles.moving;
 /*
   Created by Stormbits at 8/20/2023
 */
@@ -6,6 +6,7 @@ package org.stormdev.mcwipeout.frame.obstacles;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.stormdev.mcwipeout.frame.obstacles.moving.MoveableBlock;
 import org.stormdev.mcwipeout.utils.Cuboid;
 
 import java.util.List;

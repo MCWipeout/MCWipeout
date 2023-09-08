@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.dev.showtest;
+package org.stormdev.mcwipeout.dev.watershow;
 /*
   Created by Stormbits at 8/21/2023
 */
@@ -9,9 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.dev.showtest.impl.BloomJet;
-import org.stormdev.mcwipeout.dev.showtest.impl.MoveableJet;
-import org.stormdev.mcwipeout.dev.showtest.impl.Shooter;
+import org.stormdev.mcwipeout.dev.watershow.impl.BloomJet;
+import org.stormdev.mcwipeout.dev.watershow.impl.MoveableJet;
+import org.stormdev.mcwipeout.dev.watershow.impl.Shooter;
 
 public class ShowTest {
 

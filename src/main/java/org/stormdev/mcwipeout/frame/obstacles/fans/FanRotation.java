@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.frame.obstacles;
+package org.stormdev.mcwipeout.frame.obstacles.fans;
 /*
   Created by Stormbits at 2/28/2023
 */

@@ -9,9 +9,11 @@ import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.frame.obstacles.OOBArea;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.team.Team;
 
@@ -38,7 +40,12 @@ public abstract class Map {
     public CheckPoint spawnPoint;
 
     @Getter
+    @Setter
     public CheckPoint finish;
+
+    @Getter
+    @Setter
+    public List<OOBArea> oobAreas;
 
     protected abstract void setupCheckpoints();
 
@@ -47,6 +54,7 @@ public abstract class Map {
     public void start() {
         for (Obstacle obstacle : obstacles) {
             obstacle.setEnabled(true);
+            obstacle.enable();
             obstacle.run();
         }
 
@@ -89,6 +97,7 @@ public abstract class Map {
     }
 
     public void moveCheckPoint(String region, Player player) {
+        if (player.getGameMode() == GameMode.SPECTATOR) return;
         for (Team team : teamsPlaying) {
             if (team.containsPlayer(player)) {
                 if (!team.getCheckPointMap().containsKey(player.getUniqueId())) {

@@ -114,7 +114,7 @@ public class GameManager {
         frozen = true;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.isOp()) {
+            if (!player.isOp()) {
                 activeMap.getSpawnPoint().reset(player);
                 player.removePotionEffect(PotionEffectType.SPEED);
                 player.removePotionEffect(PotionEffectType.JUMP);
@@ -302,7 +302,7 @@ public class GameManager {
         for (Player player : Bukkit.getOnlinePlayers()) {
             plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
             player.setGameMode(GameMode.ADVENTURE);
-            player.teleport(new Location(Bukkit.getWorld("maps"), -94.5, 35, -361.5, 90F, 0.0F));
+            player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             Bukkit.getOnlinePlayers().forEach(x -> {
                 if (!x.getUniqueId().equals(player.getUniqueId())) {
                     player.showPlayer(plugin, x);

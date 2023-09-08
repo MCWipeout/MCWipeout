@@ -33,4 +33,6 @@ public abstract class Obstacle {
     public abstract void run();
 
     public abstract void reset();
+
+    public abstract void enable();
 }

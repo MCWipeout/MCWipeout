@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.stormdev.StormPlugin;
 import org.stormdev.commands.registry.CommandRegistry;
 import org.stormdev.mcwipeout.commands.PingCommand;
@@ -55,6 +56,9 @@ public final class Wipeout extends StormPlugin<Wipeout> {
     @Getter
     private SimpleWorldGuardAPI simpleWorldGuardAPI;
 
+    @Getter
+    private World world;
+
     private static Gson gson;
 
     public static Gson getGson() {
@@ -77,6 +81,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         registerListeners();
         registerCommands();
+
+        world = Bukkit.getWorld("maps");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.frame.obstacles;
+package org.stormdev.mcwipeout.frame.obstacles.moving;
 /*
   Created by Stormbits at 8/21/2023
 */
@@ -45,7 +45,6 @@ public class MoveableBlock {
     public void reset() {
         if (location.equals(newLocation)) {
             newLocation = null;
-
         }
     }
 

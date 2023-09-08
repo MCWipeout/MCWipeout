@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.dev.showtest.impl;
+package org.stormdev.mcwipeout.dev.watershow.impl;
 /*
   Created by Stormbits at 8/21/2023
 */
@@ -11,7 +11,7 @@ import org.bukkit.entity.FallingBlock;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.dev.showtest.ShowElement;
+import org.stormdev.mcwipeout.dev.watershow.ShowElement;
 
 public class MoveableJet extends ShowElement {
 

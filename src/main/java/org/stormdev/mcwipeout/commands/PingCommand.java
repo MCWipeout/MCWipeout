@@ -3,16 +3,13 @@ package org.stormdev.mcwipeout.commands;
   Created by Stormbits at 4/21/2023
 */
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormCommand;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.dev.floatytest.ShulkerTest;
-import org.stormdev.mcwipeout.dev.floatytest.ShulkerTestSide;
-import org.stormdev.mcwipeout.dev.showtest.ShowTest;
+import org.stormdev.mcwipeout.dev.shulkertests.*;
+import org.stormdev.mcwipeout.dev.watershow.ShowTest;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 
 
@@ -41,12 +38,8 @@ public class PingCommand extends StormCommand<Player> {
                 new ShowTest();
                 player.sendMessage(ChatColor.GREEN + "Show Started!");
                 return;
-            } else if (commandContext.args()[0].equalsIgnoreCase("shulkerup")) {
-                new ShulkerTest().setup();
-                player.sendMessage(ChatColor.GREEN + "Shulker Started!");
-                return;
-            } else if (commandContext.args()[0].equalsIgnoreCase("shulkerside")) {
-                new ShulkerTestSide().setup();
+            } else if (commandContext.args()[0].equalsIgnoreCase("circle")) {
+                new ShulkerTestCircle().setup();
                 player.sendMessage(ChatColor.GREEN + "Shulker Started!");
                 return;
             }
