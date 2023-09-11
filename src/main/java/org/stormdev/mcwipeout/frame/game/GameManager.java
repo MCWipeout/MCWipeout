@@ -29,10 +29,7 @@ import org.stormdev.utils.Color;
 import org.stormdev.utils.StringUtils;
 import org.stormdev.utils.Utils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -49,10 +46,10 @@ public class GameManager {
     private Map activeMap;
 
     @Getter
-    private List<Team> finishedTeams;
+    private final List<Team> finishedTeams;
 
     @Getter
-    private List<UUID> finishedPlayers;
+    private final List<UUID> finishedPlayers;
 
     @Getter
     @Setter
@@ -92,13 +89,13 @@ public class GameManager {
             public void run() {
                 if (timer > 1) {
                     timer--;
-                    bossBar.setProgress(timer / 600);
+                    bossBar.setProgress(Math.round((float) timer / 600));
                     int S = timer % 60;
                     int H = timer / 60;
                     int M = H % 60;
                     H = H / 60;
 
-                    bossBar.setTitle(Color.colorize("&eTime left: " + M + ":" + S));
+                    bossBar.setTitle(Color.colorize("&aTime left: " + M + ":" + S));
 
                 } else {
                     stopActiveMap();
@@ -146,7 +143,7 @@ public class GameManager {
                 secondsLeft--;
 
                 if (secondsLeft == 7) {
-                    Bukkit.getOnlinePlayers().forEach(x -> plugin.getAdventure().player(x).playSound(Sound.sound(Key.key("wipeout:mcw.countdown"), Sound.Source.MASTER, 0.5f, 1.0f)));
+                    Bukkit.getOnlinePlayers().forEach(x -> plugin.getAdventure().player(x).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.countdown"), Sound.Source.MASTER, 0.5f, 1.0f)));
                 }
 
                 switch (secondsLeft) {
@@ -184,7 +181,7 @@ public class GameManager {
 
                     team.getCheckPointMap().put(player.getUniqueId(), activeMap.getFinish());
 
-                    plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 1.0f, 1.0f));
+                    plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_finish"), Sound.Source.MASTER, 1.0f, 1.0f));
 
                     player.sendMessage(ChatColor.GREEN + "You have finished!");
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
@@ -225,7 +222,7 @@ public class GameManager {
 
                     team.getCheckPointMap().put(player.getUniqueId(), activeMap.getFinish());
 
-                    plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 1.0f, 1.0f));
+                    plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_finish"), Sound.Source.MASTER, 1.0f, 1.0f));
 
                     player.sendMessage(ChatColor.GREEN + "You have finished!");
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
@@ -300,7 +297,8 @@ public class GameManager {
         bossBar = null;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
+            if (player.isOp()) continue;
+            plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
             player.setGameMode(GameMode.ADVENTURE);
             player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             Bukkit.getOnlinePlayers().forEach(x -> {
@@ -311,7 +309,9 @@ public class GameManager {
             if (stopwatch != null) {
                 int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
 
-                player.sendMessage(Color.colorize("&aYour personal time: " + Utils.formatTime(timer)));
+                if (type == GameType.SOLO) {
+                    player.sendMessage(Color.colorize("&aYour personal time: " + Utils.formatTime(timer)));
+                }
             }
 
             for (Team team : activeMap.getTeamsPlaying()) {

@@ -26,6 +26,10 @@ public class WLocation {
         return new WLocation(x, y, z, 0f, 0f);
     }
 
+    public static WLocation from(Block block) {
+        return new WLocation(block.getX(), block.getY(), block.getZ(), 0f, 0f);
+    }
+
     private WLocation(double x, double y, double z, float pitch, float yaw) {
         this.x = x;
         this.y = y;
@@ -52,5 +56,9 @@ public class WLocation {
         this.pitch = pitch;
         this.yaw = yaw;
         return this;
+    }
+
+    public String asStringLocation() {
+        return this.x + ":" + this.y + ":" + this.z;
     }
 }

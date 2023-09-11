@@ -2,15 +2,12 @@ package org.stormdev.mcwipeout.frame.game;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.OOBArea;
@@ -104,7 +101,7 @@ public abstract class Map {
                     team.getCheckPointMap().put(player.getUniqueId(), byRegion(region));
                     player.sendMessage(ChatColor.GREEN + "Your checkpoint has been updated!");
 
-                    Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
+                    Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
                 }
 
                 CheckPoint point = byRegion(region);
@@ -115,7 +112,7 @@ public abstract class Map {
                     team.getCheckPointMap().replace(player.getUniqueId(), point);
 
                     player.sendMessage(ChatColor.GREEN + "Your checkpoint has been updated!");
-                    Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
+                    Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
                 }
             }
         }

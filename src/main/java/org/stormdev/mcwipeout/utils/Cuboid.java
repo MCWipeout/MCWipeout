@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.stormdev.mcwipeout.frame.team.WPoint;
 
 public class Cuboid {
 
@@ -28,6 +29,10 @@ public class Cuboid {
     private final double zMinCentered;
     private final double zMaxCentered;
     private final World world;
+
+    public static Cuboid from(int x1, int y1, int z1, int x2, int y2, int z2) {
+        return new Cuboid(WLocation.from(x1, y1, z1).asLocation(), WLocation.from(x2, y2, z2).asLocation());
+    }
 
     public Cuboid(final Location point1, final Location point2) {
         this.xMin = Math.min(point1.getBlockX(), point2.getBlockX());

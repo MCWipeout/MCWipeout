@@ -29,6 +29,11 @@ public class BumperWall extends Obstacle {
     }
 
     @Override
+    public void load() {
+
+    }
+
+    @Override
     public void run() {
         new BukkitRunnable() {
             int timer = 0;
@@ -40,13 +45,15 @@ public class BumperWall extends Obstacle {
                 }
                 timer++;
 
-                if (timer < totalDuration) {
+                if (timer <= totalDuration) {
 
                     for (BumperObject bumperObject : bumperObjectList) {
                         if (bumperObject.getDelayInCycle() == timer) {
                             bumperObject.move();
                         }
                     }
+
+                    timer++;
 
                 } else {
                     timer = 0;

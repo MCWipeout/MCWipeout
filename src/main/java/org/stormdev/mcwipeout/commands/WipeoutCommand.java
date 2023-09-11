@@ -10,6 +10,7 @@ import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormCommand;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.commands.sub.ExportCommand;
+import org.stormdev.mcwipeout.commands.sub.ExportJsonCommand;
 import org.stormdev.mcwipeout.commands.sub.MapCommand;
 import org.stormdev.mcwipeout.commands.sub.TeamCommand;
 import org.stormdev.mcwipeout.frame.team.Team;
@@ -32,6 +33,7 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
         register(new MapCommand(plugin));
         register(new TeamCommand(plugin));
         register(new ExportCommand(plugin));
+        register(new ExportJsonCommand(plugin));
     }
 
     @Override

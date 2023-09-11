@@ -20,7 +20,6 @@ public class ObstacleEvents extends StormListener<Wipeout> {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-
         if (plugin().getGameManager().getActiveMap() != null) {
             plugin().getGameManager().getActiveMap().getObstacles().forEach(obstacle -> obstacle.handle(event));
         }

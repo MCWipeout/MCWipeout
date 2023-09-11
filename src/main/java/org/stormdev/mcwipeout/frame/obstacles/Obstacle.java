@@ -35,4 +35,6 @@ public abstract class Obstacle {
     public abstract void reset();
 
     public abstract void enable();
+
+    public abstract void load();
 }

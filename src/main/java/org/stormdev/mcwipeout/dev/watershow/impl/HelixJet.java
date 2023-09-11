@@ -11,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.dev.watershow.ShowElement;
-import org.stormdev.mcwipeout.utils.FallingBlockFactory;
+import org.stormdev.mcwipeout.utils.helpers.FallingBlockFactory;
 
-import static org.stormdev.mcwipeout.utils.LocationUtil.getPointOnCircle;
+import static org.stormdev.mcwipeout.utils.helpers.LocationUtil.getPointOnCircle;
 
 public class HelixJet extends ShowElement {
 

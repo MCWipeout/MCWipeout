@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.dev.watershow.ShowElement;
-import org.stormdev.mcwipeout.utils.LocationUtil;
+import org.stormdev.mcwipeout.utils.helpers.LocationUtil;
 
 import java.util.List;
 

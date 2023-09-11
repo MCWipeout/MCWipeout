@@ -3,6 +3,7 @@ package org.stormdev.mcwipeout.commands;
   Created by Stormbits at 4/21/2023
 */
 
+import org.apache.commons.math3.util.Precision;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.stormdev.commands.CommandContext;
@@ -34,6 +35,8 @@ public class PingCommand extends StormCommand<Player> {
         WipeoutPlayer wipeoutPlayer = plugin.getTeamManager().fromUUID(player.getUniqueId());
 
         if (commandContext.args().length == 1) {
+
+
             if (commandContext.args()[0].equalsIgnoreCase("water")) {
                 new ShowTest();
                 player.sendMessage(ChatColor.GREEN + "Show Started!");
