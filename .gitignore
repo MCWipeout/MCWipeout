@@ -2,7 +2,6 @@
 *.log
 *.ctxt
 .mtj.tmp/
-*.jar
 *.war
 *.nar
 *.ear
@@ -54,3 +53,4 @@ fabric.properties
 .idea/httpRequests
 .idea/caches/build_file_checksums.ser
 /MCWipeout.iml
+/.idea/
