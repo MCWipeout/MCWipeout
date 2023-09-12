@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormCommand;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.frame.game.GameType;
+import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 
 
@@ -32,26 +34,41 @@ public class TogglePlayersCmd extends StormCommand<Player> {
     public void execute(CommandContext<Player> commandContext) {
         Player player = commandContext.sender();
         WipeoutPlayer wipeoutPlayer = plugin.getTeamManager().fromUUID(player.getUniqueId());
+
+        if (plugin.getGameManager().getActiveMap() == null) {
+            player.sendMessage(ChatColor.RED + "A game is not currently running!");
+            return;
+        }
         if (wipeoutPlayer.isVisiblePlayers()) {
             wipeoutPlayer.setVisiblePlayers(false);
 
             player.sendMessage(ChatColor.RED + "Disabled player visibility!");
 
-            if (plugin.getGameManager().getActiveMap() != null) {
+            if (plugin.getGameManager().getType() == GameType.SOLO) {
                 for (Player pl : Bukkit.getOnlinePlayers()) {
+                    if (pl.getUniqueId().equals(player.getUniqueId())) continue;
                     player.hidePlayer(plugin, pl);
                 }
+                return;
+            } else {
+                Team team = plugin.getTeamManager().getTeamFromUUID(player.getUniqueId());
+                if (team == null) return;
+
+                plugin.getGameManager().getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(pl -> player.hidePlayer(plugin, pl));
             }
+
+
         } else {
             wipeoutPlayer.setVisiblePlayers(true);
 
             player.sendMessage(ChatColor.GREEN + "Enabled player visibility!");
 
-            if (plugin.getGameManager().getActiveMap() != null) {
-                for (Player pl : Bukkit.getOnlinePlayers()) {
-                    player.showPlayer(plugin, pl);
-                }
+
+            for (Player pl : Bukkit.getOnlinePlayers()) {
+                if (pl.getUniqueId().equals(player.getUniqueId())) continue;
+                player.showPlayer(plugin, pl);
             }
+
         }
     }
 }

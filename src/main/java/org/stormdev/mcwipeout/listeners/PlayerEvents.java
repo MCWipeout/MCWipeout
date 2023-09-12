@@ -8,6 +8,7 @@ import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,6 +20,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.stormdev.abstracts.StormListener;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.frame.game.GameType;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.utils.Utils;
@@ -92,15 +94,13 @@ public class PlayerEvents extends StormListener<Wipeout> {
         if (event.getWhoClicked().isOp()) return;
         if (event.getClickedInventory() == null) return;
         if (event.getClickedInventory().getType() == InventoryType.PLAYER) {
-            if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
-                event.setCancelled(true);
-            }
+            event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onFreeze(PlayerMoveEvent event) {
-        if (event.getPlayer().isOp()) return;
+        if (!event.getPlayer().hasPermission("wipeout.play")) return;
 
         if (plugin().getGameManager().isFrozen()) {
             if (Utils.isSimilar(event.getFrom(), event.getTo())) {
@@ -116,6 +116,9 @@ public class PlayerEvents extends StormListener<Wipeout> {
         Player player = event.getPlayer();
 
         if (event.getItemDrop().getItemStack().getType() == Material.GHAST_TEAR) {
+            event.setCancelled(true);
+        }
+        if (event.getItemDrop().getItemStack().getType() == Material.EMERALD) {
             event.setCancelled(true);
         }
     }
@@ -135,7 +138,45 @@ public class PlayerEvents extends StormListener<Wipeout> {
 
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.getItem() == null || event.getItem().getType() == Material.AIR) return;
 
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+
+        ItemStack itemStack = event.getItem();
+        if (itemStack.getType() != Material.EMERALD) return;
+
+        if (plugin().getGameManager().getActiveMap() == null) return;
+
+        WipeoutPlayer wipeoutPlayer = plugin().getTeamManager().fromUUID(player.getUniqueId());
+
+        if (wipeoutPlayer.isVisiblePlayers()) {
+            wipeoutPlayer.setVisiblePlayers(false);
+
+            player.sendMessage(ChatColor.RED + "Disabled player visibility!");
+
+            if (plugin().getGameManager().getType() == GameType.SOLO) {
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    if (pl.getUniqueId().equals(player.getUniqueId())) continue;
+                    player.hidePlayer(plugin(), pl);
+                }
+                return;
+            } else {
+                Team team = plugin().getTeamManager().getTeamFromUUID(player.getUniqueId());
+                if (team == null) return;
+
+                plugin().getGameManager().getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(pl -> player.hidePlayer(plugin(), pl));
+            }
+        } else {
+            wipeoutPlayer.setVisiblePlayers(true);
+
+            player.sendMessage(ChatColor.GREEN + "Enabled player visibility!");
+
+            for (Player pl : Bukkit.getOnlinePlayers()) {
+                if (pl.getUniqueId().equals(player.getUniqueId())) continue;
+                player.showPlayer(plugin(), pl);
+            }
+        }
     }
 
     @EventHandler

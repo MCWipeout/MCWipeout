@@ -23,17 +23,17 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.*;
 
-public class ExportJsonCommand extends StormSubCommand {
+public class ExportJsonPlatformsCommand extends StormSubCommand {
     private Wipeout plugin;
     private Set<String> aliases;
 
     private List<JsonPlatformSection> exports;
 
-    public ExportJsonCommand(Wipeout plugin) {
+    public ExportJsonPlatformsCommand(Wipeout plugin) {
         super(0, "&cInvalid Args!");
         this.plugin = plugin;
         this.aliases = new HashSet<>();
-        aliases.add("exportasjson");
+        aliases.add("exportasjsonplatform");
         exports = new ArrayList<>();
     }
 
@@ -54,8 +54,8 @@ public class ExportJsonCommand extends StormSubCommand {
             return;
         }
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.RED + "/wipeout exportasjson (x, y, z)");
-            sender.sendMessage(ChatColor.RED + "/wipeout exportasjson (fileId)");
+            sender.sendMessage(ChatColor.RED + "/wipeout exportasjsonplatform (x, y, z)");
+            sender.sendMessage(ChatColor.RED + "/wipeout exportasjsonplatform (fileId)");
             return;
         } else if (args.length == 1) {
             String fileId = args[0];
@@ -63,8 +63,8 @@ public class ExportJsonCommand extends StormSubCommand {
             File file = new File(Wipeout.get().getDataFolder() + "/exported/", fileId + ".json");
             if (!file.exists()) {
                 file.getParentFile().mkdir();
-                Wipeout.get().saveResource("exported/" + fileId + ".json", false);
-                return;
+                file.createNewFile();
+                //Wipeout.get().saveResource("exported/" + fileId + ".json", false);
             }
 
             try (final Writer writer = new FileWriter(file)) {
@@ -72,7 +72,7 @@ public class ExportJsonCommand extends StormSubCommand {
                 writer.flush();
             }
 
-            Bukkit.broadcast(Color.colorize("&eExported: " + exports.size() + " JsonMovingSection objects to /exported/" + fileId + ".json"), "wipeout.*");
+            Bukkit.broadcast(Color.colorize("&eExported: " + exports.size() + " JSON objects to /exported/" + fileId + ".json"), "wipeout.*");
 
             exports.clear();
 
@@ -83,7 +83,7 @@ public class ExportJsonCommand extends StormSubCommand {
             int y = Integer.parseInt(args[1]);
             int z = Integer.parseInt(args[2]);
 
-            Set<Block> list = BlockFaceHelper.getConnectionWithType(WLocation.from(x, y, z).asBlock(), Material.LIME_WOOL);
+            Set<Block> list = BlockFaceHelper.getConnection(WLocation.from(x, y, z).asBlock());
 
             Map<WLocation, Material> map = new HashMap<>();
 
@@ -91,7 +91,7 @@ public class ExportJsonCommand extends StormSubCommand {
 
             JsonPlatformSection jsonPlatformSection = new JsonPlatformSection(map, PlatformSettings.builder().build());
 
-            Bukkit.broadcast(Color.colorize("&eExported a JsonPlatformSection, Block list: " + list.size()), "wipeout.*");
+            Bukkit.broadcast(Color.colorize("&eExported a JSON Object, Block list: " + list.size()), "wipeout.*");
 
             exports.add(jsonPlatformSection);
         }

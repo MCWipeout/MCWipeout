@@ -5,6 +5,7 @@ package org.stormdev.mcwipeout.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -43,6 +44,13 @@ public class ObstacleEvents extends StormListener<Wipeout> {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
+        if (plugin().getGameManager().getActiveMap() != null) {
+            plugin().getGameManager().getActiveMap().getObstacles().forEach(obstacle -> obstacle.handle(event));
+        }
+    }
+
+    @EventHandler
+    public void onBlockFromTo(BlockFromToEvent event) {
         if (plugin().getGameManager().getActiveMap() != null) {
             plugin().getGameManager().getActiveMap().getObstacles().forEach(obstacle -> obstacle.handle(event));
         }

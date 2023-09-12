@@ -10,10 +10,7 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -21,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.stormdev.builder.CustomItemBuilder;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.team.Team;
@@ -59,6 +57,7 @@ public class GameManager {
 
     private BukkitTask timerTask;
 
+    @Getter
     private BossBar bossBar;
 
     @Getter
@@ -80,6 +79,7 @@ public class GameManager {
         bossBar.setVisible(true);
         bossBar.setProgress(1.0);
 
+
         Bukkit.getOnlinePlayers().forEach(x -> bossBar.addPlayer(x));
         this.timerTask = new BukkitRunnable() {
 
@@ -95,7 +95,11 @@ public class GameManager {
                     int M = H % 60;
                     H = H / 60;
 
-                    bossBar.setTitle(Color.colorize("&aTime left: " + M + ":" + S));
+                    if (S < 10) {
+                        bossBar.setTitle(Color.colorize("&aTime left: " + M + ":0" + S));
+                    } else {
+                        bossBar.setTitle(Color.colorize("&aTime left: " + M + ":" + S));
+                    }
 
                 } else {
                     stopActiveMap();
@@ -111,11 +115,26 @@ public class GameManager {
         frozen = true;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!player.isOp()) {
-                activeMap.getSpawnPoint().reset(player);
-                player.removePotionEffect(PotionEffectType.SPEED);
-                player.removePotionEffect(PotionEffectType.JUMP);
+            boolean isFound = false;
+            for (Team team : activeMap.getTeamsPlaying()) {
+                if (team.getUUIDMembers().contains(player.getUniqueId())) {
+                    isFound = true;
+                }
             }
+
+            if (!isFound) {
+                activeMap.getSpawnPoint().reset(player);
+                player.setGameMode(GameMode.SPECTATOR);
+                continue;
+            }
+
+            if (!player.hasPermission("wipeout.play")) continue;
+            activeMap.getSpawnPoint().reset(player);
+            player.setGameMode(GameMode.ADVENTURE);
+            player.removePotionEffect(PotionEffectType.SPEED);
+            player.removePotionEffect(PotionEffectType.JUMP);
+
+            player.getInventory().setItem(8, new CustomItemBuilder(Material.EMERALD).setName("&eToggle Players").build());
         }
 
         for (Team team : activeMap.getTeamsPlaying()) {
@@ -124,8 +143,7 @@ public class GameManager {
                 if (player == null) continue;
 
                 getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> {
-
-                    player.hidePlayer(plugin, x);
+                    player.hidePlayer(Wipeout.get(), x);
                 });
             }
         }
@@ -191,7 +209,7 @@ public class GameManager {
                     player.setGameMode(GameMode.SPECTATOR);
 
                     getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> {
-                        player.showPlayer(plugin, x);
+                        player.showPlayer(Wipeout.get(), x);
                     });
 
                     if (team.getFinishedMembers().size() == team.getMembers().size()) {
@@ -233,7 +251,7 @@ public class GameManager {
                     finishedPlayers.add(player.getUniqueId());
 
                     getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> {
-                        player.showPlayer(plugin, x);
+                        player.showPlayer(Wipeout.get(), x);
                     });
 
                     if (team.getFinishedMembers().size() == team.getMembers().size()) {
@@ -294,16 +312,22 @@ public class GameManager {
 
         task = null;
         timerTask = null;
-        bossBar = null;
+
+        if (bossBar != null) {
+            bossBar.removeAll();
+            bossBar = null;
+        }
+
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.isOp()) continue;
+            player.getInventory().remove(Material.EMERALD);
+            if (!player.hasPermission("wipeout.play")) continue;
             plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
             player.setGameMode(GameMode.ADVENTURE);
             player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             Bukkit.getOnlinePlayers().forEach(x -> {
                 if (!x.getUniqueId().equals(player.getUniqueId())) {
-                    player.showPlayer(plugin, x);
+                    player.showPlayer(Wipeout.get(), x);
                 }
             });
             if (stopwatch != null) {
@@ -316,7 +340,7 @@ public class GameManager {
 
             for (Team team : activeMap.getTeamsPlaying()) {
                 if (team.containsPlayer(player)) {
-                    getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> player.showPlayer(plugin, x));
+                    getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> player.showPlayer(Wipeout.get(), x));
                 }
             }
         }
@@ -407,6 +431,8 @@ public class GameManager {
 
     public int getMaxPlayersNeeded() {
         int total = 0;
+        if (getActiveMap() == null) return total;
+
         for (Team team : getActiveMap().getTeamsPlaying()) {
             if (Bukkit.getPlayer(team.getUUIDMembers().get(0)) != null) {
                 total++;

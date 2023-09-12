@@ -60,7 +60,7 @@ public class BlockFaceHelper {
 
         for (BlockFace face : faces) {
             Block b = block.getRelative(face);
-            if (b.getType() == type) {
+            if (b.getType() != Material.AIR) {
                 if (result.add(b)) {
                     toCheck.add(b);
                 }

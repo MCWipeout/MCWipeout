@@ -3,18 +3,17 @@ package org.stormdev.mcwipeout.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormCommand;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.commands.sub.ExportCommand;
-import org.stormdev.mcwipeout.commands.sub.ExportJsonCommand;
-import org.stormdev.mcwipeout.commands.sub.MapCommand;
-import org.stormdev.mcwipeout.commands.sub.TeamCommand;
+import org.stormdev.mcwipeout.commands.sub.*;
+import org.stormdev.mcwipeout.frame.game.GameType;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.utils.Color;
+import org.stormdev.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +32,8 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
         register(new MapCommand(plugin));
         register(new TeamCommand(plugin));
         register(new ExportCommand(plugin));
-        register(new ExportJsonCommand(plugin));
+        register(new ExportJsonPlatformsCommand(plugin));
+        register(new ExportJsonGenericCommand(plugin));
     }
 
     @Override
@@ -42,6 +42,10 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
 
         if (sender.hasPermission("wipeout.admin")) {
             sender.sendMessage(Color.colorize("&8&m-----------------------------------"));
+            sender.sendMessage(" ");
+            sender.sendMessage(ChatColor.GREEN + "/wipeout export (DATA ABOUT GAME)");
+            sender.sendMessage(ChatColor.GREEN + "/wipeout exportasjsonplatform");
+            sender.sendMessage(ChatColor.GREEN + "/wipeout exportasjsongeneric");
             sender.sendMessage(" ");
             sender.sendMessage(ChatColor.GREEN + "/wipeout map start");
             sender.sendMessage(ChatColor.GREEN + "/wipeout map addteam (team id)");
@@ -63,14 +67,14 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
         if (args.length == 1) {
-            return Arrays.asList("map", "team", "export");
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("map", "team", "export", "exportasjsongeneric", "exportasjsonplatform"), new ArrayList<>());
         }
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("team")) {
-                return Arrays.asList("create", "join", "unjoin", "setcolor", "list", "delete", "rename");
+                return StringUtil.copyPartialMatches(args[1], Arrays.asList("create", "join", "unjoin", "setcolor", "list", "delete", "rename"), new ArrayList<>());
             }
             if (args[0].equalsIgnoreCase("map")) {
-                return Arrays.asList("load", "start", "addteam", "forcestop", "autoteam", "unload", "type");
+                return StringUtil.copyPartialMatches(args[1], Arrays.asList("load", "start", "add", "forcestop", "autoteam", "unload", "type"), new ArrayList<>());
             }
         }
         if (args.length == 3) {
@@ -113,13 +117,29 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
                 }
             }
             if (args[0].equalsIgnoreCase("map")) {
-                if (args[1].equalsIgnoreCase("addteam")) {
-                    List<Team> teams = Wipeout.get().getTeamManager().getTeamList().stream().filter(team -> team.getId().toLowerCase().startsWith(args[2].toLowerCase())).collect(Collectors.toList());
+                if (args[1].equalsIgnoreCase("add")) {
+                    if (Wipeout.get().getGameManager().getActiveMap() == null) {
+                        return new ArrayList<>();
+                    }
 
-                    List<String> toReturn = new ArrayList<>();
-                    teams.forEach(x -> toReturn.add(x.getId()));
+                    if (Wipeout.get().getGameManager().getType() == GameType.SOLO) {
+                        List<Player> playerList = Bukkit.getOnlinePlayers()
+                                .stream()
+                                .filter(p -> p.getName().toLowerCase().startsWith(args[2].toLowerCase()))
+                                .collect(Collectors.toList());
 
-                    return toReturn;
+                        List<String> toReturn = new ArrayList<>();
+                        playerList.forEach(x -> toReturn.add(x.getName()));
+                        return toReturn;
+                    } else {
+
+                        List<Team> teams = Wipeout.get().getTeamManager().getTeamList().stream().filter(team -> team.getId().toLowerCase().startsWith(args[2].toLowerCase())).collect(Collectors.toList());
+
+                        List<String> toReturn = new ArrayList<>();
+                        teams.forEach(x -> toReturn.add(x.getId()));
+
+                        return toReturn;
+                    }
                 }
                 if (args[1].equalsIgnoreCase("load")) {
                     return Arrays.asList("map1");

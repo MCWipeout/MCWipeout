@@ -17,15 +17,10 @@ public abstract class Obstacle {
 
     @Getter
     @Setter
-    private List<WPoint> points;
-
-    @Getter
-    @Setter
     private CheckPoint checkPoint;
 
     public Obstacle() {
         this.enabled = false;
-        this.points = new ArrayList<>();
     }
 
     public abstract void handle(Event event);

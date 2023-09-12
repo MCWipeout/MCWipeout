@@ -19,49 +19,9 @@ public class RegionEvents extends StormListener<Wipeout> {
     @EventHandler
     public void onRegionEnter(RegionEnteredEvent e) {
         if (e.getPlayer().getGameMode() != GameMode.SPECTATOR) {
-            if (e.getRegion().getId().contains("map_one_oob")) {
-                if (e.getPlayer().isOp()) return;
+            if (e.getRegion().getId().contains("map_1_oob")) {
+                if (!e.getPlayer().hasPermission("wipeout.play")) return;
                 if (plugin().getGameManager().getActiveMap() != null) {
-                    if (plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("dropper_conflict")) return;
-                    plugin().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
-                }
-            }
-            if (e.getRegion().getId().contains("map_two_oob")) {
-                if (e.getPlayer().isOp()) return;
-                if (plugin().getGameManager().getActiveMap() != null) {
-                    if (plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_two_dropper")) return;
-                    plugin().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
-                }
-            }
-            if (e.getRegion().getId().contains("map_three_oob")) {
-                if (e.getPlayer().isOp()) return;
-                if (plugin().getGameManager().getActiveMap() != null) {
-                    if (plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_three_dropper")) return;
-                    plugin().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
-                }
-            }
-
-            if (e.getRegion().getId().contains("map_four_oob")) {
-                if (e.getPlayer().isOp()) return;
-                if (plugin().getGameManager().getActiveMap() != null) {
-                    if (plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_four_dropper") || plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_four_lev_dropper"))
-                        return;
-                    plugin().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
-                }
-            }
-            if (e.getRegion().getId().contains("map_five_oob")) {
-                if (e.getPlayer().isOp()) return;
-                if (plugin().getGameManager().getActiveMap() != null) {
-                    if (plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_five_dropper") || plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_five_lev_dropper"))
-                        return;
-                    plugin().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
-                }
-            }
-            if (e.getRegion().getId().contains("map_6_oob")) {
-                if (e.getPlayer().isOp()) return;
-                if (plugin().getGameManager().getActiveMap() != null) {
-                    if (plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_6_dropper") || plugin().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_6_lev_dropper"))
-                        return;
                     plugin().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
                 }
             }

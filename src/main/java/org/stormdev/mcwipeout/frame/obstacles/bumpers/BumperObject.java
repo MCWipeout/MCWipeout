@@ -5,8 +5,10 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
@@ -66,6 +68,9 @@ public class BumperObject {
         location.setYaw(yawRotation);
         location.add(-xTranslation, 0, -zTranslation);
         displayEntity.teleport(location);
+
+        displayEntity.setBrightness(new Display.Brightness(14, 14));
+
         ItemStack head = new ItemStack(Material.GHAST_TEAR, 1);
         ItemMeta itemMeta = head.getItemMeta();
         itemMeta.setCustomModelData(10000);
@@ -74,6 +79,14 @@ public class BumperObject {
         if (yawRotation < 0) {
             xTranslation = -xTranslation;
             zTranslation = -zTranslation;
+        }
+        if (yawRotation == 90) {
+            zTranslation = -xTranslation;
+            xTranslation = 0;
+        }
+        if (yawRotation == 180) {
+            xTranslation = -zTranslation;
+            zTranslation = 0;
         }
 
         displayEntity.setItemStack(head);

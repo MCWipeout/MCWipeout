@@ -21,11 +21,11 @@ public class WaterPreset {
 
     public void place() {
         for (WLocation location : locationSet.getMap().keySet()) {
-            if (ThreadLocalRandom.current().nextDouble() <= 0.5) {
-                location.asBlock().setType(Material.WATER);
-                World world = location.asLocation().getWorld();
-                world.spawnParticle(Particle.WATER_SPLASH, location.asLocation().add(0, 0.5, 0), 100, 0.1, 0.1, 0.1);
-            }
+
+            location.asBlock().setType(Material.WATER);
+            World world = location.asLocation().getWorld();
+            world.spawnParticle(Particle.WATER_SPLASH, location.asLocation().add(0.5, 1, 0.5), 100, 0.1, 0.1, 0.1);
+
         }
     }
 
@@ -33,7 +33,7 @@ public class WaterPreset {
         for (WLocation location : locationSet.getMap().keySet()) {
             location.asBlock().setType(Material.AIR);
             World world = location.asLocation().getWorld();
-            world.spawnParticle(Particle.ASH, location.asLocation().add(0, 0.5, 0), 100, 0.1, 0.1, 0.1);
+            //world.spawnParticle(Particle.ASH, location.asLocation().add(0, 0.5, 0), 100, 0.1, 0.1, 0.1);
         }
     }
 }

@@ -23,6 +23,10 @@ public class WPoint {
         this.z = z;
     }
 
+    public static WPoint from(double x, double y, double z) {
+        return new WPoint(x, y, z);
+    }
+
     public Location toLocation() {
         return new Location(world, x, y, z);
     }

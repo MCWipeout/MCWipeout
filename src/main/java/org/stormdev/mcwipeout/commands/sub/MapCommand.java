@@ -61,8 +61,10 @@ public class MapCommand extends StormSubCommand {
                 }
 
                 if (plugin.getGameManager().getType() == GameType.SOLO) {
+                    plugin.getGameManager().getActiveMap().getTeamsPlaying().clear();
+
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (player.hasPermission("wipeout.admin") || player.isOp()) continue;
+                        if (!player.hasPermission("wipeout.play")) continue;
                         Team team = new Team(player.getName(), new ArrayList<>());
                         team.add(player);
                         plugin.getGameManager().getActiveMap().getTeamsPlaying().add(team);
@@ -105,7 +107,7 @@ public class MapCommand extends StormSubCommand {
 
                 return;
             }
-            if (args[0].equalsIgnoreCase("forcestop")) {
+            if (args[0].equalsIgnoreCase("forcestop") || args[0].equalsIgnoreCase("stop") || args[0].equalsIgnoreCase("end")) {
                 if (plugin.getGameManager().getActiveMap() == null) {
                     sender.sendMessage(ChatColor.RED + "There is no map running!");
                     return;
@@ -119,52 +121,58 @@ public class MapCommand extends StormSubCommand {
 
                 sender.sendMessage(ChatColor.RED + "Map stopped!");
             }
-            if (args[0].equalsIgnoreCase("unload")) {
-                if (plugin.getGameManager().getActiveMap() == null) {
-                    sender.sendMessage(ChatColor.GREEN + "There is no map loaded!");
-
-                } else {
-                    plugin.getGameManager().stopActiveMap();
-
-                    sender.sendMessage(ChatColor.GREEN + "Succesfully disabled the map!");
-                }
-            }
         }
         if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("addteam")) {
-                Optional<Team> team = plugin.getTeamManager().getTeam(args[1]);
-                if (team.isEmpty()) {
-                    sender.sendMessage(ChatColor.RED + "Team does not exist!");
-
-                    return;
-                }
+            if (args[0].equalsIgnoreCase("add")) {
                 if (plugin.getGameManager().getActiveMap() != null) {
-                    if (plugin.getGameManager().getActiveMap().getTeamsPlaying().contains(team.get())) {
-                        sender.sendMessage(ChatColor.RED + "Team is already playing!");
-                        return;
+                    if (plugin.getGameManager().getType() == GameType.TEAMS) {
+                        Optional<Team> team = plugin.getTeamManager().getTeam(args[1]);
+                        if (team.isEmpty()) {
+                            sender.sendMessage(ChatColor.RED + "Team does not exist!");
+                            return;
+                        }
+
+                        if (plugin.getGameManager().getActiveMap().getTeamsPlaying().contains(team.get())) {
+                            sender.sendMessage(ChatColor.RED + "Team is already playing!");
+                            return;
+                        } else {
+                            plugin.getGameManager().getActiveMap().getTeamsPlaying().add(team.get());
+
+                            sender.sendMessage(ChatColor.GREEN + "Team added!");
+                            team.get().sendTeamMessage(ChatColor.GREEN + "You have been added to the playing teams!");
+
+                        }
                     } else {
-                        plugin.getGameManager().getActiveMap().getTeamsPlaying().add(team.get());
+                        Player player = Bukkit.getPlayer(args[1]);
+                        if (player == null) {
+                            sender.sendMessage(ChatColor.RED + "Player not found!");
+                            return;
+                        }
 
-                        sender.sendMessage(ChatColor.GREEN + "Team added!");
-                        team.get().sendTeamMessage(ChatColor.GREEN + "You have been added to the playing teams!");
+                        Team team = new Team(player.getName(), new ArrayList<>());
+                        team.add(player);
+                        plugin.getGameManager().getActiveMap().getTeamsPlaying().add(team);
 
+                        sender.sendMessage(ChatColor.GREEN + "Player added!");
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "There is no active map!");
+                    return;
                 }
-
             }
-            if (args[0].equalsIgnoreCase("load")) {
-                if (plugin.getGameManager().getActiveMap() != null) {
-                    sender.sendMessage(ChatColor.GREEN + "There already is a map loaded! Either unload or start it.");
 
-                } else {
-                    if (args[1].equalsIgnoreCase("map1") || args[1].equalsIgnoreCase("mapone")) {
-                        plugin.getGameManager().setActiveMap(plugin.getMapManager().getMaps().get("map1"));
-                        sender.sendMessage(ChatColor.GREEN + "Map loaded!");
-                    }
+        }
+        if (args[0].equalsIgnoreCase("load")) {
+            if (plugin.getGameManager().getActiveMap() != null) {
+                sender.sendMessage(ChatColor.GREEN + "There already is a map loaded! Either unload or start it.");
+
+            } else {
+                if (args[1].equalsIgnoreCase("map1") || args[1].equalsIgnoreCase("mapone")) {
+                    plugin.getGameManager().setActiveMap(plugin.getMapManager().getMaps().get("map1"));
+                    sender.sendMessage(ChatColor.GREEN + "Map loaded!");
                 }
             }
         }
     }
 }
+

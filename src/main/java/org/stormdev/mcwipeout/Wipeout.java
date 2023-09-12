@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.stormdev.StormPlugin;
@@ -20,7 +21,10 @@ import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.TeamManager;
+import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.listeners.ObstacleEvents;
+import org.stormdev.mcwipeout.listeners.PlayerEvents;
+import org.stormdev.mcwipeout.listeners.RegionEvents;
 import org.stormdev.mcwipeout.utils.WipeoutPlaceholderExpansion;
 import org.stormdev.mcwipeout.utils.helpers.GenericLocationTypeAdapter;
 import org.stormdev.mcwipeout.utils.helpers.MovingSectionTypeAdapter;
@@ -109,6 +113,10 @@ public final class Wipeout extends StormPlugin<Wipeout> {
                 obstacle.setEnabled(false);
                 obstacle.reset();
             }
+            if (gameManager.getBossBar() != null) {
+                gameManager.getBossBar().removeAll();
+            }
+
             gameManager.setActiveMap(null);
         }
 
@@ -124,12 +132,12 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         Bukkit.broadcast(Color.colorize("&eDisabling MCWipeout..."), "mcwipeout.*");
 
         CommandRegistry.syncCommand();
-
-        plugin = null;
     }
 
     private void registerListeners() {
         new ObstacleEvents(this);
+        new PlayerEvents(this);
+        new RegionEvents(this);
     }
 
     private void registerCommands() {
@@ -168,6 +176,14 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         for (Player player : Bukkit.getOnlinePlayers()) {
             playerCache.remove(player.getUniqueId());
             playerCache.put(player.getUniqueId(), new WgPlayer(player));
+
+            teamManager.getWipeoutPlayers().add(new WipeoutPlayer(player.getUniqueId(), false));
+
+            player.getInventory().remove(Material.EMERALD);
+
+            for (Player pl : Bukkit.getOnlinePlayers()) {
+                player.showPlayer(this, pl);
+            }
         }
     }
 
@@ -212,5 +228,9 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
     public WgPlayer getPlayer(UUID uuid) {
         return playerCache.get(uuid);
+    }
+
+    public static boolean isGameRunning() {
+        return plugin.getGameManager().getActiveMap() != null;
     }
 }

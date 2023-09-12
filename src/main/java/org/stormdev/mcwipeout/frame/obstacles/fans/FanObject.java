@@ -6,6 +6,8 @@ package org.stormdev.mcwipeout.frame.obstacles.fans;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -71,5 +73,8 @@ public class FanObject {
 
     public void fling(Player player) {
         player.setVelocity(new Vector(rotation.getRelativeX(power), 0.5, rotation.getRelativeZ(power)));
+        if (player.getVelocity().getY() > 0.4) {
+            Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.fans"), Sound.Source.MASTER, 1.0f, 1.0f));
+        }
     }
 }
