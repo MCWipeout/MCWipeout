@@ -83,7 +83,7 @@ public class ExportJsonCommand extends StormSubCommand {
             int y = Integer.parseInt(args[1]);
             int z = Integer.parseInt(args[2]);
 
-            Set<Block> list = BlockFaceHelper.getConnection(WLocation.from(x, y, z).asBlock());
+            Set<Block> list = BlockFaceHelper.getConnectionWithType(WLocation.from(x, y, z).asBlock(), Material.LIME_WOOL);
 
             Map<WLocation, Material> map = new HashMap<>();
 

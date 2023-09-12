@@ -60,17 +60,18 @@ public class BumperObject {
     }
 
     public void setupDisplayEntity() {
-        displayEntity = (ItemDisplay) Wipeout.get().getWorld().spawnEntity(getEntityLocation().toCenter().asLocation().add(0, 2, 0), EntityType.ITEM_DISPLAY);
+        displayEntity = (ItemDisplay) Wipeout.get().getWorld().spawnEntity(getEntityLocation().toCenter().asLocation(), EntityType.ITEM_DISPLAY);
         Location location = getEntityLocation().asLocation();
         location.setPitch(0);
         location.setYaw(yawRotation);
+        location.add(-xTranslation, 0, -zTranslation);
         displayEntity.teleport(location);
         ItemStack head = new ItemStack(Material.GHAST_TEAR, 1);
         ItemMeta itemMeta = head.getItemMeta();
         itemMeta.setCustomModelData(10000);
         head.setItemMeta(itemMeta);
 
-        if(yawRotation < 0) {
+        if (yawRotation < 0) {
             xTranslation = -xTranslation;
             zTranslation = -zTranslation;
         }

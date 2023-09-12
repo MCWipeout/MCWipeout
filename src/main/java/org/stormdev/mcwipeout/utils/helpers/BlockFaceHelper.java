@@ -40,4 +40,31 @@ public class BlockFaceHelper {
             }
         }
     }
+
+    public static Set<Block> getConnectionWithType(Block block, Material type) {
+        Set<Block> set = new HashSet<>();
+        LinkedList<Block> list = new LinkedList<>();
+
+        list.add(block);
+
+        while ((block = list.poll()) != null) {
+            getConnectedBlocksWithType(block, set, list, type);
+        }
+
+        return set;
+
+    }
+
+    private static void getConnectedBlocksWithType(Block block, Set<Block> results, List<Block> toCheck, Material type) {
+        Set<Block> result = results;
+
+        for (BlockFace face : faces) {
+            Block b = block.getRelative(face);
+            if (b.getType() == type) {
+                if (result.add(b)) {
+                    toCheck.add(b);
+                }
+            }
+        }
+    }
 }

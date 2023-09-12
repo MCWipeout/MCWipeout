@@ -15,12 +15,14 @@ import org.stormdev.mcwipeout.commands.TogglePlayersCmd;
 import org.stormdev.mcwipeout.commands.WipeoutCommand;
 import org.stormdev.mcwipeout.frame.game.GameManager;
 import org.stormdev.mcwipeout.frame.game.MapManager;
+import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.TeamManager;
 import org.stormdev.mcwipeout.listeners.ObstacleEvents;
 import org.stormdev.mcwipeout.utils.WipeoutPlaceholderExpansion;
+import org.stormdev.mcwipeout.utils.helpers.GenericLocationTypeAdapter;
 import org.stormdev.mcwipeout.utils.helpers.MovingSectionTypeAdapter;
 import org.stormdev.mcwipeout.utils.worldguardhook.SimpleWorldGuardAPI;
 import org.stormdev.mcwipeout.utils.worldguardhook.WgPlayer;
@@ -155,7 +157,7 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             new WipeoutPlaceholderExpansion().register();
         }
 
-        gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(JsonPlatformSection.class, new MovingSectionTypeAdapter()).disableHtmlEscaping().create();
+        gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(GenericLocationSet.class, new GenericLocationTypeAdapter()).registerTypeAdapter(JsonPlatformSection.class, new MovingSectionTypeAdapter()).disableHtmlEscaping().create();
 
         getLogger().info("Initializing managers!");
         teamManager = new TeamManager(this);

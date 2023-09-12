@@ -10,10 +10,10 @@ import org.stormdev.mcwipeout.utils.WLocation;
 
 import java.util.Map;
 
+@Getter
 public class DissapearingSection {
 
-    @Getter
-    private JsonPlatformSection jsonSection;
+    private final JsonPlatformSection jsonSection;
 
     public DissapearingSection(JsonPlatformSection jsonSection) {
         this.jsonSection = jsonSection;

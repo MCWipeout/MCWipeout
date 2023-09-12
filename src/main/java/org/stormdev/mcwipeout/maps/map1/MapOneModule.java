@@ -38,7 +38,22 @@ public class MapOneModule extends Map {
 
         BumperWall bumperWall = new BumperWall(Arrays.asList(
                 BumperObject.of(20, WLocation.from(1141, 116, 18), WLocation.from(1141, 116.5, 16), -180, 0, -1, null),
-                BumperObject.of(40, WLocation.from(1144, 117, 18), WLocation.from(1144, 117.5, 16), -180, 0, -1, null)), 60);
+                BumperObject.of(20, WLocation.from(1144, 117, 18), WLocation.from(1144, 117.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1147, 118, 18), WLocation.from(1147, 118.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1151, 117, 18), WLocation.from(1151, 117.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1155, 117, 18), WLocation.from(1155, 117.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1159, 117, 18), WLocation.from(1159, 117.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1162, 118, 18), WLocation.from(1162, 118.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1165, 119, 18), WLocation.from(1165, 119.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1168, 120, 18), WLocation.from(1168, 120.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1171, 120, 18), WLocation.from(1171, 120.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1175, 119, 18), WLocation.from(1175, 119.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1179, 119, 18), WLocation.from(1179, 119.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1182, 120, 18), WLocation.from(1182, 120.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1186, 120, 18), WLocation.from(1186, 120.5, 16), -180, 0, -1, null),
+                BumperObject.of(20, WLocation.from(1190, 120, 18), WLocation.from(1190, 120.5, 16), -180, 0, -1, null)
+        ), 60);
+
 
         FanWall fanWall = new FanWall(Arrays.asList(
                 FanObject.of(Cuboid.from(1169, 114, -40, 1162, 116, -38), FanRotation.NEG_X, 0, 20, 1),
@@ -50,7 +65,7 @@ public class MapOneModule extends Map {
                 FanObject.of(Cuboid.from(1169, 114, -76, 1162, 116, -74), FanRotation.NEG_X, 0, 20, 1)
         ), 80);
 
-        DissapearingPlatforms dissapearingPlatforms = new DissapearingPlatforms("map-1-dissapearing-platforms", 100);
+        DissapearingPlatforms dissapearingPlatforms = new DissapearingPlatforms("map-1-dissapearing-platforms", 65);
 
         obstacles.add(dissapearingPlatforms);
         obstacles.add(bumperWall);

@@ -43,7 +43,6 @@ public class BumperWall extends Obstacle {
                 if (!isEnabled()) {
                     this.cancel();
                 }
-                timer++;
 
                 if (timer <= totalDuration) {
 
