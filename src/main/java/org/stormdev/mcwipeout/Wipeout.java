@@ -92,6 +92,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         init();
 
+        new WipeoutAPI(this);
+
         loadData();
 
         registerListeners();

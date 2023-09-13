@@ -8,9 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -20,7 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.builder.CustomItemBuilder;
-import org.stormdev.chat.Text;
+import org.stormdev.chat.Chat;
 import org.stormdev.chat.Titles;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
@@ -44,7 +41,7 @@ public class GameManager {
 
     @Getter
     @Setter
-    private static Map activeMap;
+    private Map activeMap;
 
     @Getter
     private final List<Team> finishedTeams;
@@ -66,10 +63,6 @@ public class GameManager {
     @Getter
     @Setter
     private GameType type;
-
-    public static boolean isMapRunning() {
-        return activeMap != null;
-    }
 
     public GameManager(Wipeout plugin) {
         this.plugin = plugin;
@@ -448,7 +441,7 @@ public class GameManager {
     }
 
     public static String ordinal(int i) {
-        String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+        String[] suffixes = new String[]{"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"};
         return switch (i % 100) {
             case 11, 12, 13 -> i + "th";
             default -> i + suffixes[i % 10];
