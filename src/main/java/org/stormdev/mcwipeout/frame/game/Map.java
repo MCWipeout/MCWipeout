@@ -9,10 +9,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.stormdev.chat.ActionBar;
+import org.stormdev.chat.Titles;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.OOBArea;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.team.Team;
+import org.stormdev.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +102,8 @@ public abstract class Map {
             if (team.containsPlayer(player)) {
                 if (!team.getCheckPointMap().containsKey(player.getUniqueId())) {
                     team.getCheckPointMap().put(player.getUniqueId(), byRegion(region));
-                    player.sendMessage(ChatColor.GREEN + "Your checkpoint has been updated!");
+                    player.sendMessage(StringUtils.hex("&8[#8eee3a✔&8] #F7CE50Your checkpoint has been updated"));
+                    Titles.sendTitle(player, "", StringUtils.hex("#F7CE50Checkpoint set!"));
 
                     Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
                 }
@@ -111,8 +115,8 @@ public abstract class Map {
                 if (checkPoints.indexOf(team.getCheckPointMap().get(player.getUniqueId())) < checkPoints.indexOf(point)) {
                     team.getCheckPointMap().replace(player.getUniqueId(), point);
 
-                    player.sendMessage(ChatColor.GREEN + "Your checkpoint has been updated!");
-                    Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
+                    player.sendMessage(StringUtils.hex("&8[#8eee3a✔&8] #F7CE50Your checkpoint has been updated"));
+                    Titles.sendTitle(player, "", StringUtils.hex("#F7CE50Checkpoint set!"));
                 }
             }
         }
@@ -128,7 +132,7 @@ public abstract class Map {
                     team.getCheckPointMap().get(player.getUniqueId()).reset(player);
                 }
 
-                Wipeout.get().getAdventure().player(player).sendActionBar(Component.text(ChatColor.RED + "Failed! You've been respawned."));
+                ActionBar.sendActionBar(player, StringUtils.hex("#BF1542&lFAIL! &r#BF1542You've been respawned"));
             }
         }
     }

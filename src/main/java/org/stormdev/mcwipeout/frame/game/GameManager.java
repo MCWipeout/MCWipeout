@@ -9,6 +9,7 @@ import lombok.Setter;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
@@ -19,6 +20,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.builder.CustomItemBuilder;
+import org.stormdev.chat.Text;
+import org.stormdev.chat.Titles;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.team.Team;
@@ -79,7 +82,7 @@ public class GameManager {
     }
 
     public void runTimer() {
-        bossBar = Bukkit.createBossBar(Color.colorize("&eTime left: 600 seconds"), BarColor.RED, BarStyle.SOLID);
+        bossBar = Bukkit.createBossBar(Color.colorize("&eTime left: 600 seconds"), BarColor.YELLOW, BarStyle.SOLID);
         bossBar.setVisible(true);
         bossBar.setProgress(1.0);
 
@@ -100,9 +103,9 @@ public class GameManager {
                     H = H / 60;
 
                     if (S < 10) {
-                        bossBar.setTitle(Color.colorize("&aTime left: " + M + ":0" + S));
+                        bossBar.setTitle(StringUtils.hex("#F7CE50Time Left: #EAAB30" + M + ":0" + S));
                     } else {
-                        bossBar.setTitle(Color.colorize("&aTime left: " + M + ":" + S));
+                        bossBar.setTitle(StringUtils.hex("#F7CE50Time Left: #EAAB30" + M + ":" + S));
                     }
 
                 } else {
@@ -176,17 +179,20 @@ public class GameManager {
                             runTimer();
                         }
 
-                        Bukkit.getOnlinePlayers().forEach(x -> plugin.getAdventure().player(x).showTitle(Title.title(Component.text(ChatColor.GREEN + "GO GO GO!"), Component.empty())));
+                        Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&lGO!"), ""));
+                        Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #EAAB30&lGO GO GO!"));
                     }
                     case 1 -> {
-                        Bukkit.getOnlinePlayers().forEach(x -> plugin.getAdventure().player(x).showTitle(Title.title(Component.text(ChatColor.GREEN + "1 second!"), Component.empty())));
+                        Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&l1"), ""));
+                        Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #A1BDD7Game starts in #8eee3a1 second"));
 
                     }
                     case 2, 3, 4, 5 -> {
-                        Bukkit.getOnlinePlayers().forEach(x -> plugin.getAdventure().player(x).showTitle(Title.title(Component.text(ChatColor.GREEN + "" + secondsLeft + " seconds!"), Component.empty())));
+                        Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&l" + secondsLeft), ""));
+                        Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #A1BDD7Game starts in #8eee3a%s seconds").formatted(secondsLeft));
                     }
                     case 6, 7, 8, 9, 10 ->
-                            Bukkit.broadcastMessage(ChatColor.GREEN + "The game will commence in " + secondsLeft + " seconds.");
+                            Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #A1BDD7Game starts in #8eee3a%s seconds").formatted(secondsLeft));
                 }
 
             }
@@ -205,10 +211,10 @@ public class GameManager {
 
                     plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_finish"), Sound.Source.MASTER, 1.0f, 1.0f));
 
-                    player.sendMessage(ChatColor.GREEN + "You have finished!");
+                    Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#F7CE50Finished!"));
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
 
-                    Bukkit.broadcastMessage(StringUtils.hex("&aPlayer &e" + player.getName() + " &ahas finished! &7Time: &e" + Utils.formatTime(timer) + "&7, Position: &e" + (finishedTeams.size() + 1)));
+                    Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] #F7CE50" + player.getName() + " #A1BDD7has finished in #F7CE50" + ordinal((finishedTeams.size() + 1)) + " place! &8(#8eee3a" + Utils.formatTime(timer) + "&8)"));
 
                     player.setGameMode(GameMode.SPECTATOR);
 
@@ -219,14 +225,11 @@ public class GameManager {
                     if (team.getFinishedMembers().size() == team.getMembers().size()) {
                         team.getFinishedMembers().forEach(x -> {
                             if (Bukkit.getPlayer(x) != null) {
-                                Bukkit.getPlayer(x).sendMessage(ChatColor.GREEN + "You have finished! Time: " + stopwatch);
+                                Titles.sendTitle(Bukkit.getPlayer(x), 0, 100, 20, "", StringUtils.hex("#F7CE50Finished!"));
                             }
                         });
 
                         if (region.contains("finish")) team.finish(player, activeMap.getFinish());
-
-                        Bukkit.getOnlinePlayers().forEach(player1 -> plugin.getAdventure().player(player1).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 0.5f, 1.0f)));
-
                         finishedTeams.add(team);
 
                         if (finishedTeams.size() == getMaxPlayersNeeded()) {
@@ -246,9 +249,10 @@ public class GameManager {
 
                     plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_finish"), Sound.Source.MASTER, 1.0f, 1.0f));
 
-                    player.sendMessage(ChatColor.GREEN + "You have finished!");
+                    Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#F7CE50Finished!"));
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
-                    Bukkit.broadcastMessage(StringUtils.hex("&aPlayer " + team.getColor() + player.getName() + " &ahas finished in place " + (finishedPlayers.size() + 1) + "! (" + team.getFinishedMembers().size() + " / " + team.getMembers().size() + ")"));
+                    Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] " + team.getColor() + player.getName() + " #A1BDD7has finished in #F7CE50" + Utils.formatTime(timer)
+                            + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"));
 
                     player.setGameMode(GameMode.SPECTATOR);
 
@@ -261,7 +265,7 @@ public class GameManager {
                     if (team.getFinishedMembers().size() == team.getMembers().size()) {
                         team.getFinishedMembers().forEach(x -> {
                             if (Bukkit.getPlayer(x) != null) {
-                                Bukkit.getPlayer(x).sendMessage(ChatColor.GREEN + "Your team has finished! Time: " + stopwatch);
+                                Titles.sendTitle(Bukkit.getPlayer(x), 0, 100, 20, "", StringUtils.hex("#F7CE50Team Finish!"));
                             }
                         });
 
@@ -269,22 +273,10 @@ public class GameManager {
 
                         Bukkit.getOnlinePlayers().forEach(player1 -> plugin.getAdventure().player(player1).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 0.5f, 1.0f)));
 
-                        Bukkit.broadcastMessage(Color.colorize("&8&m-----------------------------------"));
-                        switch (finishedTeams.size()) {
-                            case 0 -> {
-                                Bukkit.broadcastMessage(StringUtils.hex("&aTeam " + team.getColor() + team.getId() + " &ahas finished in 1st place! Time: " + Utils.formatTime(timer)));
-                            }
-                            case 1 -> {
-                                Bukkit.broadcastMessage(StringUtils.hex("&aTeam " + team.getColor() + team.getId() + " &ahas finished in 2nd place! Time: " + Utils.formatTime(timer)));
-                            }
-                            case 2 -> {
-                                Bukkit.broadcastMessage(StringUtils.hex("&aTeam " + team.getColor() + team.getId() + " &ahas finished in 3rd place! Time: " + Utils.formatTime(timer)));
-                            }
-                            default ->
-                                    Bukkit.broadcastMessage(StringUtils.hex("&aTeam " + team.getColor() + team.getId() + " &ahas finished in place " + (finishedTeams.size() + 1) + "! Time: " + Utils.formatTime(timer)));
-                        }
-
-                        Bukkit.broadcastMessage(Color.colorize("&8&m-----------------------------------"));
+                        Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
+                        Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] #A1BDD7Team " + team.getColor() + team.getId() + " #A1BDD7has finished in #8eee3a"
+                                + ordinal((finishedTeams.size() + 1)) + " place! &8(#F7CE50" + Utils.formatTime(timer) + "&8)"));
+                        Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
 
                         finishedTeams.add(team);
 
@@ -443,5 +435,13 @@ public class GameManager {
             }
         }
         return total;
+    }
+
+    public static String ordinal(int i) {
+        String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+        return switch (i % 100) {
+            case 11, 12, 13 -> i + "th";
+            default -> i + suffixes[i % 10];
+        };
     }
 }
