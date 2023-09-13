@@ -41,7 +41,7 @@ public class GameManager {
 
     @Getter
     @Setter
-    private Map activeMap;
+    private static Map activeMap;
 
     @Getter
     private final List<Team> finishedTeams;
@@ -64,9 +64,13 @@ public class GameManager {
     @Setter
     private GameType type;
 
+    public static boolean isMapRunning() {
+        return activeMap != null;
+    }
+
     public GameManager(Wipeout plugin) {
         this.plugin = plugin;
-        this.activeMap = null;
+        activeMap = null;
         this.finishedTeams = new ArrayList<>();
         this.finishedPlayers = new ArrayList<>();
         this.frozen = false;

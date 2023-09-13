@@ -59,16 +59,13 @@ public class FanObject {
 
     public void toggle(boolean enabled) {
 
-        if (enabled) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    enabled(true);
-                }
-            }.runTaskLater(Wipeout.get(), 5L);
-        } else {
-            enabled(false);
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                enabled(enabled);
+            }
+        }.runTaskLater(Wipeout.get(), 5L);
+
     }
 
     public void fling(Player player) {
