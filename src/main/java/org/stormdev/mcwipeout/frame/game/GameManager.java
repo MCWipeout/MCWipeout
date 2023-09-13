@@ -274,7 +274,7 @@ public class GameManager {
                         Bukkit.getOnlinePlayers().forEach(player1 -> plugin.getAdventure().player(player1).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 0.5f, 1.0f)));
 
                         Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
-                        Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] #A1BDD7Team " + team.getColor() + team.getId() + " #A1BDD7has finished in #8eee3a"
+                        Bukkit.broadcastMessage(StringUtils.hex("&8[#BF1542⭐&8] #A1BDD7Team " + team.getColor() + team.getId() + " #A1BDD7has finished in #8eee3a"
                                 + ordinal((finishedTeams.size() + 1)) + " place! &8(#F7CE50" + Utils.formatTime(timer) + "&8)"));
                         Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
 
@@ -319,6 +319,7 @@ public class GameManager {
             player.getInventory().remove(Material.EMERALD);
             if (!player.hasPermission("wipeout.play")) continue;
             plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
+            Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#BF1542&lGame Over!"));
             player.setGameMode(GameMode.ADVENTURE);
             player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             Bukkit.getOnlinePlayers().forEach(x -> {
@@ -326,13 +327,6 @@ public class GameManager {
                     player.showPlayer(Wipeout.get(), x);
                 }
             });
-            if (stopwatch != null) {
-                int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
-
-                if (type == GameType.SOLO) {
-                    player.sendMessage(Color.colorize("&aYour personal time: " + Utils.formatTime(timer)));
-                }
-            }
 
             for (Team team : activeMap.getTeamsPlaying()) {
                 if (team.containsPlayer(player)) {
@@ -341,28 +335,44 @@ public class GameManager {
             }
         }
         if (!finishedTeams.isEmpty()) {
-            Bukkit.broadcastMessage(Color.colorize("&8&m-----------------------------------"));
-            int maxI = 3;
+            Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
+            Bukkit.broadcastMessage(StringUtils.hex("#F7CE50&lMap X Leaderboard:")); //TODO: number of map
 
+            int maxI = 3;
             if (finishedTeams.size() < maxI) {
                 maxI = finishedTeams.size();
             }
 
             for (int i = 0; i < maxI; i++) {
                 Bukkit.broadcastMessage(" ");
-                Bukkit.broadcastMessage(ChatColor.GREEN + "" + (i + 1) + ": " + StringUtils.hex(finishedTeams.get(i).getColor() + finishedTeams.get(i).getId()));
+
                 StringBuilder builder = new StringBuilder();
-                finishedTeams.get(i).getMembers().forEach(x -> builder.append(Bukkit.getOfflinePlayer(x.getUuid()).getName()).append(" "));
                 if (type == GameType.TEAMS) {
-                    Bukkit.broadcastMessage(ChatColor.GRAY + "Players: " + builder);
+                    Bukkit.broadcastMessage(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": " + finishedTeams.get(i).getColor() + finishedTeams.get(i).getId()));
+
+                    for (int j = 0; j < finishedTeams.get(i).getMembers().size(); j++) {
+                        builder.append(Bukkit.getOfflinePlayer(finishedTeams.get(i).getMembers().get(j).getUuid()).getName());
+                        if (j < finishedTeams.get(i).getMembers().size() - 1) {
+                            builder.append(", ");
+                        }
+                    }
+                    Bukkit.broadcastMessage(StringUtils.hex("#F7CE50" + builder));
                 } else {
-                    Bukkit.broadcastMessage(ChatColor.GRAY + "" + builder);
+                    finishedTeams.get(i).getMembers().forEach(x -> builder.append(Bukkit.getOfflinePlayer(x.getUuid()).getName()).append(" "));
+                    Bukkit.broadcastMessage(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": #F7CE50" + builder));
                 }
                 Bukkit.broadcastMessage(" ");
             }
 
-
-            Bukkit.broadcastMessage(Color.colorize("&8&m-----------------------------------"));
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (type == GameType.TEAMS) {
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30xx:xx")); //TODO: solo time
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your team's time: #EAAB30xx:xx")); //TODO: team time
+                } else if (type == GameType.SOLO) {
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30xx:xx")); //TODO: solo time
+                }
+            }
+            Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
         }
 
         stopwatch = null;
@@ -395,19 +405,19 @@ public class GameManager {
                 secondsLeft--;
 
                 if (secondsLeft == 180) {
-                    Bukkit.broadcastMessage(ChatColor.GREEN + "There are 3 minutes left before the game is concluded!");
+                    Bukkit.broadcastMessage(StringUtils.hex("#F7CE50⌚ #8eee3a3 minutes remaining!"));
                 }
 
                 if (secondsLeft == 120) {
-                    Bukkit.broadcastMessage(ChatColor.GREEN + "There are 2 minutes left before the game is concluded!");
+                    Bukkit.broadcastMessage(StringUtils.hex("#F7CE50⌚ #8eee3a2 minutes remaining!"));
                 }
 
                 if (secondsLeft == 60) {
-                    Bukkit.broadcastMessage(ChatColor.GREEN + "There is 1 minute left before the game is concluded!");
+                    Bukkit.broadcastMessage(StringUtils.hex("#F7CE50⌚ #8eee3a1 minute remaining!"));
                 }
 
                 if (secondsLeft < 10 && secondsLeft > 0) {
-                    Bukkit.broadcastMessage(ChatColor.GREEN + "There are " + secondsLeft + " seconds left before the game is concluded!");
+                    Bukkit.broadcastMessage(StringUtils.hex("#F7CE50⌚ #8eee3a" + secondsLeft + " seconds remaining!"));
                 }
             }
         }.runTaskTimer(plugin, 20L, 20L);
