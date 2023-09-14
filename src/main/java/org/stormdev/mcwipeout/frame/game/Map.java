@@ -117,6 +117,8 @@ public abstract class Map {
 
                     player.sendMessage(StringUtils.hex("&8[#8eee3a✔&8] #F7CE50Your checkpoint has been updated"));
                     Titles.sendTitle(player, "", StringUtils.hex("#F7CE50Checkpoint set!"));
+
+                    Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
                 }
             }
         }
