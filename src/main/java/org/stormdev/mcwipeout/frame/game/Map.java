@@ -134,7 +134,7 @@ public abstract class Map {
                     team.getCheckPointMap().get(player.getUniqueId()).reset(player);
                 }
 
-                ActionBar.sendActionBar(player, StringUtils.hex("#BF1542&lFAIL! &r#BF1542You've been respawned"));
+                ActionBar.sendActionBar(player, "&c&lFAIL! &r&cYou've been respawned");
             }
         }
     }

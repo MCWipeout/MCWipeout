@@ -69,6 +69,7 @@ public class FreezingIce extends Obstacle {
                 if (!isEnabled()) {
                     reset();
                     this.cancel();
+                    return;
                 }
 
                 if (!reset) {

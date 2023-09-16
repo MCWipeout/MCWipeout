@@ -62,6 +62,10 @@ public class BumperObject {
     }
 
     public void setupDisplayEntity() {
+        if (!getEntityLocation().asLocation().getChunk().isLoaded()) {
+            getEntityLocation().asLocation().getChunk().load();
+        }
+
         displayEntity = (ItemDisplay) Wipeout.get().getWorld().spawnEntity(getEntityLocation().toCenter().asLocation(), EntityType.ITEM_DISPLAY);
         Location location = getEntityLocation().asLocation();
         location.setPitch(0);

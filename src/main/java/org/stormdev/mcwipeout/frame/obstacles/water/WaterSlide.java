@@ -68,8 +68,14 @@ public class WaterSlide extends Obstacle {
                 Location to = e.getTo();
                 Block steppedOn = to.clone().getBlock();
 
+                if (e.getPlayer().isInWater()) {
+                    Wipeout.get().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
+                    return;
+                }
+
                 if (steppedOn.getType() == Material.WATER) {
                     Wipeout.get().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
+                    return;
                 }
             }
         }

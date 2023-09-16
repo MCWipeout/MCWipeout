@@ -12,7 +12,10 @@ import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -193,6 +196,7 @@ public class GameManager {
     }
 
     public void finish(String region, Player player) {
+        if (activeMap == null) return;
         if (type == GameType.SOLO) {
             if (activeMap == null || activeMap.getTeamsPlaying() == null) return;
             for (Team team : activeMap.getTeamsPlaying()) {
@@ -203,6 +207,8 @@ public class GameManager {
                     team.getCheckPointMap().put(player.getUniqueId(), activeMap.getFinish());
 
                     plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_finish"), Sound.Source.MASTER, 1.0f, 1.0f));
+
+                    spawnFirework(player);
 
                     Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#F7CE50Finished!"));
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
@@ -238,6 +244,8 @@ public class GameManager {
                     if (team.getFinishedMembers().contains(player.getUniqueId())) return;
                     team.getFinishedMembers().add(player.getUniqueId());
 
+                    spawnFirework(player);
+
                     team.getCheckPointMap().put(player.getUniqueId(), activeMap.getFinish());
 
                     plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_finish"), Sound.Source.MASTER, 1.0f, 1.0f));
@@ -248,6 +256,7 @@ public class GameManager {
                             + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"));
 
                     player.setGameMode(GameMode.SPECTATOR);
+
 
                     finishedPlayers.add(player.getUniqueId());
 
@@ -288,6 +297,23 @@ public class GameManager {
                 }
             }
         }
+    }
+
+    private void spawnFirework(Player player) {
+        Location loc = player.getLocation();
+
+        Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
+        FireworkMeta fwm = fw.getFireworkMeta();
+
+        fwm.addEffect(FireworkEffect.builder()
+                .with(FireworkEffect.Type.BURST)
+                .flicker(true)
+                .withColor(org.bukkit.Color.fromRGB(Integer.parseInt("#FECB4F".substring(1), 16)))
+                .build());
+
+        fw.setFireworkMeta(fwm);
+
+        fw.detonate();
     }
 
     public void stopActiveMap() {

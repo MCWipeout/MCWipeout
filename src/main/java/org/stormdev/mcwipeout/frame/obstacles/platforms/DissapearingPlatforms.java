@@ -61,10 +61,20 @@ public class DissapearingPlatforms extends Obstacle {
                 if (timer <= totalDuration) {
 
                     for (DissapearingSection dissapearingSection : sections) {
-                        if (dissapearingSection.getJsonSection().getSettings().getShowAt() == timer) {
+                        int showAt = dissapearingSection.getJsonSection().getSettings().getShowAt();
+                        int hideAt = dissapearingSection.getJsonSection().getSettings().getHideAt();
+
+                        if (showAt < 0) {
+                            showAt = Math.abs(showAt);
+                        }
+                        if (hideAt < 0) {
+                            hideAt = Math.abs(hideAt);
+                        }
+
+                        if (showAt == timer) {
                             dissapearingSection.show();
                         }
-                        if (dissapearingSection.getJsonSection().getSettings().getHideAt() == timer) {
+                        if (hideAt == timer) {
                             dissapearingSection.hide();
                         }
                     }

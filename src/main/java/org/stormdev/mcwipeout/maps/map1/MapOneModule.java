@@ -34,11 +34,11 @@ public class MapOneModule extends Map {
     @Override
     protected void setupCheckpoints() {
         checkPoints.add(new CheckPoint("map_1_cp1", WPoint.from(1092.5, 114, 0.5), -90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp2", WPoint.from(1128.5, 114, 0.5), -55.0F, -5F));
-        checkPoints.add(new CheckPoint("map_1_cp3", WPoint.from(1203.5, 114, 4.5), -180.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp4", WPoint.from(1156.5, 114, -92.5), 90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp5", WPoint.from(1054.5, 114, -56.5), 90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp6", WPoint.from(1119.5, 114, -135.5), -90.0F, 0F));
+        checkPoints.add(new CheckPoint("map_1_cp2", WPoint.from(1136.5, 115, 12.5), -70.0F, -8F));
+        checkPoints.add(new CheckPoint("map_1_cp3", WPoint.from(1189.5, 114, -32.5), 90f, 0F));
+        checkPoints.add(new CheckPoint("map_1_cp4", WPoint.from(1119.5, 114, -92.5), 90.0F, 0F));
+        checkPoints.add(new CheckPoint("map_1_cp5", WPoint.from(1039.5, 114, -70.5), 180.0F, 0F));
+        checkPoints.add(new CheckPoint("map_1_cp6", WPoint.from(1156.5, 114, -135.5), -90.0F, 0F));
         checkPoints.add(new CheckPoint("map_1_cp7", WPoint.from(1204.5, 115, -143.5), 180.0F, 0F));
         checkPoints.add(new CheckPoint("map_1_cp8", WPoint.from(1184.5, 134, -156.5), 90F, 0F));
     }

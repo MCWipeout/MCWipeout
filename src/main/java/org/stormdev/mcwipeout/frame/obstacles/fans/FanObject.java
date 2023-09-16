@@ -10,6 +10,8 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.Wipeout;
@@ -58,20 +60,19 @@ public class FanObject {
     }
 
     public void toggle(boolean enabled) {
-
         new BukkitRunnable() {
             @Override
             public void run() {
                 enabled(enabled);
             }
-        }.runTaskLater(Wipeout.get(), 5L);
-
+        }.runTaskLater(Wipeout.get(), 3L);
     }
 
     public void fling(Player player) {
         player.setVelocity(new Vector(rotation.getRelativeX(power), 0.5, rotation.getRelativeZ(power)));
-        if (player.getVelocity().getY() > 0.4) {
+        if (!player.hasPotionEffect(PotionEffectType.ABSORPTION)) {
             Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.fans"), Sound.Source.MASTER, 1.0f, 1.0f));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20, 1));
         }
     }
 }

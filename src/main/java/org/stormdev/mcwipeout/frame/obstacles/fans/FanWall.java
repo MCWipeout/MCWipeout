@@ -3,6 +3,7 @@ package org.stormdev.mcwipeout.frame.obstacles.fans;
   Created by Stormbits at 9/11/2023
 */
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -66,11 +67,14 @@ public class FanWall extends Obstacle {
 
                         if (fanObject.enabled()) {
                             fanObject.displayParticle();
+                            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                                if (fanObject.fanBoundingBox().isInWithMarge(onlinePlayer.getLocation(), 0.5))
+                                    fanObject.fling(onlinePlayer);
+                            }
                         }
                     }
 
                     timer++;
-
                 } else {
                     timer = 0;
                 }
