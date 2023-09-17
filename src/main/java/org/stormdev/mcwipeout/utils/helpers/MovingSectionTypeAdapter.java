@@ -74,9 +74,9 @@ public class MovingSectionTypeAdapter extends TypeAdapter<JsonPlatformSection> {
                 keys.get("settings");
 
         PlatformSettings platformSettings = PlatformSettings.builder()
-                .xOffset((int) Double.parseDouble(String.valueOf(linkedTreeMap.get("xOffset"))))
-                .yOffset((int) Double.parseDouble(String.valueOf(linkedTreeMap.get("yOffset"))))
-                .zOffset((int) Double.parseDouble(String.valueOf(linkedTreeMap.get("zOffset"))))
+                .xOffset((float) Double.parseDouble(String.valueOf(linkedTreeMap.get("xOffset"))))
+                .yOffset((float) Double.parseDouble(String.valueOf(linkedTreeMap.get("yOffset"))))
+                .zOffset((float) Double.parseDouble(String.valueOf(linkedTreeMap.get("zOffset"))))
                 .delay((int) Double.parseDouble(String.valueOf(linkedTreeMap.get("delay"))))
                 .mirror(Boolean.parseBoolean(String.valueOf(linkedTreeMap.get("mirror"))))
                 .interval((int) Double.parseDouble(String.valueOf(linkedTreeMap.get("interval"))))

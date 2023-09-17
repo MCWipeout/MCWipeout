@@ -12,9 +12,9 @@ import lombok.experimental.Accessors;
 @Builder
 public class PlatformSettings {
 
-    private int xOffset = 0;
-    private int yOffset = 0;
-    private int zOffset = 0;
+    private float xOffset = 0;
+    private float yOffset = 0;
+    private float zOffset = 0;
 
     private int interval = 0;
 

@@ -5,9 +5,11 @@ package org.stormdev.mcwipeout.frame.obstacles.platforms;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.frame.obstacles.FakeBlock;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.MoveableSection;
@@ -22,9 +24,12 @@ public class MovingPlatforms extends Obstacle {
 
     private final List<MoveableSection> sections;
 
+    private int totalDuration;
+
     @SneakyThrows
     public MovingPlatforms(String fileId, int totalDuration) {
         sections = new ArrayList<>();
+        this.totalDuration = totalDuration;
 
         File file = new File(Wipeout.get().getDataFolder() + "/exported/", fileId + ".json");
         if (!file.exists()) {
@@ -57,18 +62,31 @@ public class MovingPlatforms extends Obstacle {
                 }
 
                 timer++;
+
+                if (timer <= totalDuration) {
+                    for (MoveableSection section : sections) {
+                        if(section.getJsonSection().getSettings().getDelay() == timer) {
+                            section.moveTo();
+                        }
+                    }
+                } else {
+                    timer = 0;
+                }
             }
         }.runTaskTimer(Wipeout.get(), 20L, 0L);
     }
 
     @Override
     public void reset() {
-
+        sections.forEach(moveableSection -> {
+            moveableSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material));
+            moveableSection.getFakeBlocks().forEach(FakeBlock::remove);
+        });
     }
 
     @Override
     public void enable() {
-
+        sections.forEach(MoveableSection::load);
     }
 
     @Override

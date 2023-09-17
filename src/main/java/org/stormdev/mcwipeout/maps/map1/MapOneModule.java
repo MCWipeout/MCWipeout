@@ -13,6 +13,7 @@ import org.stormdev.mcwipeout.frame.obstacles.fans.FanRotation;
 import org.stormdev.mcwipeout.frame.obstacles.fans.FanWall;
 import org.stormdev.mcwipeout.frame.obstacles.ice.FreezingIce;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.DissapearingPlatforms;
+import org.stormdev.mcwipeout.frame.obstacles.platforms.MovingPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.redballs.RedBallsObstacle;
 import org.stormdev.mcwipeout.frame.obstacles.water.WaterSlide;
 import org.stormdev.mcwipeout.frame.team.WPoint;
@@ -87,6 +88,9 @@ public class MapOneModule extends Map {
                 BumperObject.of(30, WLocation.from(1207, 119, -164), WLocation.from(1207, 119.5, -162), 0, 0, 1, null)
         ), 60);
 
+
+        MovingPlatforms movingPlatforms = new MovingPlatforms("map-1-moving", 40);
+
         obstacles.add(dissapearingPlatforms);
         obstacles.add(bumperWall);
         obstacles.add(fanWall);
@@ -94,6 +98,7 @@ public class MapOneModule extends Map {
         obstacles.add(redBallsObstacle);
         obstacles.add(bumperSpiral);
         obstacles.add(freezingIce);
+        obstacles.add(movingPlatforms);
 
         obstacles.forEach(Obstacle::load);
     }

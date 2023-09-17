@@ -96,10 +96,10 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         loadData();
 
+        world = Bukkit.getWorld("maps");
+
         registerListeners();
         registerCommands();
-
-        world = Bukkit.getWorld("maps");
 
         Bukkit.broadcast(Color.colorize("&eEnabled in " + (System.currentTimeMillis() - time) + " ms."), "mcwipeout.*");
     }
