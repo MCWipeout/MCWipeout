@@ -165,11 +165,18 @@ public class MapCommand extends StormSubCommand {
         if (args[0].equalsIgnoreCase("load")) {
             if (plugin.getGameManager().getActiveMap() != null) {
                 sender.sendMessage(ChatColor.GREEN + "There already is a map loaded! Either unload or start it.");
+                return;
 
             } else {
                 if (args[1].equalsIgnoreCase("map1") || args[1].equalsIgnoreCase("mapone")) {
                     plugin.getGameManager().setActiveMap(plugin.getMapManager().getMaps().get("map1"));
                     sender.sendMessage(ChatColor.GREEN + "Map loaded!");
+                    return;
+                }
+                if (args[1].equalsIgnoreCase("map2") || args[1].equalsIgnoreCase("maptwo")) {
+                    plugin.getGameManager().setActiveMap(plugin.getMapManager().getMaps().get("map2"));
+                    sender.sendMessage(ChatColor.GREEN + "Map loaded!");
+                    return;
                 }
             }
         }

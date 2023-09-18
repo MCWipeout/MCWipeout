@@ -3,19 +3,15 @@ package org.stormdev.mcwipeout.frame.obstacles.patterns;
   Created by Stormbits at 9/13/2023
 */
 
-import lombok.Getter;
 import lombok.SneakyThrows;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.frame.obstacles.FakeBlock;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
-import org.stormdev.mcwipeout.utils.WLocation;
 
 import java.io.File;
 import java.io.FileReader;
@@ -122,7 +118,6 @@ public class PatternPlatforms extends Obstacle {
                                 selection++;
                             } else {
                                 selection = 0;
-                                currentMaterial = materials.get(selection);
                             }
                         } else {
                             if (timer % selected.getDelay() == 0) {
@@ -141,7 +136,7 @@ public class PatternPlatforms extends Obstacle {
                     }
 
                     for (PatternSection patternSection : allPatterns) {
-                        if (patternSection.getFakeBlocks().isEmpty()) {
+                        if (patternSection.getFakePatternBlocks().isEmpty()) {
                             patternSection.loadWithoutShulker();
                         } else {
                             patternSection.checkRemove();
@@ -161,7 +156,7 @@ public class PatternPlatforms extends Obstacle {
     public void reset() {
         patternPresetList.forEach(moveableSection -> {
             moveableSection.getSectionList().forEach(patternSection -> patternSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material)));
-            moveableSection.getSectionList().forEach(patternSection -> patternSection.getFakeBlocks().forEach(FakeBlock::remove));
+            moveableSection.getSectionList().forEach(patternSection -> patternSection.getFakePatternBlocks().forEach(FakePatternBlock::remove));
         });
 
         for (PatternSection allPattern : allPatterns) {

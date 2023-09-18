@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.frame.obstacles;
+package org.stormdev.mcwipeout.frame.obstacles.patterns;
 /*
   Created by Stormbits at 9/17/2023
 */
@@ -11,11 +11,10 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
 
-public class FakeBlock {
+public class FakePatternBlock {
 
     private ArmorStand shulkerArmorStand;
     private Shulker shulker;
@@ -25,7 +24,7 @@ public class FakeBlock {
     @Getter
     private BlockDisplay displayEntity;
 
-    public FakeBlock(Location location, Material material, boolean shouldShulkerSpawn) {
+    public FakePatternBlock(Location location, Material material, boolean shouldShulkerSpawn) {
         Location loc = location.clone();
         shulkerArmorStand = location.getWorld().spawn(loc.clone().add(0, -1.5, 0), ArmorStand.class);
         shulkerArmorStand.setGravity(false);

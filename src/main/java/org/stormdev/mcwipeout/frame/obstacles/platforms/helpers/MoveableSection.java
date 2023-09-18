@@ -4,18 +4,10 @@ package org.stormdev.mcwipeout.frame.obstacles.platforms.helpers;
 */
 
 import lombok.Getter;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.Transformation;
-import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.frame.obstacles.FakeBlock;
-import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
+import org.stormdev.mcwipeout.frame.obstacles.patterns.FakePatternBlock;
 import org.stormdev.mcwipeout.utils.WLocation;
-import org.stormdev.utils.SyncScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +24,7 @@ public class MoveableSection {
     private int highestY;
 
     @Getter
-    private List<FakeBlock> fakeBlocks;
+    private List<FakePatternBlock> fakePatternBlocks;
 
     public MoveableSection(JsonPlatformSection jsonPlatformSection) {
         this.jsonSection = jsonPlatformSection;
@@ -40,7 +32,7 @@ public class MoveableSection {
         this.xTranslation = jsonSection.getSettings().getXOffset();
         this.zTranslation = jsonSection.getSettings().getZOffset();
 
-        this.fakeBlocks = new ArrayList<>();
+        this.fakePatternBlocks = new ArrayList<>();
 
         highestY = 0;
 
@@ -60,7 +52,7 @@ public class MoveableSection {
             }
 
             if (entry.getKey().getY() >= highestY) {
-                fakeBlocks.add(new FakeBlock(entry.getKey().toCenter().asLocation(), entry.getValue(), true));
+                fakePatternBlocks.add(new FakePatternBlock(entry.getKey().toCenter().asLocation(), entry.getValue(), true));
             }
         }
     }
@@ -72,8 +64,8 @@ public class MoveableSection {
             entry.getKey().asLocation().getWorld().spawnParticle(Particle.CLOUD, entry.getKey().asLocation().add(0, 0.5, 0), 1, 0.1, 0.1, 0.1, 0);
         }
 
-        for (FakeBlock fakeBlock : fakeBlocks) {
-            fakeBlock.moveTo(xTranslation, 0, zTranslation, jsonSection.getSettings().getInterval(), true);
+        for (FakePatternBlock fakePatternBlock : fakePatternBlocks) {
+            fakePatternBlock.moveTo(xTranslation, 0, zTranslation, jsonSection.getSettings().getInterval(), true);
         }
     }
 

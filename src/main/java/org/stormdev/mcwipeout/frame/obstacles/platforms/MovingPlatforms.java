@@ -5,11 +5,10 @@ package org.stormdev.mcwipeout.frame.obstacles.platforms;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.frame.obstacles.FakeBlock;
+import org.stormdev.mcwipeout.frame.obstacles.patterns.FakePatternBlock;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.MoveableSection;
@@ -80,7 +79,7 @@ public class MovingPlatforms extends Obstacle {
     public void reset() {
         sections.forEach(moveableSection -> {
             moveableSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material));
-            moveableSection.getFakeBlocks().forEach(FakeBlock::remove);
+            moveableSection.getFakePatternBlocks().forEach(FakePatternBlock::remove);
         });
     }
 

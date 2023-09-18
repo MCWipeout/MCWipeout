@@ -126,13 +126,17 @@ public class GameManager {
             }
 
             if (!isFound) {
-                activeMap.getSpawnPoint().reset(player);
-                player.setGameMode(GameMode.SPECTATOR);
+                if (activeMap.getSpawnPoint() != null) {
+                    activeMap.getSpawnPoint().reset(player);
+                    player.setGameMode(GameMode.SPECTATOR);
+                }
                 continue;
             }
 
             if (!player.hasPermission("wipeout.play")) continue;
-            activeMap.getSpawnPoint().reset(player);
+            if (activeMap.getSpawnPoint() != null) {
+                activeMap.getSpawnPoint().reset(player);
+            }
             player.setGameMode(GameMode.ADVENTURE);
             player.removePotionEffect(PotionEffectType.SPEED);
             player.removePotionEffect(PotionEffectType.JUMP);

@@ -6,6 +6,7 @@ package org.stormdev.mcwipeout.frame.game;
 import lombok.Getter;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.maps.map1.MapOneModule;
+import org.stormdev.mcwipeout.maps.map2.MapTwoModule;
 
 import java.util.HashMap;
 
@@ -21,5 +22,6 @@ public class MapManager {
         this.maps = new HashMap<>();
 
         this.maps.put("map1", new MapOneModule());
+        this.maps.put("map2", new MapTwoModule());
     }
 }

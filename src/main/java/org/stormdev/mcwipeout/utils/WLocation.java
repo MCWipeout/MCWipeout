@@ -64,4 +64,20 @@ public class WLocation {
     public boolean equals(Object obj) {
         return obj instanceof WLocation && ((WLocation) obj).x == x && ((WLocation) obj).y == y && ((WLocation) obj).z == z;
     }
+
+    public int getBlockX() {
+        return (int) Math.floor(x);
+    }
+
+    public int getBlockY() {
+        return (int) Math.floor(y);
+    }
+
+    public int getBlockZ() {
+        return (int) Math.floor(z);
+    }
+
+    public World getWorld() {
+        return world;
+    }
 }
