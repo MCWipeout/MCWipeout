@@ -47,9 +47,7 @@ public class WLocation {
     }
 
     public WLocation toCenter() {
-        this.x = x + 0.5;
-        this.z = z + 0.5;
-        return this;
+        return new WLocation(x + 0.5, y, z + 0.5, pitch, yaw);
     }
 
     public WLocation applyRotation(float pitch, float yaw) {
@@ -60,5 +58,10 @@ public class WLocation {
 
     public String asStringLocation() {
         return this.x + ":" + this.y + ":" + this.z;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof WLocation && ((WLocation) obj).x == x && ((WLocation) obj).y == y && ((WLocation) obj).z == z;
     }
 }

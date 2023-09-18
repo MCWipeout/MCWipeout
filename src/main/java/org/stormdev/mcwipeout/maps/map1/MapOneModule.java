@@ -3,6 +3,7 @@ package org.stormdev.mcwipeout.maps.map1;
   Created by Stormbits at 8/21/2023
 */
 
+import org.bukkit.Material;
 import org.stormdev.mcwipeout.frame.game.CheckPoint;
 import org.stormdev.mcwipeout.frame.game.Map;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
@@ -12,6 +13,7 @@ import org.stormdev.mcwipeout.frame.obstacles.fans.FanObject;
 import org.stormdev.mcwipeout.frame.obstacles.fans.FanRotation;
 import org.stormdev.mcwipeout.frame.obstacles.fans.FanWall;
 import org.stormdev.mcwipeout.frame.obstacles.ice.FreezingIce;
+import org.stormdev.mcwipeout.frame.obstacles.patterns.PatternPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.DissapearingPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.MovingPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.redballs.RedBallsObstacle;
@@ -89,7 +91,7 @@ public class MapOneModule extends Map {
         ), 60);
 
 
-        MovingPlatforms movingPlatforms = new MovingPlatforms("map-1-moving", 40);
+        PatternPlatforms patternPlatforms = new PatternPlatforms(160, 60, 240, Arrays.asList(Material.GREEN_CONCRETE, Material.RED_CONCRETE, Material.BLUE_CONCRETE), "map-1-all-patterns", "map-1-moving", "map-1-pattern-1", "map-1-pattern-2");
 
         obstacles.add(dissapearingPlatforms);
         obstacles.add(bumperWall);
@@ -98,7 +100,7 @@ public class MapOneModule extends Map {
         obstacles.add(redBallsObstacle);
         obstacles.add(bumperSpiral);
         obstacles.add(freezingIce);
-        obstacles.add(movingPlatforms);
+        obstacles.add(patternPlatforms);
 
         obstacles.forEach(Obstacle::load);
     }

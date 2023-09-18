@@ -5,12 +5,17 @@ package org.stormdev.mcwipeout.frame.obstacles.patterns;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
+import org.stormdev.mcwipeout.frame.obstacles.FakeBlock;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
-import org.stormdev.mcwipeout.frame.obstacles.water.WaterPreset;
+import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
+import org.stormdev.mcwipeout.utils.WLocation;
 
 import java.io.File;
 import java.io.FileReader;
@@ -19,39 +24,63 @@ import java.util.List;
 
 public class PatternPlatforms extends Obstacle {
 
-    private List<PatternPreset> patternPresetList;
+    private List<PatternHolder> patternPresetList;
 
-    @Getter
-    private final int downTime, runTime;
+    private List<PatternSection> allPatterns;
 
-    private int totalDuration;
+    private int totalDuration, runTime, downTime;
+
+    private List<Material> materials;
 
     @SneakyThrows
-    public PatternPlatforms(String fileId, int downTime, int runTime) {
-        this.downTime = downTime;
+    public PatternPlatforms(int runTime, int downTime, int totalDuration, List<Material> materials, String allPatternsFile, String... fileIds) {
+        this.totalDuration = totalDuration;
         this.runTime = runTime;
+        this.downTime = downTime;
         this.patternPresetList = new ArrayList<>();
+        this.allPatterns = new ArrayList<>();
+        this.materials = materials;
 
-        File file = new File(Wipeout.get().getDataFolder() + "/exported/", fileId + ".json");
-
-        if (!file.exists()) {
+        File allPatternsFileF = new File(Wipeout.get().getDataFolder() + "/exported/", allPatternsFile + ".json");
+        if (!allPatternsFileF.exists()) {
             return;
         }
 
-        GenericLocationSet[] genericLocationSet = Wipeout.getGson().fromJson(new FileReader(file), GenericLocationSet[].class);
+        JsonPlatformSection[] jsonPlatformSections = Wipeout.getGson().fromJson(new FileReader(allPatternsFileF), JsonPlatformSection[].class);
 
-        for (GenericLocationSet fromList : genericLocationSet) {
-            patternPresetList.add(new PatternPreset(fromList));
+        for (JsonPlatformSection fromList : jsonPlatformSections) {
+            allPatterns.add(new PatternSection(fromList));
         }
 
-        totalDuration = runTime * patternPresetList.size();
-        totalDuration += patternPresetList.size() * downTime;
+
+        for (String fileId : fileIds) {
+            List<PatternSection> sectionList = new ArrayList<>();
+            File file = new File(Wipeout.get().getDataFolder() + "/exported/", fileId + ".json");
+
+            if (!file.exists()) {
+                return;
+            }
+
+            JsonPlatformSection[] genericLocationSet = Wipeout.getGson().fromJson(new FileReader(file), JsonPlatformSection[].class);
+
+            for (JsonPlatformSection fromList : genericLocationSet) {
+                sectionList.add(new PatternSection(fromList));
+            }
+
+            patternPresetList.add(new PatternHolder(sectionList));
+        }
+
+        this.totalDuration = totalDuration * patternPresetList.size();
     }
 
 
     @Override
     public void handle(Event event) {
-
+        if (event instanceof EntityChangeBlockEvent e) {
+            if (e.getEntity() instanceof FallingBlock) {
+                e.setCancelled(true);
+            }
+        }
     }
 
     @Override
@@ -62,13 +91,16 @@ public class PatternPlatforms extends Obstacle {
             int downTimeTimer = 0;
             int runTimeTimer = 0;
             int selection = 0;
-            PatternPreset selected = null;
+
+            Material currentMaterial;
+            PatternHolder selected = null;
 
             @Override
             public void run() {
 
                 if (!isEnabled()) {
                     this.cancel();
+                    return;
                 }
 
                 if (timer <= totalDuration) {
@@ -79,7 +111,10 @@ public class PatternPlatforms extends Obstacle {
 
                         if (selected == null) {
                             selected = patternPresetList.get(selection);
-                            selected.place();
+                            selected.load(materials.get(selection));
+                            selected.move();
+
+                            currentMaterial = materials.get(selection);
 
                             runTimeTimer = 0;
 
@@ -87,8 +122,13 @@ public class PatternPlatforms extends Obstacle {
                                 selection++;
                             } else {
                                 selection = 0;
+                                currentMaterial = materials.get(selection);
                             }
                         } else {
+                            if (timer % selected.getDelay() == 0) {
+                                selected.move();
+                            }
+
                             if (runTimeTimer < runTime) {
                                 runTimeTimer++;
                             } else {
@@ -96,7 +136,17 @@ public class PatternPlatforms extends Obstacle {
                                 selected.remove();
                                 selected = null;
                             }
+
                         }
+                    }
+
+                    for (PatternSection patternSection : allPatterns) {
+                        if (patternSection.getFakeBlocks().isEmpty()) {
+                            patternSection.loadWithoutShulker();
+                        } else {
+                            patternSection.checkRemove();
+                        }
+                        patternSection.changeType(currentMaterial == null ? materials.get(0) : currentMaterial);
                     }
 
                     timer++;
@@ -109,7 +159,15 @@ public class PatternPlatforms extends Obstacle {
 
     @Override
     public void reset() {
+        patternPresetList.forEach(moveableSection -> {
+            moveableSection.getSectionList().forEach(patternSection -> patternSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material)));
+            moveableSection.getSectionList().forEach(patternSection -> patternSection.getFakeBlocks().forEach(FakeBlock::remove));
+        });
 
+        for (PatternSection allPattern : allPatterns) {
+            allPattern.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material));
+            allPattern.delete();
+        }
     }
 
     @Override

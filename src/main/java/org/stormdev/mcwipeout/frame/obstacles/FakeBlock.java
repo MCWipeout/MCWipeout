@@ -3,6 +3,7 @@ package org.stormdev.mcwipeout.frame.obstacles;
   Created by Stormbits at 9/17/2023
 */
 
+import lombok.Getter;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,33 +14,45 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.utils.helpers.FallingBlockFactory;
 
 public class FakeBlock {
 
-    private ArmorStand armorStand;
+    private ArmorStand shulkerArmorStand;
     private Shulker shulker;
 
-    private FallingBlock fallingBlock;
+    private ArmorStand blockArmorStand;
 
-    public FakeBlock(Location location, Material material) {
-        armorStand = location.getWorld().spawn(location, ArmorStand.class);
-        armorStand.setGravity(false);
+    @Getter
+    private BlockDisplay displayEntity;
 
-        shulker = location.getWorld().spawn(location, Shulker.class);
+    public FakeBlock(Location location, Material material, boolean shouldShulkerSpawn) {
+        Location loc = location.clone();
+        shulkerArmorStand = location.getWorld().spawn(loc.clone().add(0, -1.5, 0), ArmorStand.class);
+        shulkerArmorStand.setGravity(false);
 
-        shulker.setAI(false);
+        blockArmorStand = location.getWorld().spawn(loc.clone().add(-0.5, -1.5, -0.5), ArmorStand.class);
+        blockArmorStand.setGravity(false);
 
-        armorStand.setHelmet(new ItemStack(Material.STONE));
+        if (shouldShulkerSpawn) {
+            shulker = location.getWorld().spawn(loc, Shulker.class);
+            shulker.setInvulnerable(true);
+            shulker.setAI(false);
+            shulker.setSilent(true);
+            shulker.setInvisible(true);
+        }
 
-        shulker.setInvulnerable(true);
+        //ENABLE FOR DEBUG:
+        //shulkerArmorStand.setHelmet(new ItemStack(Material.STONE));
 
-        fallingBlock = FallingBlockFactory.buildFallingBlock(location, material);
 
-        shulker.setSilent(true);
+        displayEntity = location.getWorld().spawn(loc, BlockDisplay.class);
+        displayEntity.setBlock(material.createBlockData());
 
-        armorStand.addPassenger(shulker);
-        armorStand.teleport(location);
+        blockArmorStand.addPassenger(displayEntity);
+
+        if (shouldShulkerSpawn) {
+            shulkerArmorStand.addPassenger(shulker);
+        }
     }
 
     public void moveTo(final float x, final float y, final float z, int duration, final boolean mirror) {
@@ -47,35 +60,38 @@ public class FakeBlock {
         new BukkitRunnable() {
 
             int timer = 0;
-            float xTranslation = x / ((float) duration /2);
-            float yTranslation = y / ((float) duration /2);
-            float zTranslation = z / ((float) duration /2);
+            float xTranslation = x / ((float) duration / 2);
+            float yTranslation = y / ((float) duration / 2);
+            float zTranslation = z / ((float) duration / 2);
 
             boolean toReset = mirror;
 
             @Override
             public void run() {
                 timer++;
-                if (timer <= duration/2) {
+                if (timer <= duration / 2) {
 
-                    fallingBlock.teleport(fallingBlock.getLocation().add(xTranslation, yTranslation, zTranslation));
-
-                    CraftArmorStand craftArmorStand = (CraftArmorStand) armorStand;
+                    CraftArmorStand craftArmorStand = (CraftArmorStand) shulkerArmorStand;
                     net.minecraft.world.entity.decoration.ArmorStand armorStand = craftArmorStand.getHandle();
 
                     armorStand.setPos(armorStand.getX() + xTranslation, armorStand.getY() + yTranslation, armorStand.getZ() + zTranslation);
 
+                    CraftArmorStand craftArmorStand1 = (CraftArmorStand) blockArmorStand;
+                    net.minecraft.world.entity.decoration.ArmorStand armorStand1 = craftArmorStand1.getHandle();
+
+                    armorStand1.setPos(armorStand1.getX() + xTranslation, armorStand1.getY() + yTranslation, armorStand1.getZ() + zTranslation);
+
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         CraftPlayer craftPlayer = (CraftPlayer) player;
                         craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
+                        craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));
                     }
-
 
                 } else {
                     if (toReset) {
-                        xTranslation = -x / ((float) duration /2);
-                        yTranslation = -y / ((float) duration /2);
-                        zTranslation = -z / ((float) duration /2);
+                        xTranslation = -x / ((float) duration / 2);
+                        yTranslation = -y / ((float) duration / 2);
+                        zTranslation = -z / ((float) duration / 2);
 
                         timer = 0;
                         toReset = false;
@@ -90,7 +106,13 @@ public class FakeBlock {
     }
 
     public void remove() {
-        if (armorStand != null) armorStand.remove();
+        if (shulkerArmorStand != null) shulkerArmorStand.remove();
+        if (shulker != null) shulker.remove();
+        if (blockArmorStand != null) blockArmorStand.remove();
+        if (displayEntity != null) displayEntity.remove();
+    }
+
+    public void removeShulker() {
         if (shulker != null) shulker.remove();
     }
 }

@@ -17,6 +17,7 @@ public class FallingBlockFactory {
         fallingBlock.setDropItem(false);
         fallingBlock.setHurtEntities(false);
         fallingBlock.setGravity(false);
+        fallingBlock.setTicksLived(1);
 
         return fallingBlock;
     }
