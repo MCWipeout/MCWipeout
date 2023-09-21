@@ -10,7 +10,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
-import org.bukkit.entity.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.BlockDisplay;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Shulker;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
 
@@ -28,9 +31,14 @@ public class FakePatternBlock {
         Location loc = location.clone();
         shulkerArmorStand = location.getWorld().spawn(loc.clone().add(0, -1.5, 0), ArmorStand.class);
         shulkerArmorStand.setGravity(false);
+        shulkerArmorStand.setCustomNameVisible(false);
+        shulkerArmorStand.setCustomName("wipeout-entity");
 
         blockArmorStand = location.getWorld().spawn(loc.clone().add(-0.5, -1.5, -0.5), ArmorStand.class);
         blockArmorStand.setGravity(false);
+        blockArmorStand.setCustomNameVisible(false);
+        blockArmorStand.setCustomName("wipeout-entity");
+
 
         if (shouldShulkerSpawn) {
             shulker = location.getWorld().spawn(loc, Shulker.class);
@@ -38,14 +46,15 @@ public class FakePatternBlock {
             shulker.setAI(false);
             shulker.setSilent(true);
             shulker.setInvisible(true);
+            shulker.setCustomNameVisible(false);
+            shulker.setCustomName("wipeout-entity");
         }
-
-        //ENABLE FOR DEBUG:
-        //shulkerArmorStand.setHelmet(new ItemStack(Material.STONE));
 
 
         displayEntity = location.getWorld().spawn(loc, BlockDisplay.class);
         displayEntity.setBlock(material.createBlockData());
+        displayEntity.setCustomNameVisible(false);
+        displayEntity.setCustomName("wipeout-entity");
 
         blockArmorStand.addPassenger(displayEntity);
 
@@ -109,9 +118,5 @@ public class FakePatternBlock {
         if (shulker != null) shulker.remove();
         if (blockArmorStand != null) blockArmorStand.remove();
         if (displayEntity != null) displayEntity.remove();
-    }
-
-    public void removeShulker() {
-        if (shulker != null) shulker.remove();
     }
 }

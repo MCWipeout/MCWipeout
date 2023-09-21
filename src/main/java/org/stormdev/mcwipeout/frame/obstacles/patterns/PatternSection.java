@@ -71,7 +71,7 @@ public class PatternSection {
             }
 
             if (entry.getKey().getY() >= highestY) {
-                Collection<Entity> collection = world.getNearbyEntities(entry.getKey().asLocation(), 1, 1, 1);
+                Collection<Entity> collection = world.getNearbyEntities(entry.getKey().asLocation(), 2, 1, 2);
                 collection.forEach(entity -> {
                     if (entity.getType().name().contains("SHULKER")) {
                         this.delete();
@@ -92,7 +92,7 @@ public class PatternSection {
             }
 
             if (entry.getKey().getY() >= highestY) {
-                Collection<Entity> collection = world.getNearbyEntities(entry.getKey().asLocation(), 1, 1, 1);
+                Collection<Entity> collection = world.getNearbyEntities(entry.getKey().asLocation(), 2, 2, 2);
                 AtomicBoolean enable = new AtomicBoolean(true);
                 collection.forEach(entity -> {
                     if (entity.getType().name().contains("SHULKER")) {

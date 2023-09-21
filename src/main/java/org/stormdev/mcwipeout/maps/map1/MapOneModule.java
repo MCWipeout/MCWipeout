@@ -15,7 +15,6 @@ import org.stormdev.mcwipeout.frame.obstacles.fans.FanWall;
 import org.stormdev.mcwipeout.frame.obstacles.ice.FreezingIce;
 import org.stormdev.mcwipeout.frame.obstacles.patterns.PatternPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.DissapearingPlatforms;
-import org.stormdev.mcwipeout.frame.obstacles.platforms.MovingPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.redballs.RedBallsObstacle;
 import org.stormdev.mcwipeout.frame.obstacles.water.WaterSlide;
 import org.stormdev.mcwipeout.frame.team.WPoint;
@@ -49,21 +48,21 @@ public class MapOneModule extends Map {
     @Override
     protected void setupObstacles() {
         BumperWall bumperWall = new BumperWall(Arrays.asList(
-                BumperObject.of(10, WLocation.from(1141, 116, 18), WLocation.from(1141, 116.5, 16), -180, 0, -1, null),
-                BumperObject.of(30, WLocation.from(1144, 117, 18), WLocation.from(1144, 117.5, 16), -180, 0, -1, null),
-                BumperObject.of(20, WLocation.from(1147, 118, 18), WLocation.from(1147, 118.5, 16), -180, 0, -1, null),
-                BumperObject.of(50, WLocation.from(1151, 117, 18), WLocation.from(1151, 117.5, 16), -180, 0, -1, null),
-                BumperObject.of(60, WLocation.from(1155, 117, 18), WLocation.from(1155, 117.5, 16), -180, 0, -1, null),
-                BumperObject.of(45, WLocation.from(1159, 117, 18), WLocation.from(1159, 117.5, 16), -180, 0, -1, null),
-                BumperObject.of(35, WLocation.from(1162, 118, 18), WLocation.from(1162, 118.5, 16), -180, 0, -1, null),
-                BumperObject.of(20, WLocation.from(1165, 119, 18), WLocation.from(1165, 119.5, 16), -180, 0, -1, null),
-                BumperObject.of(10, WLocation.from(1168, 120, 18), WLocation.from(1168, 120.5, 16), -180, 0, -1, null),
-                BumperObject.of(0, WLocation.from(1171, 120, 18), WLocation.from(1171, 120.5, 16), -180, 0, -1, null),
-                BumperObject.of(0, WLocation.from(1175, 119, 18), WLocation.from(1175, 119.5, 16), -180, 0, -1, null),
-                BumperObject.of(10, WLocation.from(1179, 119, 18), WLocation.from(1179, 119.5, 16), -180, 0, -1, null),
-                BumperObject.of(15, WLocation.from(1182, 120, 18), WLocation.from(1182, 120.5, 16), -180, 0, -1, null),
-                BumperObject.of(25, WLocation.from(1186, 120, 18), WLocation.from(1186, 120.5, 16), -180, 0, -1, null),
-                BumperObject.of(40, WLocation.from(1190, 120, 18), WLocation.from(1190, 120.5, 16), -180, 0, -1, null)
+                BumperObject.of(10, WLocation.from(1141, 116, 18), WLocation.from(1141, 116.5, 16), -180, 0, -1),
+                BumperObject.of(30, WLocation.from(1144, 117, 18), WLocation.from(1144, 117.5, 16), -180, 0, -1),
+                BumperObject.of(20, WLocation.from(1147, 118, 18), WLocation.from(1147, 118.5, 16), -180, 0, -1),
+                BumperObject.of(50, WLocation.from(1151, 117, 18), WLocation.from(1151, 117.5, 16), -180, 0, -1),
+                BumperObject.of(60, WLocation.from(1155, 117, 18), WLocation.from(1155, 117.5, 16), -180, 0, -1),
+                BumperObject.of(45, WLocation.from(1159, 117, 18), WLocation.from(1159, 117.5, 16), -180, 0, -1),
+                BumperObject.of(35, WLocation.from(1162, 118, 18), WLocation.from(1162, 118.5, 16), -180, 0, -1),
+                BumperObject.of(20, WLocation.from(1165, 119, 18), WLocation.from(1165, 119.5, 16), -180, 0, -1),
+                BumperObject.of(10, WLocation.from(1168, 120, 18), WLocation.from(1168, 120.5, 16), -180, 0, -1),
+                BumperObject.of(0, WLocation.from(1171, 120, 18), WLocation.from(1171, 120.5, 16), -180, 0, -1),
+                BumperObject.of(0, WLocation.from(1175, 119, 18), WLocation.from(1175, 119.5, 16), -180, 0, -1),
+                BumperObject.of(10, WLocation.from(1179, 119, 18), WLocation.from(1179, 119.5, 16), -180, 0, -1),
+                BumperObject.of(15, WLocation.from(1182, 120, 18), WLocation.from(1182, 120.5, 16), -180, 0, -1),
+                BumperObject.of(25, WLocation.from(1186, 120, 18), WLocation.from(1186, 120.5, 16), -180, 0, -1),
+                BumperObject.of(40, WLocation.from(1190, 120, 18), WLocation.from(1190, 120.5, 16), -180, 0, -1)
         ), 65);
 
 
@@ -86,12 +85,22 @@ public class MapOneModule extends Map {
         FreezingIce freezingIce = new FreezingIce("map-1-ice");
 
         BumperWall bumperSpiral = new BumperWall(Arrays.asList(
-                BumperObject.of(10, WLocation.from(1212, 117, -158), WLocation.from(1210, 117.5, -158), 90, -1, 0, null),
-                BumperObject.of(30, WLocation.from(1207, 119, -164), WLocation.from(1207, 119.5, -162), 0, 0, 1, null)
-        ), 60);
+                BumperObject.of(10, WLocation.from(1212, 117, -158), WLocation.from(1210, 117.5, -158), 90, -1, 0),
+                BumperObject.of(30, WLocation.from(1208, 119, -164), WLocation.from(1208, 119.5, -162), 0, 0, 1),
+                BumperObject.of(20, WLocation.from(1206, 120, -165), WLocation.from(1206, 120.5, -163), 0, 0, 1),
+                BumperObject.of(50, WLocation.from(1203, 121, -165), WLocation.from(1203, 121.5, -163), 0, 0, 1),
+                BumperObject.of(60, WLocation.from(1197, 123, -161), WLocation.from(1199, 123.5, -161), -90, 1, 0),
+                BumperObject.of(35, WLocation.from(1196, 124, -159), WLocation.from(1198, 124.5, -159), -90, 1, 0),
+                BumperObject.of(20, WLocation.from(1196, 125, -156), WLocation.from(1198, 125.5, -156), -90, 1, 0),
+                BumperObject.of(10, WLocation.from(1200, 127, -150), WLocation.from(1200, 127.5, -152), -180, 0, -1),
+                BumperObject.of(0, WLocation.from(1202, 128, -149), WLocation.from(1202, 128.5, -151), -180, 0, -1),
+                BumperObject.of(0, WLocation.from(1205, 129, -149), WLocation.from(1205, 129.5, -151), -180, 0, -1),
+                BumperObject.of(15, WLocation.from(1211, 131, -153), WLocation.from(1209, 131.5, -153), 90, -1, 0),
+                BumperObject.of(25, WLocation.from(1212, 132, -155), WLocation.from(1210, 132.5, -155), 90, -1, 0)
+        ), 65);
 
 
-        PatternPlatforms patternPlatforms = new PatternPlatforms(160, 60, 240, Arrays.asList(Material.GREEN_CONCRETE, Material.RED_CONCRETE, Material.BLUE_CONCRETE), "map-1-all-patterns", "map-1-moving", "map-1-pattern-1", "map-1-pattern-2");
+        PatternPlatforms patternPlatforms = new PatternPlatforms(200, 20, 240, Arrays.asList(Material.GREEN_CONCRETE, Material.RED_CONCRETE, Material.BLUE_CONCRETE), "map-1-all-patterns", "map-1-moving", "map-1-pattern-1", "map-1-pattern-2");
 
         obstacles.add(dissapearingPlatforms);
         obstacles.add(bumperWall);

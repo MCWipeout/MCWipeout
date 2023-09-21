@@ -121,7 +121,10 @@ public class PatternPlatforms extends Obstacle {
                             }
                         } else {
                             if (timer % selected.getDelay() == 0) {
-                                selected.move();
+                                if (runTimeTimer < runTime / 2) {
+                                    selected.move();
+                                }
+                                //TODO: TEST
                             }
 
                             if (runTimeTimer < runTime) {
@@ -131,7 +134,6 @@ public class PatternPlatforms extends Obstacle {
                                 selected.remove();
                                 selected = null;
                             }
-
                         }
                     }
 
@@ -149,14 +151,17 @@ public class PatternPlatforms extends Obstacle {
                     timer = 0;
                 }
             }
-        }.runTaskTimer(Wipeout.get(), 20L, 0L);
+        }.runTaskTimer(Wipeout.get(), 100L, 0L);
     }
 
     @Override
     public void reset() {
         patternPresetList.forEach(moveableSection -> {
-            moveableSection.getSectionList().forEach(patternSection -> patternSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material)));
-            moveableSection.getSectionList().forEach(patternSection -> patternSection.getFakePatternBlocks().forEach(FakePatternBlock::remove));
+            moveableSection.getSectionList().forEach(patternSection -> {
+                patternSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material));
+                patternSection.getFakePatternBlocks().forEach(FakePatternBlock::remove);
+                patternSection.getFakePatternBlocks().clear();
+            });
         });
 
         for (PatternSection allPattern : allPatterns) {
@@ -167,7 +172,7 @@ public class PatternPlatforms extends Obstacle {
 
     @Override
     public void enable() {
-
+        patternPresetList.forEach(patternHolder -> patternHolder.getSectionList().forEach(patternSection -> patternSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asLocation().getChunk().addPluginChunkTicket(Wipeout.get()))));
     }
 
     @Override

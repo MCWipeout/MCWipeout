@@ -98,6 +98,15 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         world = Bukkit.getWorld("maps");
 
+        if (world != null) {
+            world.getEntities().forEach(entity -> {
+                if (entity.getCustomName() == null) return;
+                if (entity.getCustomName().equals("fake-block")) {
+                    entity.remove();
+                }
+            });
+        }
+
         registerListeners();
         registerCommands();
 

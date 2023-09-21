@@ -20,6 +20,8 @@ public class BumperWall extends Obstacle {
     public BumperWall(List<BumperObject> bumperObjects, int totalDuration) {
         this.bumperObjectList = bumperObjects;
         this.totalDuration = totalDuration;
+
+        bumperObjectList.forEach(bumperObject -> bumperObject.getEntityLocation().asLocation().getChunk().addPluginChunkTicket(Wipeout.get()));
     }
 
 
@@ -70,18 +72,26 @@ public class BumperWall extends Obstacle {
             }
 
             bumperObject.getBlockLocation().asBlock().setType(Material.AIR);
+            bumperObject.setDisplayEntity(null);
         }
     }
 
     @Override
     public void enable() {
-        for (BumperObject bumperObject : bumperObjectList) {
-            if (bumperObject.getDisplayEntity() == null) {
-                bumperObject.setupDisplayEntity();
+        bumperObjectList.forEach(bumperObject -> bumperObject.getEntityLocation().asLocation().getChunk().addPluginChunkTicket(Wipeout.get()));
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (BumperObject bumperObject : bumperObjectList) {
+                    if (bumperObject.getDisplayEntity() == null) {
+                        bumperObject.setupDisplayEntity();
+                    }
+
+                    bumperObject.getBlockLocation().asBlock().setType(Material.AIR);
+
+                }
             }
-
-            bumperObject.getBlockLocation().asBlock().setType(Material.AIR);
-
-        }
+        }.runTaskLater(Wipeout.get(), 60L);
     }
 }

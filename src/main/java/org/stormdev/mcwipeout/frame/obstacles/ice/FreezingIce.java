@@ -9,11 +9,9 @@ import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
-import org.stormdev.mcwipeout.frame.obstacles.water.WaterPreset;
 import org.stormdev.mcwipeout.utils.WLocation;
 
 import java.io.File;
@@ -124,6 +122,7 @@ public class FreezingIce extends Obstacle {
     @Override
     public void reset() {
         locationList.forEach(location -> location.asBlock().setType(Material.ICE));
+
     }
 
     @Override

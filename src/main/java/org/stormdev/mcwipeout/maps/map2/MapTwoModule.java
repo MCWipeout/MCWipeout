@@ -8,6 +8,7 @@ import org.stormdev.mcwipeout.frame.game.Map;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.ExtendedBumperWall;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.SlidingWall;
+import org.stormdev.mcwipeout.frame.obstacles.clockarms.ClockArms;
 import org.stormdev.mcwipeout.frame.team.WPoint;
 import org.stormdev.mcwipeout.utils.WLocation;
 
@@ -27,10 +28,12 @@ public class MapTwoModule extends Map {
 
     @Override
     protected void setupObstacles() {
-        ExtendedBumperWall extendedBumperWall = new ExtendedBumperWall(
-                SlidingWall.of(WLocation.from(2847, 208, 21), WLocation.from(2848, 210, 19), 0, 1, 0, 1.2f, 60));
+        ExtendedBumperWall extendedBumperWall = new ExtendedBumperWall(SlidingWall.of(WLocation.from(2847, 208, 21), WLocation.from(2848, 210, 19), 0, 1, 0, 1.2f, 60));
+
+        ClockArms clockArms = new ClockArms();
 
         obstacles.add(extendedBumperWall);
+        obstacles.add(clockArms);
 
         obstacles.forEach(Obstacle::load);
     }
