@@ -52,7 +52,7 @@ public class MoveableSection {
             }
 
             if (entry.getKey().getY() >= highestY) {
-                fakePatternBlocks.add(new FakePatternBlock(entry.getKey().toCenter().asLocation(), entry.getValue(), true));
+                fakePatternBlocks.add(new FakePatternBlock(entry.getKey().toCenter().asLocation(), entry.getValue(), true, true));
             }
         }
     }

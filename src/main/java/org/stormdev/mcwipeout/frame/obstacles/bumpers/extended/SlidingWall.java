@@ -4,7 +4,6 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers.extended;
 */
 
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.stormdev.mcwipeout.utils.Cuboid;
 import org.stormdev.mcwipeout.utils.WLocation;
 
@@ -53,6 +52,10 @@ public class SlidingWall {
     }
 
     public void reset() {
-        slidingBlockList.forEach(SlidingBlock::remove);
+        for (SlidingBlock slidingBlock : slidingBlockList) {
+            slidingBlock.remove();
+        }
+
+        slidingBlockList.clear();
     }
 }

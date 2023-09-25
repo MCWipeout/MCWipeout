@@ -15,4 +15,12 @@ public class MathUtils {
         double Y = center.getY() * Math.cos(pitch);
         return new Location(Bukkit.getWorld("maps"), X, Y, Z);
     }
+
+    public static float getFixedYaw(float yaw) {
+        if (yaw > 360) {
+            return Math.abs(360 - yaw);
+        }
+
+        return yaw;
+    }
 }

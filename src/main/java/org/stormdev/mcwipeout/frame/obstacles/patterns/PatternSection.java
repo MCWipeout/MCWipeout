@@ -55,7 +55,7 @@ public class PatternSection {
             }
 
             if (entry.getKey().getY() >= highestY) {
-                fakePatternBlocks.add(new FakePatternBlock(entry.getKey().toCenter().asLocation(), material == null ? entry.getValue() : material, true));
+                fakePatternBlocks.add(new FakePatternBlock(entry.getKey().toCenter().asLocation(), material == null ? entry.getValue() : material, true, true));
             }
         }
     }
@@ -101,7 +101,7 @@ public class PatternSection {
                 });
 
                 if (enable.get()) {
-                    fakePatternBlocks.add(new FakePatternBlock(entry.getKey().toCenter().asLocation(), entry.getValue(), false));
+                    fakePatternBlocks.add(new FakePatternBlock(entry.getKey().toCenter().asLocation(), entry.getValue(), false, true));
                 }
             }
         }

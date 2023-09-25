@@ -103,17 +103,6 @@ public class BumperObject {
         itemMeta.setCustomModelData(10000);
         head.setItemMeta(itemMeta);
 
-//        if (yawRotation < 0) {
-//            xTranslation = -xTranslation;
-//            zTranslation = -zTranslation;
-//        } else if (yawRotation == 90) {
-//            zTranslation = -xTranslation;
-//            xTranslation = 0;
-//        } else if (yawRotation == 180) {
-//            xTranslation = -zTranslation;
-//            zTranslation = 0;
-//        }
-
         if (yawRotation == -90) {
             xMove = zTranslation;
             zMove = xTranslation;
@@ -127,8 +116,8 @@ public class BumperObject {
             xMove = xTranslation;
             zMove = zTranslation;
         } else if (yawRotation == -180) {
-            xMove = -zTranslation;
-            zMove = -xTranslation;
+            xMove = -xTranslation;
+            zMove = -zTranslation;
         }
 
         displayEntity.setItemStack(head);

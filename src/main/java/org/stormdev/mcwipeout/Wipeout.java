@@ -1,5 +1,7 @@
 package org.stormdev.mcwipeout;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -47,6 +49,9 @@ public final class Wipeout extends StormPlugin<Wipeout> {
     private BukkitAudiences adventure;
 
     private static Wipeout plugin;
+
+    @Getter
+    private ProtocolManager protocolManager;
 
     public static Wipeout get() {
         return plugin;
@@ -109,6 +114,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         registerListeners();
         registerCommands();
+
+        this.protocolManager = ProtocolLibrary.getProtocolManager();
 
         Bukkit.broadcast(Color.colorize("&eEnabled in " + (System.currentTimeMillis() - time) + " ms."), "mcwipeout.*");
     }

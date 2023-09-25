@@ -7,3 +7,4 @@ depend:
   - WorldGuard
   - WorldEdit
   - PlaceholderAPI
+  - ProtocolLib

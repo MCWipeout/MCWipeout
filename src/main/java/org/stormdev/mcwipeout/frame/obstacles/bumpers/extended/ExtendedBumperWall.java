@@ -7,19 +7,21 @@ import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
+import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExtendedBumperWall extends Obstacle {
 
     private List<SlidingWall> slidingWalls;
 
+    private List<BumperObject> bumperObjects;
+
     private int totalDuration;
 
-    public ExtendedBumperWall(SlidingWall... slidingWall) {
-        this.slidingWalls = new ArrayList<>();
-        slidingWalls.addAll(List.of(slidingWall));
+    public ExtendedBumperWall(List<BumperObject> bumperObjects, SlidingWall... slidingWall) {
+        this.slidingWalls = List.of(slidingWall);
+        this.bumperObjects = bumperObjects;
 
         slidingWalls.forEach(wall -> totalDuration += wall.getDelay());
     }

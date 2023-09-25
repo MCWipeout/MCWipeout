@@ -131,6 +131,13 @@
         </dependency>
         <dependency>
             <groupId>org.stormdev</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/dir/ProtocolLib.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.stormdev</groupId>
             <artifactId>WorldGuard</artifactId>
             <version>1.0</version>
             <scope>system</scope>

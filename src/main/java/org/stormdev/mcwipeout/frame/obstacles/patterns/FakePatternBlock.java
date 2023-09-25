@@ -27,17 +27,19 @@ public class FakePatternBlock {
     @Getter
     private BlockDisplay displayEntity;
 
-    public FakePatternBlock(Location location, Material material, boolean shouldShulkerSpawn) {
+    public FakePatternBlock(Location location, Material material, boolean shouldShulkerSpawn, boolean useTypeMaterial) {
         Location loc = location.clone();
         shulkerArmorStand = location.getWorld().spawn(loc.clone().add(0, -1.5, 0), ArmorStand.class);
         shulkerArmorStand.setGravity(false);
         shulkerArmorStand.setCustomNameVisible(false);
         shulkerArmorStand.setCustomName("wipeout-entity");
 
-        blockArmorStand = location.getWorld().spawn(loc.clone().add(-0.5, -1.5, -0.5), ArmorStand.class);
-        blockArmorStand.setGravity(false);
-        blockArmorStand.setCustomNameVisible(false);
-        blockArmorStand.setCustomName("wipeout-entity");
+        if (useTypeMaterial) {
+            blockArmorStand = location.getWorld().spawn(loc.clone().add(-0.5, -1.5, -0.5), ArmorStand.class);
+            blockArmorStand.setGravity(false);
+            blockArmorStand.setCustomNameVisible(false);
+            blockArmorStand.setCustomName("wipeout-entity");
+        }
 
 
         if (shouldShulkerSpawn) {
@@ -50,16 +52,42 @@ public class FakePatternBlock {
             shulker.setCustomName("wipeout-entity");
         }
 
+        if (useTypeMaterial) {
 
-        displayEntity = location.getWorld().spawn(loc, BlockDisplay.class);
-        displayEntity.setBlock(material.createBlockData());
-        displayEntity.setCustomNameVisible(false);
-        displayEntity.setCustomName("wipeout-entity");
+            displayEntity = location.getWorld().spawn(loc, BlockDisplay.class);
+            displayEntity.setBlock(material.createBlockData());
+            displayEntity.setCustomNameVisible(false);
+            displayEntity.setCustomName("wipeout-entity");
 
-        blockArmorStand.addPassenger(displayEntity);
+            blockArmorStand.addPassenger(displayEntity);
+        }
 
         if (shouldShulkerSpawn) {
             shulkerArmorStand.addPassenger(shulker);
+        }
+    }
+
+    public void teleport(float x, float z) {
+        CraftArmorStand craftArmorStand = (CraftArmorStand) shulkerArmorStand;
+        net.minecraft.world.entity.decoration.ArmorStand armorStand = craftArmorStand.getHandle();
+
+        armorStand.setPos(x, armorStand.getY(), z);
+
+        CraftArmorStand craftArmorStand1 = null;
+        net.minecraft.world.entity.decoration.ArmorStand armorStand1 = null;
+        if (blockArmorStand != null) {
+            craftArmorStand1 = (CraftArmorStand) blockArmorStand;
+            armorStand1 = craftArmorStand1.getHandle();
+
+            armorStand1.setPos(x, armorStand1.getY(), z);
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            CraftPlayer craftPlayer = (CraftPlayer) player;
+            craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
+            if (armorStand1 != null) {
+                craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));
+            }
         }
     }
 
@@ -84,15 +112,21 @@ public class FakePatternBlock {
 
                     armorStand.setPos(armorStand.getX() + xTranslation, armorStand.getY() + yTranslation, armorStand.getZ() + zTranslation);
 
-                    CraftArmorStand craftArmorStand1 = (CraftArmorStand) blockArmorStand;
-                    net.minecraft.world.entity.decoration.ArmorStand armorStand1 = craftArmorStand1.getHandle();
+                    CraftArmorStand craftArmorStand1 = null;
+                    net.minecraft.world.entity.decoration.ArmorStand armorStand1 = null;
+                    if (blockArmorStand != null) {
+                        craftArmorStand1 = (CraftArmorStand) blockArmorStand;
+                        armorStand1 = craftArmorStand1.getHandle();
 
-                    armorStand1.setPos(armorStand1.getX() + xTranslation, armorStand1.getY() + yTranslation, armorStand1.getZ() + zTranslation);
+                        armorStand1.setPos(x, armorStand1.getY(), z);
+                    }
 
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         CraftPlayer craftPlayer = (CraftPlayer) player;
                         craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
-                        craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));
+                        if (armorStand1 != null) {
+                            craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));
+                        }
                     }
 
                 } else {
