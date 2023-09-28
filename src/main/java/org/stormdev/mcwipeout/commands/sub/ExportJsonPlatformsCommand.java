@@ -14,8 +14,8 @@ import org.stormdev.commands.StormSubCommand;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.PlatformSettings;
-import org.stormdev.mcwipeout.utils.WLocation;
 import org.stormdev.mcwipeout.utils.helpers.BlockFaceHelper;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 import org.stormdev.utils.Color;
 
 import java.io.File;

@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Transformation;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 import org.stormdev.utils.SyncScheduler;
 
 @RequiredArgsConstructor(staticName = "of")
@@ -48,7 +48,6 @@ public class BumperObject {
         displayEntity.setTransformation(transformation);
 
         SyncScheduler.get().runLater(() -> {
-
             if (displayEntity == null || displayEntity.isDead()) return;
 
             displayEntity.setInterpolationDuration(2);
@@ -59,7 +58,6 @@ public class BumperObject {
             displayEntity.setTransformation(newTransformation);
 
             blockLocation.asBlock().setType(Material.AIR);
-
         }, 10L);
     }
 

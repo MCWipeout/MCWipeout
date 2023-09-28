@@ -5,8 +5,8 @@ package org.stormdev.mcwipeout.frame.obstacles.clockarms;
 
 import lombok.Getter;
 import org.stormdev.mcwipeout.frame.obstacles.patterns.FakePatternBlock;
-import org.stormdev.mcwipeout.utils.MathUtils;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
+import org.stormdev.mcwipeout.utils.math.MathUtils;
 
 public class ClockArmsPlatformObject {
 

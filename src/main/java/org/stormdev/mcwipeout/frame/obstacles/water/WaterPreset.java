@@ -10,9 +10,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
-import org.stormdev.mcwipeout.utils.WLocation;
-
-import java.util.concurrent.ThreadLocalRandom;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 public class WaterPreset {
 

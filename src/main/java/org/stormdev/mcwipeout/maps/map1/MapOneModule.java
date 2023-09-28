@@ -18,10 +18,11 @@ import org.stormdev.mcwipeout.frame.obstacles.platforms.DissapearingPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.redballs.RedBallsObstacle;
 import org.stormdev.mcwipeout.frame.obstacles.water.WaterSlide;
 import org.stormdev.mcwipeout.frame.team.WPoint;
-import org.stormdev.mcwipeout.utils.Cuboid;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.Cuboid;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class MapOneModule extends Map {
 
@@ -47,7 +48,7 @@ public class MapOneModule extends Map {
 
     @Override
     protected void setupObstacles() {
-        BumperWall bumperWall = new BumperWall(Arrays.asList(
+        BumperWall bumperWall = new BumperWall(List.of(
                 BumperObject.of(10, WLocation.from(1141, 116, 18), WLocation.from(1141, 116.5, 16), -180, 0, -1),
                 BumperObject.of(30, WLocation.from(1144, 117, 18), WLocation.from(1144, 117.5, 16), -180, 0, -1),
                 BumperObject.of(20, WLocation.from(1147, 118, 18), WLocation.from(1147, 118.5, 16), -180, 0, -1),

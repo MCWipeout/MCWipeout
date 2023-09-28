@@ -12,12 +12,13 @@ import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 public class SlidingBlock {
 
     private WLocation wLocation;
     private Location location;
+
     private ArmorStand blockArmorStand;
 
     private ArmorStand shulkerArmorStand;
@@ -89,6 +90,7 @@ public class SlidingBlock {
                         craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
                         craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));
                     }
+
 
                 } else {
                     if (toReset) {

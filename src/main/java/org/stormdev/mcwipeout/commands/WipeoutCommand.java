@@ -13,7 +13,6 @@ import org.stormdev.mcwipeout.commands.sub.*;
 import org.stormdev.mcwipeout.frame.game.GameType;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.utils.Color;
-import org.stormdev.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +33,7 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
         register(new ExportCommand(plugin));
         register(new ExportJsonPlatformsCommand(plugin));
         register(new ExportJsonGenericCommand(plugin));
+        register(new ExportSnakeCommand(plugin));
     }
 
     @Override

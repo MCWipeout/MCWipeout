@@ -76,11 +76,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
     private List<StormCommand> commandList;
 
+    @Getter
     private static Gson gson;
-
-    public static Gson getGson() {
-        return gson;
-    }
 
     @Override
     public void onEnable() {
@@ -90,6 +87,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         long time = System.currentTimeMillis();
 
         this.adventure = BukkitAudiences.create(this);
+
+        saveDefaultConfig();
 
         playerCache = new HashMap<>();
         simpleWorldGuardAPI = new SimpleWorldGuardAPI();

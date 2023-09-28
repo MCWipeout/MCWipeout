@@ -9,7 +9,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.util.ArrayList;
 import java.util.Collection;

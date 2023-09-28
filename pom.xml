@@ -94,6 +94,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>clojars</id>
+            <url>https://clojars.org/repo/</url>
+        </repository>
 
         <repository>
             <id>sonatype</id>
@@ -135,6 +139,11 @@
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/dir/ProtocolLib.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.clojars.hozumi</groupId>
+            <artifactId>toxiclibscore</artifactId>
+            <version>0022</version>
         </dependency>
         <dependency>
             <groupId>org.stormdev</groupId>

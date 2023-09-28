@@ -19,11 +19,10 @@ public class ExtendedBumperWall extends Obstacle {
 
     private int totalDuration;
 
-    public ExtendedBumperWall(List<BumperObject> bumperObjects, SlidingWall... slidingWall) {
+    public ExtendedBumperWall(int totalDuration, List<BumperObject> bumperObjects, SlidingWall... slidingWall) {
+        this.totalDuration = totalDuration;
         this.slidingWalls = List.of(slidingWall);
         this.bumperObjects = bumperObjects;
-
-        slidingWalls.forEach(wall -> totalDuration += wall.getDelay());
     }
 
     @Override

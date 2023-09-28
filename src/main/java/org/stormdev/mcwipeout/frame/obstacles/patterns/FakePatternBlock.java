@@ -118,7 +118,7 @@ public class FakePatternBlock {
                         craftArmorStand1 = (CraftArmorStand) blockArmorStand;
                         armorStand1 = craftArmorStand1.getHandle();
 
-                        armorStand1.setPos(x, armorStand1.getY(), z);
+                        armorStand1.setPos(armorStand1.getX() + xTranslation, armorStand1.getY() + yTranslation, armorStand1.getZ() + zTranslation);
                     }
 
                     for (Player player : Bukkit.getOnlinePlayers()) {

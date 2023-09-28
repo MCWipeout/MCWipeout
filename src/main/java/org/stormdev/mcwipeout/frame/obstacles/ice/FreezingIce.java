@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.io.File;
 import java.io.FileReader;

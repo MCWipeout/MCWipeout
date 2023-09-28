@@ -16,7 +16,7 @@ import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.util.ArrayList;
 import java.util.List;

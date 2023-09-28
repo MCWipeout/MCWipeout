@@ -5,7 +5,7 @@ package org.stormdev.mcwipeout.frame.obstacles.platforms.helpers;
 
 import lombok.Getter;
 import org.bukkit.Material;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.util.Map;
 

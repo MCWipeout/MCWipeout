@@ -1,18 +1,17 @@
-package org.stormdev.mcwipeout.utils;
+package org.stormdev.mcwipeout.utils.helpers;
 /*
   Created by Stormbits at 8/21/2023
 */
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.stormdev.mcwipeout.frame.team.WPoint;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class Cuboid {
 
@@ -30,7 +29,7 @@ public class Cuboid {
     private final double zMaxCentered;
     private final World world;
 
-    public static Cuboid from(int x1, int y1, int z1, int x2, int y2, int z2) {
+    public static Cuboid from(double x1, double y1, double z1, double x2, double y2, double z2) {
         return new Cuboid(WLocation.from(x1, y1, z1).asLocation(), WLocation.from(x2, y2, z2).asLocation());
     }
 
@@ -64,7 +63,7 @@ public class Cuboid {
     }
 
     public Location getCenter() {
-        return new Location(this.world, (this.xMax - this.xMin) / 2 + this.xMin, (this.yMax - this.yMin) / 2 + this.yMin, (this.zMax - this.zMin) / 2 + this.zMin);
+        return new Location(this.world, (double) (this.xMax - this.xMin) / 2 + this.xMin, (double) (this.yMax - this.yMin) / 2 + this.yMin, (double) (this.zMax - this.zMin) / 2 + this.zMin);
     }
 
     public double getDistance() {

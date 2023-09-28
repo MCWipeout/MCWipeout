@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import toxi.geom.Vec3D;
 
 public class WPoint {
 
@@ -33,5 +34,9 @@ public class WPoint {
 
     public Block getBlock() {
         return toLocation().getBlock();
+    }
+
+    public Vec3D toVector() {
+        return new Vec3D((float) x, (float) y, (float) z);
     }
 }

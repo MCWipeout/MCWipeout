@@ -15,11 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.utils.Cuboid;
-
-import java.time.Instant;
-import java.time.temporal.ChronoField;
-import java.util.concurrent.TimeUnit;
+import org.stormdev.mcwipeout.utils.helpers.Cuboid;
 
 @Accessors(fluent = true)
 public class FanObject {

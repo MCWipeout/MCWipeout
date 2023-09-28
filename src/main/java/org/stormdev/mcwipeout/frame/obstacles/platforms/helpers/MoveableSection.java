@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.stormdev.mcwipeout.frame.obstacles.patterns.FakePatternBlock;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.util.ArrayList;
 import java.util.List;

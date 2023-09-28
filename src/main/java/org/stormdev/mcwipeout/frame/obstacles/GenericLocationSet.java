@@ -5,13 +5,14 @@ package org.stormdev.mcwipeout.frame.obstacles;
 
 import lombok.Getter;
 import org.bukkit.Material;
-import org.stormdev.mcwipeout.utils.WLocation;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.util.Map;
 
 public class GenericLocationSet {
 
-    @Getter private Map<WLocation, Material> map;
+    @Getter
+    private Map<WLocation, Material> map;
 
     public GenericLocationSet(Map<WLocation, Material> map) {
         this.map = map;

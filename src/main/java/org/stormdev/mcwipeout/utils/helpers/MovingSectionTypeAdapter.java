@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.PlatformSettings;
-import org.stormdev.mcwipeout.utils.WLocation;
 import org.stormdev.shade.gson.TypeAdapter;
 import org.stormdev.shade.gson.internal.LinkedTreeMap;
 import org.stormdev.shade.gson.reflect.TypeToken;
@@ -16,10 +15,8 @@ import org.stormdev.shade.gson.stream.JsonReader;
 import org.stormdev.shade.gson.stream.JsonToken;
 import org.stormdev.shade.gson.stream.JsonWriter;
 
-import java.lang.reflect.Type;
-
 import java.io.IOException;
-import java.util.Arrays;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 

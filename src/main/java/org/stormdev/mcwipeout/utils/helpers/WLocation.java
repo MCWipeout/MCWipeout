@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.utils;
+package org.stormdev.mcwipeout.utils.helpers;
 /*
   Created by Stormbits at 9/8/2023
 */

@@ -3,9 +3,7 @@ package org.stormdev.mcwipeout.listeners;
   Created by Stormbits at 2/12/2023
 */
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.*;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -20,13 +18,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.stormdev.abstracts.StormListener;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.commands.sub.ExportSnakeCommand;
 import org.stormdev.mcwipeout.frame.game.GameType;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.utils.Utils;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 import org.stormdev.utils.Color;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -142,6 +141,13 @@ public class PlayerEvents extends StormListener<Wipeout> {
     public void onClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (event.getItem() == null || event.getItem().getType() == Material.AIR) return;
+
+        if (event.getClickedBlock() != null && ExportSnakeCommand.enabled) {
+            if (event.getItem() != null && event.getItem().getType() == Material.STICK) {
+                ExportSnakeCommand.wLocations.add(WLocation.from(event.getClickedBlock()));
+                player.sendMessage(ChatColor.YELLOW + "Exported snake location.");
+            }
+        }
 
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
