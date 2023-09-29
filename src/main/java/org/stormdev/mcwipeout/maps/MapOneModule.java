@@ -1,4 +1,4 @@
-package org.stormdev.mcwipeout.maps.map1;
+package org.stormdev.mcwipeout.maps;
 /*
   Created by Stormbits at 8/21/2023
 */

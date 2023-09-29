@@ -13,6 +13,7 @@ import java.util.List;
 
 public class SlidingWall {
 
+    @Getter
     private WLocation cornerLocation1;
     private WLocation cornerLocation2;
 

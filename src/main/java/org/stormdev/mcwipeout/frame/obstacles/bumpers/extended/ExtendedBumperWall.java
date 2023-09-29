@@ -3,6 +3,7 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers.extended;
   Created by Stormbits at 9/18/2023
 */
 
+import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
@@ -23,6 +24,9 @@ public class ExtendedBumperWall extends Obstacle {
         this.totalDuration = totalDuration;
         this.slidingWalls = List.of(slidingWall);
         this.bumperObjects = bumperObjects;
+
+        slidingWalls.forEach(slidingWall1 -> slidingWall1.getCornerLocation1().asLocation().getChunk().addPluginChunkTicket(Wipeout.get()));
+        bumperObjects.forEach(bumperObject -> bumperObject.getEntityLocation().asLocation().getChunk().addPluginChunkTicket(Wipeout.get()));
     }
 
     @Override
@@ -50,6 +54,11 @@ public class ExtendedBumperWall extends Obstacle {
                             wall.move();
                         }
                     }
+                    for (BumperObject bumperObject : bumperObjects) {
+                        if (bumperObject.getDelayInCycle() == timer) {
+                            bumperObject.move();
+                        }
+                    }
 
                     timer++;
                 } else {
@@ -62,11 +71,20 @@ public class ExtendedBumperWall extends Obstacle {
     @Override
     public void reset() {
         slidingWalls.forEach(SlidingWall::reset);
+        for (BumperObject bumperObject : bumperObjects) {
+            if (bumperObject.getDisplayEntity() != null) {
+                bumperObject.getDisplayEntity().remove();
+            }
+
+            bumperObject.getBlockLocation().asBlock().setType(Material.AIR);
+            bumperObject.setDisplayEntity(null);
+        }
     }
 
     @Override
     public void enable() {
         slidingWalls.forEach(SlidingWall::load);
+        bumperObjects.forEach(BumperObject::setupDisplayEntity);
     }
 
     @Override

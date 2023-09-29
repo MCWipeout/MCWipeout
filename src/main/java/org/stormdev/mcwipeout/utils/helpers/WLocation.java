@@ -10,15 +10,14 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
+@Getter
 public class WLocation {
 
-    private static World world = Bukkit.getWorld("maps");
+    private static final World world = Bukkit.getWorld("maps");
 
-    @Getter
     @Setter
     private double x, y, z;
 
-    @Getter
     @Setter
     private float pitch, yaw;
 

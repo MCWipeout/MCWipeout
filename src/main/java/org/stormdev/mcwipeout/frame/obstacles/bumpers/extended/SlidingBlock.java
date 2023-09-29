@@ -19,13 +19,9 @@ public class SlidingBlock {
     private WLocation wLocation;
     private Location location;
 
-    private ArmorStand blockArmorStand;
-
     private ArmorStand shulkerArmorStand;
 
     private Shulker shulker;
-
-    private BlockDisplay display;
 
     private float dx, dz;
 
@@ -39,9 +35,6 @@ public class SlidingBlock {
     }
 
     public void load() {
-        blockArmorStand = location.getWorld().spawn(location.clone().add(0, -1.5, 0 - dz), ArmorStand.class);
-        blockArmorStand.setGravity(false);
-
         shulkerArmorStand = location.getWorld().spawn(location.clone().add(0.5, -1.5, 0.5 - dz), ArmorStand.class);
         shulkerArmorStand.setGravity(false);
 
@@ -51,11 +44,6 @@ public class SlidingBlock {
         shulker.setSilent(true);
         shulker.setInvisible(true);
 
-        display = location.getWorld().spawn(location.clone(), BlockDisplay.class);
-        display.setBlock(Material.BLUE_CONCRETE.createBlockData());
-        display.setBrightness(new Display.Brightness(14, 14));
-
-        blockArmorStand.addPassenger(display);
         shulkerArmorStand.addPassenger(shulker);
     }
 
@@ -80,15 +68,9 @@ public class SlidingBlock {
 
                     armorStand.setPos(armorStand.getX() + xTranslation, armorStand.getY() + yTranslation, armorStand.getZ() + zTranslation);
 
-                    CraftArmorStand craftArmorStand1 = (CraftArmorStand) blockArmorStand;
-                    net.minecraft.world.entity.decoration.ArmorStand armorStand1 = craftArmorStand1.getHandle();
-
-                    armorStand1.setPos(armorStand1.getX() + xTranslation, armorStand1.getY() + yTranslation, armorStand1.getZ() + zTranslation);
-
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         CraftPlayer craftPlayer = (CraftPlayer) player;
                         craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
-                        craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));
                     }
 
 
@@ -113,7 +95,5 @@ public class SlidingBlock {
     public void remove() {
         if (shulkerArmorStand != null) shulkerArmorStand.remove();
         if (shulker != null) shulker.remove();
-        if (blockArmorStand != null) blockArmorStand.remove();
-        if (display != null) display.remove();
     }
 }

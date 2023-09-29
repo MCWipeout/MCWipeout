@@ -82,7 +82,7 @@ public class SnakeObstacle extends Obstacle {
 
         new BukkitRunnable() {
             int ticks = 0;
-            int currentIndex = 15;
+            int currentIndex = 30;
 
             @Override
             public void run() {
@@ -117,7 +117,41 @@ public class SnakeObstacle extends Obstacle {
 
         new BukkitRunnable() {
             int ticks = 0;
-            int currentIndex = 30;
+            int currentIndex = 60;
+
+            @Override
+            public void run() {
+                if (!isEnabled()) {
+                    this.cancel();
+                }
+
+                ticks++;
+
+                if (ticks == 8) {
+                    List<WLocation> points = getLocationList();
+                    int previousIndex = currentIndex - 10;
+                    if (currentIndex == getLocationList().size()) {
+                        currentIndex = 0;
+                    }
+
+                    if (currentIndex - 10 < (getLocationList().size() - 1)) {
+                        if (previousIndex >= 0) {
+                            points.get(previousIndex).asBlock().setType(Material.AIR);
+                        } else {
+                            points.get(getLocationList().size() - 1 - (9 - currentIndex)).asBlock().setType(Material.AIR);
+                        }
+                    }
+
+                    points.get(currentIndex).asBlock().setType(material);
+
+                    currentIndex++;
+                    ticks = 0;
+                }
+            }
+        }.runTaskTimer(Wipeout.get(), 0L, 0L);
+        new BukkitRunnable() {
+            int ticks = 0;
+            int currentIndex = 90;
 
             @Override
             public void run() {

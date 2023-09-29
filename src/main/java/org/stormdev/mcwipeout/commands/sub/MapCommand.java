@@ -178,6 +178,11 @@ public class MapCommand extends StormSubCommand {
                     sender.sendMessage(ChatColor.GREEN + "Map loaded!");
                     return;
                 }
+                if (args[1].equalsIgnoreCase("map3") || args[1].equalsIgnoreCase("mapthree")) {
+                    plugin.getGameManager().setActiveMap(plugin.getMapManager().getMaps().get("map3"));
+                    sender.sendMessage(ChatColor.GREEN + "Map loaded!");
+                    return;
+                }
             }
         }
     }

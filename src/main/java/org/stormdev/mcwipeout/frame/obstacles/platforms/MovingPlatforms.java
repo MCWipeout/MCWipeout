@@ -8,8 +8,8 @@ import lombok.SneakyThrows;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.frame.obstacles.patterns.FakePatternBlock;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
+import org.stormdev.mcwipeout.frame.obstacles.patterns.FakePatternBlock;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.MoveableSection;
 
@@ -60,14 +60,13 @@ public class MovingPlatforms extends Obstacle {
                     this.cancel();
                 }
 
-                timer++;
-
                 if (timer <= totalDuration) {
                     for (MoveableSection section : sections) {
-                        if(section.getJsonSection().getSettings().getDelay() == timer) {
+                        if (section.getJsonSection().getSettings().getDelay() == timer) {
                             section.moveTo();
                         }
                     }
+                    timer++;
                 } else {
                     timer = 0;
                 }

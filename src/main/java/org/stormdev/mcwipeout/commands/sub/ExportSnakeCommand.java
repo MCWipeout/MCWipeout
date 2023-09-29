@@ -65,7 +65,7 @@ public class ExportSnakeCommand extends StormSubCommand {
             if (args[0].equalsIgnoreCase("disable")) {
                 enabled = false;
 
-                sender.sendMessage(ChatColor.YELLOW + "Enabled export!");
+                sender.sendMessage(ChatColor.YELLOW + "Disabled export!");
                 return;
             }
 

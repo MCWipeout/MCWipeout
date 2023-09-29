@@ -37,6 +37,12 @@ public class ClockArms extends Obstacle {
         this.center = center.toCenter();
         this.radius = radius;
         this.startingAngle = startingAngle;
+
+        center.asLocation().getChunk().addPluginChunkTicket(Wipeout.get());
+    }
+
+    public static ClockArms of(WLocation center, double radius, float startingAngle) {
+        return new ClockArms(center, radius, startingAngle);
     }
 
     @Override
@@ -147,6 +153,8 @@ public class ClockArms extends Obstacle {
     }
 
     public void transformation(Display entity) {
+        entity.setViewRange(500);
+
         AxisAngle4f axisAngleRotMat = new AxisAngle4f((float) Math.PI, new Vector3f(0, 1, 0));
 
 
@@ -159,7 +167,7 @@ public class ClockArms extends Obstacle {
 
         entity.setTransformation(transformation);
         entity.setInterpolationDuration(180);
-        entity.setInterpolationDelay(-1);
+        entity.setInterpolationDelay(0);
     }
 
     public void sendTeleportPacket() {

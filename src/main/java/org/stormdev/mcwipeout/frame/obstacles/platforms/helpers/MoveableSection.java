@@ -23,6 +23,8 @@ public class MoveableSection {
 
     private int highestY;
 
+    private boolean flip;
+
     @Getter
     private List<FakePatternBlock> fakePatternBlocks;
 
@@ -36,11 +38,15 @@ public class MoveableSection {
 
         highestY = 0;
 
+        this.flip = false;
+
         jsonSection.getMap().keySet().forEach(loc -> {
             if (loc.getY() > highestY) {
                 highestY = (int) loc.getY();
             }
         });
+
+        jsonSection.getMap().keySet().forEach(wLocation -> wLocation.asBlock().setType(Material.AIR));
     }
 
     public void load() {
@@ -63,10 +69,15 @@ public class MoveableSection {
 
             entry.getKey().asLocation().getWorld().spawnParticle(Particle.CLOUD, entry.getKey().asLocation().add(0, 0.5, 0), 1, 0.1, 0.1, 0.1, 0);
         }
-
+        
         for (FakePatternBlock fakePatternBlock : fakePatternBlocks) {
-            fakePatternBlock.moveTo(xTranslation, 0, zTranslation, jsonSection.getSettings().getInterval(), true);
+            if (flip) {
+                fakePatternBlock.moveTo(-xTranslation, 0, -zTranslation, jsonSection.getSettings().getInterval(), jsonSection.getSettings().isMirror());
+            } else {
+                fakePatternBlock.moveTo(xTranslation, 0, zTranslation, jsonSection.getSettings().getInterval(), jsonSection.getSettings().isMirror());
+            }
         }
+        flip = !flip;
     }
 
     public void reset() {

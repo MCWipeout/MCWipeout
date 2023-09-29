@@ -145,7 +145,7 @@ public class PlayerEvents extends StormListener<Wipeout> {
         if (event.getClickedBlock() != null && ExportSnakeCommand.enabled) {
             if (event.getItem() != null && event.getItem().getType() == Material.STICK) {
                 ExportSnakeCommand.wLocations.add(WLocation.from(event.getClickedBlock()));
-                player.sendMessage(ChatColor.YELLOW + "Exported snake location.");
+                player.sendMessage(ChatColor.YELLOW + "Exported snake location. " + ChatColor.GRAY + "(" + ExportSnakeCommand.wLocations.size() + ")");
             }
         }
 

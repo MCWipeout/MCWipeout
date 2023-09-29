@@ -5,6 +5,7 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Display;
@@ -13,6 +14,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Transformation;
+import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.utils.helpers.WLocation;
 import org.stormdev.utils.SyncScheduler;
@@ -34,6 +36,8 @@ public class BumperObject {
     private int zMove;
 
     private ItemDisplay displayEntity = null;
+
+    private Vector scale;
 
     public void move() {
         if (displayEntity == null || displayEntity.isDead()) return;
@@ -94,6 +98,13 @@ public class BumperObject {
         displayEntity.setCustomNameVisible(false);
         displayEntity.setCustomName("wipeout-entity");
 
+        if (scale != null) {
+            Transformation transformation = displayEntity.getTransformation();
+            transformation.getScale().set(scale.getX(), scale.getY(), scale.getZ());
+            displayEntity.setTransformation(transformation);
+        }
+
+
         displayEntity.setBrightness(new Display.Brightness(14, 14));
 
         ItemStack head = new ItemStack(Material.GHAST_TEAR, 1);
@@ -119,5 +130,10 @@ public class BumperObject {
         }
 
         displayEntity.setItemStack(head);
+    }
+
+    public BumperObject setScale(Vector scale) {
+        this.scale = scale;
+        return this;
     }
 }

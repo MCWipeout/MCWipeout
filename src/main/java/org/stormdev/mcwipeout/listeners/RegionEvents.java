@@ -19,7 +19,8 @@ public class RegionEvents extends StormListener<Wipeout> {
     @EventHandler
     public void onRegionEnter(RegionEnteredEvent e) {
         if (e.getPlayer().getGameMode() != GameMode.SPECTATOR) {
-            if (e.getRegion().getId().contains("map_1_oob")) {
+
+            if (plugin().getMapManager().isOOB(e)) {
                 if (!e.getPlayer().hasPermission("wipeout.play")) return;
                 if (plugin().getGameManager().getActiveMap() != null) {
                     plugin().getGameManager().getActiveMap().handleCheckPoint(e.getPlayer());
@@ -31,11 +32,11 @@ public class RegionEvents extends StormListener<Wipeout> {
                     plugin().getGameManager().finish(e.getRegion().getId().toLowerCase(), e.getPlayer());
                 }
             }
-        }
 
-        if (e.getRegion().getId().contains("cp")) {
-            if (plugin().getGameManager().getActiveMap() != null) {
-                plugin().getGameManager().getActiveMap().moveCheckPoint(e.getRegion().getId(), e.getPlayer());
+            if (e.getRegion().getId().contains("cp")) {
+                if (plugin().getGameManager().getActiveMap() != null) {
+                    plugin().getGameManager().getActiveMap().moveCheckPoint(e.getRegion().getId(), e.getPlayer());
+                }
             }
         }
     }

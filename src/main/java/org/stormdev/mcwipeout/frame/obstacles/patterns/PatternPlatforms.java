@@ -63,6 +63,8 @@ public class PatternPlatforms extends Obstacle {
                 sectionList.add(new PatternSection(fromList));
             }
 
+            sectionList.forEach(patternSection -> patternSection.getJsonSection().getMap().keySet().forEach((wLocation) -> wLocation.asLocation().getChunk().addPluginChunkTicket(Wipeout.get())));
+
             patternPresetList.add(new PatternHolder(sectionList));
         }
 
