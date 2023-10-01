@@ -118,16 +118,33 @@ public class ClockArms extends Obstacle {
         new BukkitRunnable() {
 
             private float angle = startingAngle;
+            private float displayAngle = 59;
 
             @Override
             public void run() {
                 if (itemDisplay1 == null || itemDisplay1.isDead() || itemDisplay2 == null || itemDisplay2.isDead())
                     return;
 
-                if (angle == startingAngle) {
-                    transformation(itemDisplay1);
-                    transformation(itemDisplay2);
+                if (displayAngle == 60) {
+                    transformation(itemDisplay1, 120);
+                    transformation(itemDisplay2, 120);
                 }
+                if (displayAngle == 120) {
+                    transformation(itemDisplay1, 240);
+                    transformation(itemDisplay2, 240);
+                }
+
+                if (displayAngle == 180) {
+                    transformation(itemDisplay1, 360);
+                    transformation(itemDisplay2, 360);
+                }
+
+                if (displayAngle < 180) {
+                    displayAngle++;
+                } else if (displayAngle == 180) {
+                    displayAngle = 0;
+                }
+
 
                 if (angle < 360) {
                     angle += 2;
@@ -152,21 +169,14 @@ public class ClockArms extends Obstacle {
     public void load() {
     }
 
-    public void transformation(Display entity) {
-        entity.setViewRange(500);
+    public void transformation(Display entity, double angle) {
+        AxisAngle4f axisAngleRotMat = new AxisAngle4f((float) Math.toRadians(angle), new Vector3f(0, 1, 0));
 
-        AxisAngle4f axisAngleRotMat = new AxisAngle4f((float) Math.PI, new Vector3f(0, 1, 0));
-
-
-        Transformation transformation = new Transformation(
-                new Vector3f(0, 3, 0),
-                axisAngleRotMat,
-                new Vector3f(8.5f, 8.5f, 8.5f),
-                axisAngleRotMat
-        );
+        Transformation transformation = entity.getTransformation();
+        transformation.getRightRotation().set(axisAngleRotMat);
 
         entity.setTransformation(transformation);
-        entity.setInterpolationDuration(180);
+        entity.setInterpolationDuration(60);
         entity.setInterpolationDelay(0);
     }
 

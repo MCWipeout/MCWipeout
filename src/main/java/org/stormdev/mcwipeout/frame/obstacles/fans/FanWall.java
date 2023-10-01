@@ -39,7 +39,7 @@ public class FanWall extends Obstacle {
             if (to == null) return;
             fanObjectList.forEach(fanObject -> {
                 if (fanObject.enabled()) {
-                    if (fanObject.fanBoundingBox().isInWithMarge(to, 0.5)) fanObject.fling(player);
+                    if (fanObject.fanBoundingBox().isInWithMarge(to, 0.8)) fanObject.fling(player);
                 }
             });
         }

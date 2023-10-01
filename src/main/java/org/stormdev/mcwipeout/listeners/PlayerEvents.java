@@ -38,6 +38,9 @@ public class PlayerEvents extends StormListener<Wipeout> {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        org.bukkit.scoreboard.Team teamScoreboard = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("players");
+        teamScoreboard.addPlayer(event.getPlayer());
+
         plugin().getTeamManager().getWipeoutPlayers().add(new WipeoutPlayer(event.getPlayer().getUniqueId(), false));
         if (event.getPlayer().isOp()) return;
 
@@ -47,6 +50,8 @@ public class PlayerEvents extends StormListener<Wipeout> {
 
             event.getPlayer().teleport(new Location(Bukkit.getWorld("maps"), -94.5, 35, -361.5, 90F, 0.0F));
 
+            /*
+
             ItemStack helmet = new ItemStack(Material.GHAST_TEAR);
             ItemMeta helmetMeta = helmet.getItemMeta();
             helmetMeta.setCustomModelData(10008);
@@ -54,6 +59,8 @@ public class PlayerEvents extends StormListener<Wipeout> {
             helmet.setItemMeta(helmetMeta);
 
             event.getPlayer().getInventory().setHelmet(helmet);
+
+             */
 
         }
 

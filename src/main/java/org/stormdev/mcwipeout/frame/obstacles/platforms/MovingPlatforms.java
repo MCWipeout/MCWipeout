@@ -79,6 +79,7 @@ public class MovingPlatforms extends Obstacle {
         sections.forEach(moveableSection -> {
             moveableSection.getJsonSection().getMap().forEach((wLocation, material) -> wLocation.asBlock().setType(material));
             moveableSection.getFakePatternBlocks().forEach(FakePatternBlock::remove);
+            moveableSection.getDisplayEntity().remove();
         });
     }
 

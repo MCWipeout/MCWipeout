@@ -4,9 +4,17 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers.extended;
 */
 
 import lombok.Getter;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Transformation;
 import org.stormdev.mcwipeout.utils.helpers.Cuboid;
+import org.stormdev.mcwipeout.utils.helpers.Direction;
 import org.stormdev.mcwipeout.utils.helpers.WLocation;
+import org.stormdev.utils.SyncScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +36,10 @@ public class SlidingWall {
 
     private float dx, dz;
 
+    private WallSize size;
+
+    private Direction direction;
+
     private List<ItemDisplay> displays;
 
     private SlidingWall(WLocation cornerLocation1, WLocation cornerLocation2, float dx, float dz, float xTranslation, float zTranslation, int delay) {
@@ -45,6 +57,16 @@ public class SlidingWall {
         cuboid.blockList().forEachRemaining(block -> slidingBlockList.add(new SlidingBlock(WLocation.from(block), dx, dz)));
     }
 
+    public SlidingWall setSize(WallSize wallSize) {
+        this.size = wallSize;
+        return this;
+    }
+
+    public SlidingWall setDirection(Direction direction) {
+        this.direction = direction;
+        return this;
+    }
+
 
     public static SlidingWall of(WLocation cornerLocation1, WLocation cornerLocation2, float dx, float dz, float xTranslation, float zTranslation, int delay) {
         return new SlidingWall(cornerLocation1, cornerLocation2, dx, dz, xTranslation, zTranslation, delay);
@@ -53,28 +75,51 @@ public class SlidingWall {
     public void move() {
         slidingBlockList.forEach(slidingBlock -> slidingBlock.moveTo(xTranslation, 0, zTranslation, 32, true));
 
+        if (displays.size() > 0) {
+            ItemDisplay displayEntity = displays.get(0);
+            displayEntity.setInterpolationDelay(0);
+            displayEntity.setInterpolationDuration(16);
+            Transformation transformation = displayEntity.getTransformation();
+            transformation.getTranslation().set(xTranslation, 0, zTranslation);
 
+            displayEntity.setTransformation(transformation);
+
+            SyncScheduler.get().runLater(() -> {
+                if (displayEntity.isDead()) return;
+
+                displayEntity.setInterpolationDuration(16);
+                displayEntity.setInterpolationDelay(0);
+                Transformation newTransformation = displayEntity.getTransformation();
+                newTransformation.getTranslation().set(0, 0, 0);
+
+                displayEntity.setTransformation(newTransformation);
+            }, 16L);
+        }
     }
 
     public void load() {
         slidingBlockList.forEach(SlidingBlock::load);
 
-//        ItemDisplay itemDisplay = cornerLocation1.getWorld().spawn(cuboid.getCenter(), ItemDisplay.class);
-//
-//        ItemStack head = new ItemStack(Material.GHAST_TEAR, 1);
-//        ItemMeta itemMeta = head.getItemMeta();
-//        itemMeta.setCustomModelData(10017);
-//        head.setItemMeta(itemMeta);
-//
-//        itemDisplay.setItemStack(head);
-//
-//        Location location = itemDisplay.getLocation();
-//
-//        location.setYaw(-90f);
-//
-//        itemDisplay.teleport(location);
-//
-//        displays.add(itemDisplay);
+        if (direction != null) {
+            ItemDisplay itemDisplay = cornerLocation1.getWorld().spawn(direction.getTranslatedLocation(cuboid.getCenter(), size, direction), ItemDisplay.class);
+
+            ItemStack head = new ItemStack(Material.GHAST_TEAR, 1);
+            ItemMeta itemMeta = head.getItemMeta();
+            itemMeta.setCustomModelData(size == null ? 10000 : size.getCustomModelData());
+            head.setItemMeta(itemMeta);
+
+            itemDisplay.setBrightness(new Display.Brightness(14, 14));
+
+            itemDisplay.setItemStack(head);
+
+            Location location = itemDisplay.getLocation();
+
+            location.setYaw(0);
+
+            itemDisplay.teleport(location);
+
+            displays.add(itemDisplay);
+        }
     }
 
     public void reset() {

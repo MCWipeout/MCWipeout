@@ -182,6 +182,12 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             new WipeoutPlaceholderExpansion().register();
         }
 
+        if (Bukkit.getScoreboardManager().getMainScoreboard().getTeam("players") == null) {
+            org.bukkit.scoreboard.Team team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam("players");
+            team.setOption(org.bukkit.scoreboard.Team.Option.COLLISION_RULE, org.bukkit.scoreboard.Team.OptionStatus.FOR_OWN_TEAM);
+            team.setOption(org.bukkit.scoreboard.Team.Option.NAME_TAG_VISIBILITY, org.bukkit.scoreboard.Team.OptionStatus.NEVER);
+        }
+
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(GenericLocationSet.class, new GenericLocationTypeAdapter()).registerTypeAdapter(JsonPlatformSection.class, new MovingSectionTypeAdapter()).disableHtmlEscaping().create();
 
         getLogger().info("Initializing managers!");
@@ -190,7 +196,10 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         mapManager = new MapManager(this);
         commandList = new ArrayList<>();
 
+        org.bukkit.scoreboard.Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("players");
+
         for (Player player : Bukkit.getOnlinePlayers()) {
+            team.addPlayer(player);
             playerCache.remove(player.getUniqueId());
             playerCache.put(player.getUniqueId(), new WgPlayer(player));
 
@@ -201,6 +210,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 player.showPlayer(this, pl);
             }
+
+
         }
     }
 

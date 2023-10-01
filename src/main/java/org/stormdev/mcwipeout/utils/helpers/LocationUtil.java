@@ -16,6 +16,19 @@ public class LocationUtil {
         return getCenter(location, true);
     }
 
+    public static Location getCenterBlock(List<WLocation> wLocations) {
+        double xSum = 0;
+        double ySum = 0;
+        double zSum = 0;
+        for (WLocation wLocation : wLocations) {
+            xSum += wLocation.getX();
+            ySum += wLocation.getY();
+            zSum += wLocation.getZ();
+        }
+
+        return new Location(wLocations.get(0).getWorld(), xSum / wLocations.size(), ySum / wLocations.size(), zSum / wLocations.size());
+    }
+
     public static Location getPointOnCircle(@NotNull Location loc, boolean doCopy, double n, double n2, double n3) {
         return (doCopy ? loc.clone() : loc).add(Math.cos(n) * n2, n3, Math.sin(n) * n2);
     }

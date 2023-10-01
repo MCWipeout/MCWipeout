@@ -12,6 +12,7 @@ import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperObject;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperWall;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.ExtendedBumperWall;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.SlidingWall;
+import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.WallSize;
 import org.stormdev.mcwipeout.frame.obstacles.clockarms.ClockArms;
 import org.stormdev.mcwipeout.frame.obstacles.clockarms.ClockArmsHolder;
 import org.stormdev.mcwipeout.frame.obstacles.fans.FanObject;
@@ -25,6 +26,7 @@ import org.stormdev.mcwipeout.frame.obstacles.snake.SnakeObstacle;
 import org.stormdev.mcwipeout.frame.obstacles.water.WaterSlide;
 import org.stormdev.mcwipeout.frame.team.WPoint;
 import org.stormdev.mcwipeout.utils.helpers.Cuboid;
+import org.stormdev.mcwipeout.utils.helpers.Direction;
 import org.stormdev.mcwipeout.utils.helpers.WLocation;
 
 import java.util.ArrayList;
@@ -61,50 +63,54 @@ public class MapTwoModule extends Map {
         RedBallsObstacle redBallsObstacle = new RedBallsObstacle(120, 120);
 
         ExtendedBumperWall extendedBumperWall = new ExtendedBumperWall(60,
-                List.of(BumperObject.of(30, WLocation.from(2854, 216, 18), WLocation.from(2854, 216.5, 20), 0, 0, 1).setScale(new Vector(2.5, 2.5, 2.5)),
-                BumperObject.of(10, WLocation.from(2855, 209, 18), WLocation.from(2855, 209.5, 20), 0, 0, 1),
-                BumperObject.of(30, WLocation.from(2853, 209, 18), WLocation.from(2853, 209.5, 20), 0, 0, 1),
-                BumperObject.of(40, WLocation.from(2851, 209, 18), WLocation.from(2851, 209.5, 20), 0, 0, 1),
-                BumperObject.of(0, WLocation.from(2826, 215, 18), WLocation.from(2826, 215.5, 20), 0, 0, 1),
-                BumperObject.of(20, WLocation.from(2823, 215, 18), WLocation.from(2823, 215.5, 20), 0, 0, 1),
-                BumperObject.of(60, WLocation.from(2820, 215, 18), WLocation.from(2820, 215.5, 20), 0, 0, 1),
-                BumperObject.of(50, WLocation.from(2804, 215, 18), WLocation.from(2804, 215.5, 20), 0, 0, 1),
-                BumperObject.of(60, WLocation.from(2804, 209, 18), WLocation.from(2804, 209.5, 20), 0, 0, 1),
-                BumperObject.of(40, WLocation.from(2810, 209, 18), WLocation.from(2810, 209.5, 20), 0, 0, 1)),
+                List.of(BumperObject.of(30, WLocation.from(2854, 216, 17), WLocation.from(2854, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
+                        BumperObject.of(20, WLocation.from(2835, 216, 17), WLocation.from(2835, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
+                        BumperObject.of(40, WLocation.from(2830, 216, 17), WLocation.from(2830, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
+                        BumperObject.of(10, WLocation.from(2816, 216, 17), WLocation.from(2816, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
+                        BumperObject.of(30, WLocation.from(2807, 216, 17), WLocation.from(2807, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
+                        BumperObject.of(20, WLocation.from(2807, 210, 17), WLocation.from(2807, 210.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
+                        BumperObject.of(10, WLocation.from(2855, 209, 18), WLocation.from(2855, 209.5, 20), 0, 0, 1),
+                        BumperObject.of(30, WLocation.from(2853, 209, 18), WLocation.from(2853, 209.5, 20), 0, 0, 1),
+                        BumperObject.of(40, WLocation.from(2851, 209, 18), WLocation.from(2851, 209.5, 20), 0, 0, 1),
+                        BumperObject.of(0, WLocation.from(2826, 215, 18), WLocation.from(2826, 215.5, 20), 0, 0, 1),
+                        BumperObject.of(20, WLocation.from(2823, 215, 18), WLocation.from(2823, 215.5, 20), 0, 0, 1),
+                        BumperObject.of(60, WLocation.from(2820, 215, 18), WLocation.from(2820, 215.5, 20), 0, 0, 1),
+                        BumperObject.of(50, WLocation.from(2804, 215, 18), WLocation.from(2804, 215.5, 20), 0, 0, 1),
+                        BumperObject.of(60, WLocation.from(2804, 209, 18), WLocation.from(2804, 209.5, 20), 0, 0, 1),
+                        BumperObject.of(40, WLocation.from(2810, 209, 18), WLocation.from(2810, 209.5, 20), 0, 0, 1)),
 
-                SlidingWall.of(WLocation.from(2847, 208, 21), WLocation.from(2848, 210, 19), 0, 1, 0, 1.2f, 50),
-                SlidingWall.of(WLocation.from(2843, 208, 21), WLocation.from(2844, 209, 19), 0, 1, 0, 1.2f, 30),
-                SlidingWall.of(WLocation.from(2839, 208, 21), WLocation.from(2840, 208, 19), 0, 1, 0, 1.2f, 10),
-                SlidingWall.of(WLocation.from(2831, 208, 21), WLocation.from(2831, 212, 19), 0, 1, 0, 1.2f, 10),
-                SlidingWall.of(WLocation.from(2829, 208, 21), WLocation.from(2829, 212, 19), 0, 1, 0, 1.2f, 20),
-                SlidingWall.of(WLocation.from(2827, 208, 21), WLocation.from(2827, 212, 19), 0, 1, 0, 1.2f, 30),
-                SlidingWall.of(WLocation.from(2825, 208, 21), WLocation.from(2825, 212, 19), 0, 1, 0, 1.2f, 40),
-                SlidingWall.of(WLocation.from(2823, 208, 21), WLocation.from(2823, 212, 19), 0, 1, 0, 1.2f, 50),
-                SlidingWall.of(WLocation.from(2821, 208, 21), WLocation.from(2821, 212, 19), 0, 1, 0, 1.2f, 50),
-                SlidingWall.of(WLocation.from(2819, 208, 21), WLocation.from(2819, 212, 19), 0, 1, 0, 1.2f, 40),
-                SlidingWall.of(WLocation.from(2817, 208, 21), WLocation.from(2817, 212, 19), 0, 1, 0, 1.2f, 30),
-                SlidingWall.of(WLocation.from(2815, 208, 21), WLocation.from(2815, 212, 19), 0, 1, 0, 1.2f, 20),
-                SlidingWall.of(WLocation.from(2813, 208, 21), WLocation.from(2813, 212, 19), 0, 1, 0, 1.2f, 10),
-                SlidingWall.of(WLocation.from(2803, 208, 21), WLocation.from(2803, 208, 19), 0, 1, 0, 1.2f, 20),
-                SlidingWall.of(WLocation.from(2801, 209, 21), WLocation.from(2801, 209, 19), 0, 1, 0, 1.2f, 30));
+                SlidingWall.of(WLocation.from(2847, 208, 21), WLocation.from(2848, 210, 19), 0, 1, 0, 1.2f, 50).setDirection(Direction.SOUTH).setSize(WallSize.TWO_BY_THREE),
+                SlidingWall.of(WLocation.from(2843, 208, 21), WLocation.from(2844, 209, 19), 0, 1, 0, 1.2f, 30).setDirection(Direction.SOUTH).setSize(WallSize.TWO_BY_TWO),
+                SlidingWall.of(WLocation.from(2840, 208, 21), WLocation.from(2840, 208, 19), 0, 1, 0, 1.2f, 10).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_ONE),
+                SlidingWall.of(WLocation.from(2831, 208, 21), WLocation.from(2831, 210, 19), 0, 1, 0, 1.2f, 10).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2829, 208, 21), WLocation.from(2829, 210, 19), 0, 1, 0, 1.2f, 20).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2827, 208, 21), WLocation.from(2827, 210, 19), 0, 1, 0, 1.2f, 30).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2825, 208, 21), WLocation.from(2825, 210, 19), 0, 1, 0, 1.2f, 40).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2823, 208, 21), WLocation.from(2823, 210, 19), 0, 1, 0, 1.2f, 50).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2821, 208, 21), WLocation.from(2821, 210, 19), 0, 1, 0, 1.2f, 50).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2819, 208, 21), WLocation.from(2819, 210, 19), 0, 1, 0, 1.2f, 40).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2817, 208, 21), WLocation.from(2817, 210, 19), 0, 1, 0, 1.2f, 30).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2815, 208, 21), WLocation.from(2815, 210, 19), 0, 1, 0, 1.2f, 20).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2813, 208, 21), WLocation.from(2813, 210, 19), 0, 1, 0, 1.2f, 10).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
+                SlidingWall.of(WLocation.from(2803, 208, 21), WLocation.from(2803, 208, 19), 0, 1, 0, 1.2f, 20).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_ONE));
 
         BumperWall newBumperWall = new BumperWall(
                 List.of(
-                        BumperObject.of(20, WLocation.from(2790, 211, 35), WLocation.from(2788, 211.5, 35), -90f, 1, 0),
-                        BumperObject.of(40, WLocation.from(2790, 212, 38), WLocation.from(2788, 212.5, 38), -90f, 1, 0),
-                        BumperObject.of(30, WLocation.from(2790, 213, 41), WLocation.from(2788, 213.5, 41), -90f, 1, 0),
-                        BumperObject.of(10, WLocation.from(2790, 212, 45), WLocation.from(2788, 212.5, 45), -90f, 1, 0),
-                        BumperObject.of(0, WLocation.from(2790, 212, 49), WLocation.from(2788, 212.5, 49), -90f, 1, 0),
-                        BumperObject.of(5, WLocation.from(2790, 212, 53), WLocation.from(2788, 212.5, 53), -90f, 1, 0),
-                        BumperObject.of(35, WLocation.from(2790, 213, 56), WLocation.from(2788, 213.5, 56), -90f, 1, 0),
-                        BumperObject.of(50, WLocation.from(2790, 214, 59), WLocation.from(2788, 214.5, 59), -90f, 1, 0),
-                        BumperObject.of(40, WLocation.from(2790, 215, 62), WLocation.from(2788, 215.5, 62), -90f, 1, 0),
-                        BumperObject.of(30, WLocation.from(2790, 214, 65), WLocation.from(2788, 214.5, 65), -90f, 1, 0),
-                        BumperObject.of(5, WLocation.from(2790, 214, 69), WLocation.from(2788, 214.5, 69), -90f, 1, 0),
-                        BumperObject.of(20, WLocation.from(2790, 215, 76), WLocation.from(2788, 215.5, 76), -90f, 1, 0),
-                        BumperObject.of(20, WLocation.from(2790, 215, 62), WLocation.from(2788, 215.5, 62), -90f, 1, 0)
+                        BumperObject.of(20, WLocation.from(2788, 211, 35), WLocation.from(2790, 211.5, 35), -90f, 1, 0),
+                        BumperObject.of(40, WLocation.from(2788, 212, 38), WLocation.from(2790, 212.5, 38), -90f, 1, 0),
+                        BumperObject.of(30, WLocation.from(2788, 213, 41), WLocation.from(2790, 213.5, 41), -90f, 1, 0),
+                        BumperObject.of(10, WLocation.from(2788, 212, 45), WLocation.from(2790, 212.5, 45), -90f, 1, 0),
+                        BumperObject.of(0, WLocation.from(2788, 212, 49), WLocation.from(2790, 212.5, 49), -90f, 1, 0),
+                        BumperObject.of(5, WLocation.from(2788, 212, 53), WLocation.from(2790, 212.5, 53), -90f, 1, 0),
+                        BumperObject.of(35, WLocation.from(2788, 213, 56), WLocation.from(2790, 213.5, 56), -90f, 1, 0),
+                        BumperObject.of(50, WLocation.from(2788, 214, 59), WLocation.from(2790, 214.5, 59), -90f, 1, 0),
+                        BumperObject.of(40, WLocation.from(2788, 215, 62), WLocation.from(2790, 215.5, 62), -90f, 1, 0),
+                        BumperObject.of(30, WLocation.from(2788, 214, 65), WLocation.from(2790, 214.5, 65), -90f, 1, 0),
+                        BumperObject.of(5, WLocation.from(2788, 214, 69), WLocation.from(2790, 214.5, 69), -90f, 1, 0),
+                        BumperObject.of(20, WLocation.from(2788, 215, 76), WLocation.from(2790, 215.5, 76), -90f, 1, 0),
+                        BumperObject.of(20, WLocation.from(2788, 215, 62), WLocation.from(2790, 215.5, 62), -90f, 1, 0)
                 )
-        , 60);
+                , 60);
 
         ClockArmsHolder clockArmsHolder = new ClockArmsHolder(new ClockArms(WLocation.from(2868, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2886, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2904, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2922, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2940, 209, 81), 6.3, 90));
 
