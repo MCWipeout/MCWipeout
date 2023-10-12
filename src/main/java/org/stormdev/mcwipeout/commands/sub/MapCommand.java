@@ -121,6 +121,11 @@ public class MapCommand extends StormSubCommand {
 
                 sender.sendMessage(ChatColor.RED + "Map stopped!");
             }
+            if (args[0].equalsIgnoreCase("unload")) {
+                plugin.getGameManager().setActiveMap(null);
+                sender.sendMessage(ChatColor.GREEN + "Unloaded map!");
+                return;
+            }
         }
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("add")) {

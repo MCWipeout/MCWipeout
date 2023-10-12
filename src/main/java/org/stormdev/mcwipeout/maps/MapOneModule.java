@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.stormdev.mcwipeout.frame.game.CheckPoint;
 import org.stormdev.mcwipeout.frame.game.Map;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
+import org.stormdev.mcwipeout.frame.obstacles.ObstacleRegion;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperObject;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperWall;
 import org.stormdev.mcwipeout.frame.obstacles.fans.FanObject;
@@ -27,23 +28,34 @@ import java.util.List;
 public class MapOneModule extends Map {
 
     public MapOneModule() {
-        super();
+        super("Hydrohaul");
 
-        setSpawnPoint(new CheckPoint("", new WPoint(1000.5, 128, 0.5), -90.0F, 0F));
-        setFinish(new CheckPoint("map_1_finish", new WPoint(1000.5, 128, 0.5), -90.0F, 0F));
+        setSpawnPoint(new CheckPoint("", new WPoint(1000.5, 128, 0.5), -90.0F, 0F, ObstacleRegion.RED_BALLS));
+        setFinish(new CheckPoint("map_1_finish", new WPoint(1000.5, 128, 0.5), -90.0F, 0F, null));
+
+        setObstacleRegions(List.of(
+                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.PATTERN_MEMORIZATION,
+                ObstacleRegion.BUMPER_WALL,
+                ObstacleRegion.FANS,
+                ObstacleRegion.DISAPPEARING_PLATFORM,
+                ObstacleRegion.ICE,
+                ObstacleRegion.WATER_STAIRS,
+                ObstacleRegion.SPIRAL_BUMPER
+        ));
     }
 
 
     @Override
     protected void setupCheckpoints() {
-        checkPoints.add(new CheckPoint("map_1_cp1", WPoint.from(1092.5, 114, 0.5), -90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp2", WPoint.from(1136.5, 115, 12.5), -70.0F, -8F));
-        checkPoints.add(new CheckPoint("map_1_cp3", WPoint.from(1189.5, 114, -32.5), 90f, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp4", WPoint.from(1119.5, 114, -92.5), 90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp5", WPoint.from(1039.5, 114, -70.5), 180.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp6", WPoint.from(1156.5, 114, -135.5), -90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp7", WPoint.from(1204.5, 115, -143.5), 180.0F, 0F));
-        checkPoints.add(new CheckPoint("map_1_cp8", WPoint.from(1184.5, 134, -156.5), 90F, 0F));
+        checkPoints.add(new CheckPoint("map_1_cp1", WPoint.from(1092.5, 114, 0.5), -90.0F, 0F, ObstacleRegion.PATTERN_MEMORIZATION));
+        checkPoints.add(new CheckPoint("map_1_cp2", WPoint.from(1136.5, 115, 12.5), -70.0F, -8F, ObstacleRegion.BUMPER_WALL));
+        checkPoints.add(new CheckPoint("map_1_cp3", WPoint.from(1189.5, 114, -32.5), 90f, 0F, ObstacleRegion.FANS));
+        checkPoints.add(new CheckPoint("map_1_cp4", WPoint.from(1119.5, 114, -92.5), 90.0F, 0F, ObstacleRegion.DISAPPEARING_PLATFORM));
+        checkPoints.add(new CheckPoint("map_1_cp5", WPoint.from(1039.5, 114, -70.5), 180.0F, 0F, ObstacleRegion.ICE));
+        checkPoints.add(new CheckPoint("map_1_cp6", WPoint.from(1156.5, 114, -135.5), -90.0F, 0F, ObstacleRegion.WATER_STAIRS));
+        checkPoints.add(new CheckPoint("map_1_cp7", WPoint.from(1204.5, 115, -143.5), 180.0F, 0F, ObstacleRegion.SPIRAL_BUMPER));
+        checkPoints.add(new CheckPoint("map_1_cp8", WPoint.from(1184.5, 134, -156.5), 90F, 0F, null));
     }
 
     @Override

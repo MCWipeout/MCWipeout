@@ -13,6 +13,7 @@ import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.game.GameType;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
+import org.stormdev.mcwipeout.utils.helpers.CachedItems;
 
 
 import java.util.Arrays;
@@ -44,6 +45,8 @@ public class TogglePlayersCmd extends StormCommand<Player> {
 
             player.sendMessage(ChatColor.RED + "Disabled player visibility!");
 
+            player.getInventory().setItem(8, CachedItems.playersOffItem);
+
             if (plugin.getGameManager().getType() == GameType.SOLO) {
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     if (pl.getUniqueId().equals(player.getUniqueId())) continue;
@@ -63,6 +66,7 @@ public class TogglePlayersCmd extends StormCommand<Player> {
 
             player.sendMessage(ChatColor.GREEN + "Enabled player visibility!");
 
+            player.getInventory().setItem(8, CachedItems.playersOnItem);
 
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 if (pl.getUniqueId().equals(player.getUniqueId())) continue;

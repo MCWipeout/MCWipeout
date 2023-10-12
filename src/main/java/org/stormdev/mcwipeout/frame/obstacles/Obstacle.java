@@ -19,6 +19,7 @@ public abstract class Obstacle {
     @Setter
     private CheckPoint checkPoint;
 
+
     public Obstacle() {
         this.enabled = false;
     }

@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.StormPlugin;
 import org.stormdev.commands.StormCommand;
 import org.stormdev.commands.registry.CommandRegistry;
@@ -16,6 +17,8 @@ import org.stormdev.mcwipeout.commands.PingCommand;
 import org.stormdev.mcwipeout.commands.StuckCommand;
 import org.stormdev.mcwipeout.commands.TogglePlayersCmd;
 import org.stormdev.mcwipeout.commands.WipeoutCommand;
+import org.stormdev.mcwipeout.frame.board.Board;
+import org.stormdev.mcwipeout.frame.bossbar.ObstacleBar;
 import org.stormdev.mcwipeout.frame.game.GameManager;
 import org.stormdev.mcwipeout.frame.game.MapManager;
 import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
@@ -28,6 +31,7 @@ import org.stormdev.mcwipeout.listeners.ObstacleEvents;
 import org.stormdev.mcwipeout.listeners.PlayerEvents;
 import org.stormdev.mcwipeout.listeners.RegionEvents;
 import org.stormdev.mcwipeout.utils.WipeoutPlaceholderExpansion;
+import org.stormdev.mcwipeout.utils.helpers.CachedItems;
 import org.stormdev.mcwipeout.utils.helpers.GenericLocationTypeAdapter;
 import org.stormdev.mcwipeout.utils.helpers.MovingSectionTypeAdapter;
 import org.stormdev.mcwipeout.utils.worldguardhook.SimpleWorldGuardAPI;
@@ -67,6 +71,9 @@ public final class Wipeout extends StormPlugin<Wipeout> {
     private GameManager gameManager;
 
     @Getter
+    private ObstacleBar obstacleBar;
+
+    @Getter
     private HashMap<UUID, WgPlayer> playerCache;
     @Getter
     private SimpleWorldGuardAPI simpleWorldGuardAPI;
@@ -78,6 +85,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
     @Getter
     private static Gson gson;
+
+    private BukkitTask task;
 
     @Override
     public void onEnable() {
@@ -125,6 +134,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         playerCache.clear();
 
+        if (task != null) task.cancel();
+
         if (gameManager.getActiveMap() != null) {
             for (Obstacle obstacle : gameManager.getActiveMap().getObstacles()) {
                 obstacle.setEnabled(false);
@@ -135,6 +146,11 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             }
 
             gameManager.setActiveMap(null);
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            obstacleBar.disable(player);
+            Board.getInstance().resetScoreboard(player);
         }
 
         if (this.adventure != null) {
@@ -196,6 +212,12 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         mapManager = new MapManager(this);
         commandList = new ArrayList<>();
 
+        obstacleBar = new ObstacleBar(this);
+
+        new CachedItems();
+
+        task = getServer().getScheduler().runTaskTimer(Wipeout.get(), new Board(this), 0, 20L);
+
         org.bukkit.scoreboard.Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("players");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -205,7 +227,7 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
             teamManager.getWipeoutPlayers().add(new WipeoutPlayer(player.getUniqueId(), false));
 
-            player.getInventory().remove(Material.EMERALD);
+            player.getInventory().remove(Material.GHAST_TEAR);
 
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 player.showPlayer(this, pl);

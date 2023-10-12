@@ -28,6 +28,19 @@ public enum Direction {
                     }
 
                 }
+            case NORTH:
+                switch (wallSize) {
+                    case ONE_BY_ONE, ONE_BY_THREE -> {
+                        return location.clone().add(0.5, 0.5, 0.4);
+                    }
+                    case TWO_BY_TWO -> {
+                        return location.clone().add(1, 0, 0.4);
+                    }
+                    case TWO_BY_THREE -> {
+                        return location.clone().add(1, 0.5, 0.4);
+                    }
+
+                }
             default:
                 return null;
         }

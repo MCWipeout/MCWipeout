@@ -82,7 +82,7 @@ public class SnakeObstacle extends Obstacle {
 
         new BukkitRunnable() {
             int ticks = 0;
-            int currentIndex = 30;
+            int currentIndex = 25;
 
             @Override
             public void run() {
@@ -117,7 +117,7 @@ public class SnakeObstacle extends Obstacle {
 
         new BukkitRunnable() {
             int ticks = 0;
-            int currentIndex = 60;
+            int currentIndex = 45;
 
             @Override
             public void run() {
@@ -151,7 +151,7 @@ public class SnakeObstacle extends Obstacle {
         }.runTaskTimer(Wipeout.get(), 0L, 0L);
         new BukkitRunnable() {
             int ticks = 0;
-            int currentIndex = 90;
+            int currentIndex = 70;
 
             @Override
             public void run() {

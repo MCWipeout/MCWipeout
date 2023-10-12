@@ -17,6 +17,7 @@ import org.bukkit.entity.Shulker;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.mcwipeout.Wipeout;
 
+@Getter
 public class FakePatternBlock {
 
     private ArmorStand shulkerArmorStand;

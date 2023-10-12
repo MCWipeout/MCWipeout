@@ -25,6 +25,10 @@ public class MathUtils {
         return yaw;
     }
 
+    public static Vector perpendicular(Vector vector) {
+        return new Vector(-vector.getZ(), 0, vector.getX());
+    }
+
     public static float getPitch(Location p1, Location p2) {
         Location p1_clone = p1.clone();
         Location p2_clone = p2.clone();

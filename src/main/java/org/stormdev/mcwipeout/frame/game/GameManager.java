@@ -23,14 +23,17 @@ import org.stormdev.builder.CustomItemBuilder;
 import org.stormdev.chat.Chat;
 import org.stormdev.chat.Titles;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.frame.board.Board;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
+import org.stormdev.mcwipeout.utils.helpers.CachedItems;
 import org.stormdev.utils.Color;
 import org.stormdev.utils.StringUtils;
 import org.stormdev.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -55,13 +58,19 @@ public class GameManager {
     @Getter
     @Setter
     private boolean frozen;
-
-    private Stopwatch stopwatch;
+    @Getter
+    public Stopwatch stopwatch;
 
     private BukkitTask timerTask;
 
     @Getter
     private BossBar bossBar;
+
+    @Getter
+    private java.util.Map<UUID, Integer> playerTimers;
+
+    @Getter
+    private java.util.Map<Team, Integer> teamTimers;
 
     @Getter
     @Setter
@@ -72,6 +81,8 @@ public class GameManager {
         activeMap = null;
         this.finishedTeams = new ArrayList<>();
         this.finishedPlayers = new ArrayList<>();
+        this.playerTimers = new HashMap<>();
+        this.teamTimers = new HashMap<>();
         this.frozen = false;
         this.task = null;
         this.type = GameType.TEAMS;
@@ -135,13 +146,18 @@ public class GameManager {
 
             if (!player.hasPermission("wipeout.play")) continue;
             if (activeMap.getSpawnPoint() != null) {
+                Board.getInstance().addObstacles(player, activeMap.getObstacleRegions());
+                getTeamFromUUID(player.getUniqueId()).getCheckPointMap().put(player.getUniqueId(), activeMap.getSpawnPoint());
                 activeMap.getSpawnPoint().reset(player);
+                Wipeout.get().getObstacleBar().startMap(player);
+                Wipeout.get().getObstacleBar().updateBossBar(player, activeMap.getSpawnPoint().getObstacleRegion());
             }
             player.setGameMode(GameMode.ADVENTURE);
             player.removePotionEffect(PotionEffectType.SPEED);
             player.removePotionEffect(PotionEffectType.JUMP);
 
-            player.getInventory().setItem(8, new CustomItemBuilder(Material.EMERALD).setName("&eToggle Players").build());
+            player.getInventory().setItem(4, CachedItems.rewindItem);
+            player.getInventory().setItem(8, CachedItems.playersOffItem);
         }
 
         for (Team team : activeMap.getTeamsPlaying()) {
@@ -203,7 +219,8 @@ public class GameManager {
         if (activeMap == null) return;
         if (type == GameType.SOLO) {
             if (activeMap == null || activeMap.getTeamsPlaying() == null) return;
-            for (Team team : activeMap.getTeamsPlaying()) {
+            List<Team> teamList = activeMap.getTeamsPlaying();
+            for (Team team : teamList) {
                 if (team.containsPlayer(player)) {
                     if (team.getFinishedMembers().contains(player.getUniqueId())) return;
                     team.getFinishedMembers().add(player.getUniqueId());
@@ -214,8 +231,12 @@ public class GameManager {
 
                     spawnFirework(player);
 
+                    plugin.getObstacleBar().disable(player);
+
                     Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#F7CE50Finished!"));
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
+
+                    playerTimers.put(player.getUniqueId(), timer);
 
                     Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] #F7CE50" + player.getName() + " #A1BDD7has finished in #F7CE50" + ordinal((finishedTeams.size() + 1)) + " place! &8(#8eee3a" + Utils.formatTime(timer) + "&8)"));
 
@@ -259,6 +280,8 @@ public class GameManager {
                     Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] " + team.getColor() + player.getName() + " #A1BDD7has finished in #F7CE50" + Utils.formatTime(timer)
                             + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"));
 
+                    playerTimers.put(player.getUniqueId(), timer);
+
                     player.setGameMode(GameMode.SPECTATOR);
 
 
@@ -276,6 +299,8 @@ public class GameManager {
                         });
 
                         if (region.contains("finish")) team.finish(player, activeMap.getFinish());
+
+                        teamTimers.put(team, timer);
 
                         Bukkit.getOnlinePlayers().forEach(player1 -> plugin.getAdventure().player(player1).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 0.5f, 1.0f)));
 
@@ -325,10 +350,6 @@ public class GameManager {
             task.cancel();
         }
 
-        if (timerTask != null) {
-            timerTask.cancel();
-        }
-
         task = null;
         timerTask = null;
 
@@ -337,10 +358,15 @@ public class GameManager {
             bossBar = null;
         }
 
+        activeMap.setEnabled(false);
+
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.getInventory().remove(Material.EMERALD);
+            Board.getInstance().resetScoreboard(player);
+
+            player.getInventory().remove(Material.GHAST_TEAR);
             if (!player.hasPermission("wipeout.play")) continue;
+            plugin.getObstacleBar().disable(player);
             plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
             Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#BF1542&lGame Over!"));
             player.setGameMode(GameMode.ADVENTURE);
@@ -359,7 +385,7 @@ public class GameManager {
         }
         if (!finishedTeams.isEmpty()) {
             Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
-            Bukkit.broadcastMessage(StringUtils.hex("#F7CE50&lMap X Leaderboard:")); //TODO: number of map
+            Bukkit.broadcastMessage(StringUtils.hex("#F7CE50&lMap " + activeMap.getMapName() + " Leaderboard:"));
 
             int maxI = 3;
             if (finishedTeams.size() < maxI) {
@@ -388,11 +414,12 @@ public class GameManager {
             }
 
             for (Player p : Bukkit.getOnlinePlayers()) {
+
                 if (type == GameType.TEAMS) {
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30xx:xx")); //TODO: solo time
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your team's time: #EAAB30xx:xx")); //TODO: team time
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30") + Utils.formatTime(playerTimers.get(p.getUniqueId()))); //TODO: solo time
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your team's time: #EAAB30" + Utils.formatTime(playerTimers.get(p.getUniqueId())))); //TODO: team time
                 } else if (type == GameType.SOLO) {
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30xx:xx")); //TODO: solo time
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30" + Utils.formatTime(playerTimers.get(p.getUniqueId())))); //TODO: solo time
                 }
             }
             Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
@@ -409,6 +436,17 @@ public class GameManager {
 
         activeMap.getTeamsPlaying().forEach(team -> team.getCheckPointMap().clear());
         activeMap.getTeamsPlaying().clear();
+
+        //saveTimers();
+
+        playerTimers.clear();
+        teamTimers.clear();
+
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
+
+        timerTask = null;
 
         activeMap = null;
     }
@@ -458,6 +496,26 @@ public class GameManager {
         return playerList;
     }
 
+    public boolean isPlaying(Player player) {
+        if (activeMap == null) return false;
+        for (Team team : activeMap.getTeamsPlaying()) {
+            if (team.containsPlayer(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public CheckPoint getCurrentCheckPoint(Player player) {
+        if (activeMap == null) return null;
+        for (Team team : activeMap.getTeamsPlaying()) {
+            if (team.containsPlayer(player)) {
+                return team.getCheckPointMap().get(player.getUniqueId());
+            }
+        }
+        return null;
+    }
+
     public int getMaxPlayersNeeded() {
         int total = 0;
         if (getActiveMap() == null) return total;
@@ -476,5 +534,14 @@ public class GameManager {
             case 11, 12, 13 -> i + "th";
             default -> i + suffixes[i % 10];
         };
+    }
+
+    public Team getTeamFromUUID(UUID uuid) {
+        for (Team team : activeMap.getTeamsPlaying()) {
+            if (team.getUUIDMembers().contains(uuid)) {
+                return team;
+            }
+        }
+        return null;
     }
 }

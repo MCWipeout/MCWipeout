@@ -23,6 +23,7 @@ import org.stormdev.mcwipeout.frame.game.GameType;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.utils.Utils;
+import org.stormdev.mcwipeout.utils.helpers.CachedItems;
 import org.stormdev.mcwipeout.utils.helpers.WLocation;
 import org.stormdev.utils.Color;
 
@@ -159,38 +160,49 @@ public class PlayerEvents extends StormListener<Wipeout> {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         ItemStack itemStack = event.getItem();
-        if (itemStack.getType() != Material.EMERALD) return;
+        if (itemStack.getType() != Material.GHAST_TEAR) return;
 
         if (plugin().getGameManager().getActiveMap() == null) return;
 
+        if (!itemStack.getItemMeta().hasCustomModelData()) return;
+
         WipeoutPlayer wipeoutPlayer = plugin().getTeamManager().fromUUID(player.getUniqueId());
 
-        if (wipeoutPlayer.isVisiblePlayers()) {
-            wipeoutPlayer.setVisiblePlayers(false);
+        if (itemStack.getItemMeta().getCustomModelData() == 10022 || itemStack.getItemMeta().getCustomModelData() == 10023) {
 
-            player.sendMessage(ChatColor.RED + "Disabled player visibility!");
+            if (wipeoutPlayer.isVisiblePlayers()) {
+                wipeoutPlayer.setVisiblePlayers(false);
 
-            if (plugin().getGameManager().getType() == GameType.SOLO) {
+                player.sendMessage(ChatColor.RED + "Disabled player visibility!");
+
+                player.getInventory().setItem(8, CachedItems.playersOffItem);
+
+                if (plugin().getGameManager().getType() == GameType.SOLO) {
+                    for (Player pl : Bukkit.getOnlinePlayers()) {
+                        if (pl.getUniqueId().equals(player.getUniqueId())) continue;
+                        player.hidePlayer(plugin(), pl);
+                    }
+                    return;
+                } else {
+                    Team team = plugin().getTeamManager().getTeamFromUUID(player.getUniqueId());
+                    if (team == null) return;
+
+                    plugin().getGameManager().getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(pl -> player.hidePlayer(plugin(), pl));
+                }
+            } else {
+                wipeoutPlayer.setVisiblePlayers(true);
+
+                player.sendMessage(ChatColor.GREEN + "Enabled player visibility!");
+
+                player.getInventory().setItem(8, CachedItems.playersOnItem);
+
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     if (pl.getUniqueId().equals(player.getUniqueId())) continue;
-                    player.hidePlayer(plugin(), pl);
+                    player.showPlayer(plugin(), pl);
                 }
-                return;
-            } else {
-                Team team = plugin().getTeamManager().getTeamFromUUID(player.getUniqueId());
-                if (team == null) return;
-
-                plugin().getGameManager().getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(pl -> player.hidePlayer(plugin(), pl));
             }
-        } else {
-            wipeoutPlayer.setVisiblePlayers(true);
-
-            player.sendMessage(ChatColor.GREEN + "Enabled player visibility!");
-
-            for (Player pl : Bukkit.getOnlinePlayers()) {
-                if (pl.getUniqueId().equals(player.getUniqueId())) continue;
-                player.showPlayer(plugin(), pl);
-            }
+        } else if (itemStack.getItemMeta().getCustomModelData() == 10021) {
+            plugin().getGameManager().getActiveMap().handleCheckPoint(player);
         }
     }
 

@@ -8,6 +8,7 @@ import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.frame.game.CheckPoint;
 import org.stormdev.mcwipeout.frame.game.Map;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
+import org.stormdev.mcwipeout.frame.obstacles.ObstacleRegion;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperObject;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperWall;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.ExtendedBumperWall;
@@ -36,24 +37,39 @@ import java.util.List;
 public class MapTwoModule extends Map {
 
     public MapTwoModule() {
-        super();
+        super("Map 2");
 
-        //setSpawnPoint(new CheckPoint("", new WPoint(2993.5, 228, 31.5), 90.0F, 0F));
-        setFinish(new CheckPoint("map_2_finish", new WPoint(2993.5, 228, 31.5), 90.0F, 0F));
+        setSpawnPoint(new CheckPoint("", new WPoint(2993.5, 228, 31.5), 90.0F, 0F, ObstacleRegion.RED_BALLS));
+        setFinish(new CheckPoint("map_2_finish", new WPoint(2993.5, 228, 31.5), 90.0F, 0F, null));
+
+        setObstacleRegions(List.of(
+                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.WATER_STAIRS,
+                ObstacleRegion.BUMPER_WALL,
+                ObstacleRegion.BUMPER_WALL,
+                ObstacleRegion.MOVING_PLATFORM,
+                ObstacleRegion.FANS,
+                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.PATTERN_MEMORIZATION,
+                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.BUMPER_WALL,
+                ObstacleRegion.WATER_STAIRS,
+                ObstacleRegion.MOVING_PLATFORM
+        ));
     }
 
     @Override
     protected void setupCheckpoints() {
-        checkPoints.add(new CheckPoint("map_2_cp1", WPoint.from(2931.5, 209, 31.5), 90.0F, -10F));
-        checkPoints.add(new CheckPoint("map_2_cp2", WPoint.from(2868.5, 209, 31.5), 125.0f, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp3", WPoint.from(2793.5, 210, 30.5), 19.0f, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp4", WPoint.from(2852.5, 209, 81.5), -90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp5", WPoint.from(2918.5, 209, 120.5), 90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp6", WPoint.from(2842.5, 209, 120.5), 90.0F, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp7", WPoint.from(2742.5, 209, 105.5), 0.0F, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp9", WPoint.from(2871.5, 209, 181.5), -55.0F, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp10", WPoint.from(2840.5, 209, 240.5), 90F, 0F));
-        checkPoints.add(new CheckPoint("map_2_cp11", WPoint.from(2749.5, 209, 279.5), -90F, 0F));
+        checkPoints.add(new CheckPoint("map_2_cp1", WPoint.from(2931.5, 209, 31.5), 90.0F, -10F, null));
+        checkPoints.add(new CheckPoint("map_2_cp2", WPoint.from(2868.5, 209, 31.5), 125.0f, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp3", WPoint.from(2793.5, 210, 30.5), 19.0f, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp4", WPoint.from(2852.5, 209, 81.5), -90.0F, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp5", WPoint.from(2918.5, 209, 120.5), 90.0F, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp6", WPoint.from(2842.5, 209, 120.5), 90.0F, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp7", WPoint.from(2742.5, 209, 105.5), 0.0F, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp9", WPoint.from(2871.5, 209, 181.5), -55.0F, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp10", WPoint.from(2840.5, 209, 240.5), 90F, 0F,null));
+        checkPoints.add(new CheckPoint("map_2_cp11", WPoint.from(2749.5, 209, 279.5), -90F, 0F,null));
 
     }
 

@@ -6,6 +6,8 @@ package org.stormdev.mcwipeout.frame.game;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.frame.obstacles.ObstacleRegion;
 import org.stormdev.mcwipeout.frame.team.WPoint;
 
 public class CheckPoint {
@@ -21,11 +23,15 @@ public class CheckPoint {
     @Getter
     private float pitch;
 
-    public CheckPoint(String region, WPoint point, float yaw, float pitch) {
+    @Getter
+    private ObstacleRegion obstacleRegion;
+
+    public CheckPoint(String region, WPoint point, float yaw, float pitch, ObstacleRegion obstacleRegion) {
         this.region = region.toLowerCase();
         this.point = point;
         this.yaw = yaw;
         this.pitch = pitch;
+        this.obstacleRegion = obstacleRegion;
     }
 
     public void reset(Player player) {

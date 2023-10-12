@@ -11,9 +11,9 @@ import org.stormdev.mcwipeout.utils.helpers.WLocation;
 @Getter
 public class RotationMatrix {
 
-    private Matrix3d matrix;
+    private final Matrix3d matrix;
 
-    private WLocation location;
+    private final WLocation location;
 
     private RotationMatrix(Vector axis, double angle, WLocation location) {
         this.location = location;
