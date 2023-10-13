@@ -14,10 +14,16 @@ public enum ObstacleRegion {
     DISAPPEARING_PLATFORM("Disappearing Platforms &f\uE014", "\uE014", "\uE015"),
     FANS("Fans &f\uE016", "\uE016", "\uE017"),
     ICE("Disappearing Ice &f\uE018", "\uE018", "\uE019"),
-    MOVING_PLATFORM("Moving Platforms &f\uE01A", "\uE01A", "\uE01B"),
+    MOVING_PLATFORMS("Moving Platforms &f\uE01A", "\uE01A", "\uE01B"),
     SPIRAL_BUMPER("Bumper Spiral &f\uE01E", "\uE01E", "\uE01F"),
     WATER_STAIRS("Water Stairs &f\uE020", "\uE020", "\uE021"),
     PATTERN_MEMORIZATION("Pattern Memorization &f\uE023", "\uE023", "\uE024"),
+    CLOCK_ARMS("Clock Arms &f\uE025", "\uE025", "\uE026"),
+    MAZE("Maze &f\uE02B", "\uE02B", "\uE02C"),
+    SWEEPER("Sweeper &f\uE02D", "\uE02D", "\uE02E"),
+    EXTENDED_BUMPER_WALL("Extended Bumper Wall &f\uE027", "\uE027", "\uE028"),
+    SNAKE("Snake &f", "S", "S"),
+
     FINISH("None", "", "");
 
     @Getter

@@ -8,6 +8,7 @@ import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.frame.game.CheckPoint;
 import org.stormdev.mcwipeout.frame.game.Map;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
+import org.stormdev.mcwipeout.frame.obstacles.ObstacleRegion;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperObject;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.BumperWall;
 import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.ExtendedBumperWall;
@@ -36,8 +37,21 @@ public class MapThreeModule extends Map {
     public MapThreeModule() {
         super("Map 3");
 
-        //setSpawnPoint(new CheckPoint("", new WPoint(3804.5, 205, 110.5), 90.0F, 0F));
+        setSpawnPoint(new CheckPoint("", new WPoint(3804.5, 205, 110.5), 90.0F, 0F, ObstacleRegion.RED_BALLS));
         setFinish(new CheckPoint("map_3_finish", new WPoint(3804.5, 205, 110.5), 90.0F, 0F, null));
+
+        setObstacleRegions(List.of(
+                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.EXTENDED_BUMPER_WALL,
+                ObstacleRegion.CLOCK_ARMS,
+                ObstacleRegion.DISAPPEARING_PLATFORM,
+                ObstacleRegion.MOVING_PLATFORMS,
+                ObstacleRegion.SNAKE,
+                ObstacleRegion.ICE,
+                ObstacleRegion.FANS,
+                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.SWEEPER
+        ));
     }
 
     @Override
@@ -110,13 +124,13 @@ public class MapThreeModule extends Map {
                         BumperObject.of(10, WLocation.from(3666, 198, 140), WLocation.from(3666, 198.5, 138), -180, 0, -1),
                         BumperObject.of(20, WLocation.from(3664, 198, 140), WLocation.from(3664, 198.5, 138), -180, 0, -1),
                         BumperObject.of(50, WLocation.from(3662, 198, 140), WLocation.from(3662, 198.5, 138), -180, 0, -1),
-                        BumperObject.of(30, WLocation.from(3656, 202, 140), WLocation.from(3656, 203.5, 140.8), -180, 0, -1).setScale(new Vector(3, 3, 3)),
+                        BumperObject.of(10, WLocation.from(3656, 202, 140), WLocation.from(3656, 203.5, 140.8), -180, 0, -1).setScale(new Vector(3, 3, 3)),
                         BumperObject.of(50, WLocation.from(3650, 202, 140), WLocation.from(3650, 203.5, 140.8), -180, 0, -1).setScale(new Vector(3, 3, 3))),
 
                 SlidingWall.of(WLocation.from(3673, 197, 138), WLocation.from(3673, 197, 140), 0, 0, 0, -1.2f, 10).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_ONE),
                 SlidingWall.of(WLocation.from(3673, 199, 138), WLocation.from(3673, 199, 140), 0, 0, 0, -1.2f, 50).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_ONE),
                 SlidingWall.of(WLocation.from(3673, 201, 138), WLocation.from(3673, 201, 140), 0, 0, 0, -1.2f, 10).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_ONE),
-                SlidingWall.of(WLocation.from(3671, 198, 138), WLocation.from(3671, 197, 140), 0, 0, 0, -1.2f, 20).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_ONE),
+                SlidingWall.of(WLocation.from(3671, 198, 138), WLocation.from(3671, 198, 140), 0, 0, 0, -1.2f, 20).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_ONE),
                 SlidingWall.of(WLocation.from(3660, 197, 138), WLocation.from(3660, 197, 140), 0, 0, 0, -1.2f, 20).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_ONE),
                 SlidingWall.of(WLocation.from(3658, 198, 138), WLocation.from(3658, 199, 140), 0, 0, 0, -1.2f, 10).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_ONE),
                 SlidingWall.of(WLocation.from(3653, 201, 138), WLocation.from(3653, 203, 140), 0, 0, 0, -1.2f, 40).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_THREE)
