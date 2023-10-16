@@ -22,8 +22,9 @@ public enum ObstacleRegion {
     MAZE("Maze &f\uE02B", "\uE02B", "\uE02C"),
     SWEEPER("Sweeper &f\uE02D", "\uE02D", "\uE02E"),
     EXTENDED_BUMPER_WALL("Extended Bumper Wall &f\uE027", "\uE027", "\uE028"),
-    SNAKE("Snake &f", "S", "S"),
+    SNAKE("Snake &f\uE02F", "\uE02F", "\uE030"),
 
+    RED_BALLS2("Red Balls &f\uE01C", "\uE01C", "\uE01D"),
     FINISH("None", "", "");
 
     @Getter

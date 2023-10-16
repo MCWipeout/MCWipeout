@@ -31,13 +31,13 @@ public class MapManager {
         this.oobAreaList = new ArrayList<>();
 
         this.maps.put("map1", new MapOneModule());
-        oobAreaList.add(new OOBArea("map-1-oob"));
+        oobAreaList.add(new OOBArea("map_1_oob"));
 
         this.maps.put("map2", new MapTwoModule());
-        oobAreaList.add(new OOBArea("map-2-oob"));
+        oobAreaList.add(new OOBArea("map_2_oob"));
 
         this.maps.put("map3", new MapThreeModule());
-        oobAreaList.add(new OOBArea("map-3-oob"));
+        oobAreaList.add(new OOBArea("map_3_oob"));
     }
 
     public boolean isOOB(RegionEnteredEvent event) {

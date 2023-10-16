@@ -415,11 +415,18 @@ public class GameManager {
 
             for (Player p : Bukkit.getOnlinePlayers()) {
 
+                int time = playerTimers.get(p.getUniqueId());
+
+                if (!playerTimers.containsKey(p.getUniqueId())) {
+                    time = 0;
+                }
+
+
                 if (type == GameType.TEAMS) {
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30") + Utils.formatTime(playerTimers.get(p.getUniqueId()))); //TODO: solo time
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your team's time: #EAAB30" + Utils.formatTime(playerTimers.get(p.getUniqueId())))); //TODO: team time
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30") + Utils.formatTime(time)); //TODO: solo time
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your team's time: #EAAB30" + Utils.formatTime(time))); //TODO: team time
                 } else if (type == GameType.SOLO) {
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30" + Utils.formatTime(playerTimers.get(p.getUniqueId())))); //TODO: solo time
+                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30" + Utils.formatTime(time))); //TODO: solo time
                 }
             }
             Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));

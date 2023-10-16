@@ -35,7 +35,7 @@ import java.util.List;
 public class MapThreeModule extends Map {
 
     public MapThreeModule() {
-        super("Map 3");
+        super("Cityscape");
 
         setSpawnPoint(new CheckPoint("", new WPoint(3804.5, 205, 110.5), 90.0F, 0F, ObstacleRegion.RED_BALLS));
         setFinish(new CheckPoint("map_3_finish", new WPoint(3804.5, 205, 110.5), 90.0F, 0F, null));
@@ -49,7 +49,7 @@ public class MapThreeModule extends Map {
                 ObstacleRegion.SNAKE,
                 ObstacleRegion.ICE,
                 ObstacleRegion.FANS,
-                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.RED_BALLS2,
                 ObstacleRegion.SWEEPER
         ));
     }

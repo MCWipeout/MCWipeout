@@ -59,6 +59,10 @@ public class SweeperObstacle extends Obstacle {
 
             @Override
             public void run() {
+                if (!isEnabled()) {
+                    this.cancel();
+                    return;
+                }
 
                 if (displayAngle == 80) {
                     transformation(itemDisplay1, 120);
@@ -181,15 +185,15 @@ public class SweeperObstacle extends Obstacle {
     public void enable() {
         blockObjectList.clear();
 
-        blockObjectList.add(new SweeperBlockObject(center, 0, 0, false, 11));
-        blockObjectList.add(new SweeperBlockObject(center, 0, 0, false, 10));
         blockObjectList.add(new SweeperBlockObject(center, 0, 0, false, 9));
         blockObjectList.add(new SweeperBlockObject(center, 0, 0, false, 8));
+        blockObjectList.add(new SweeperBlockObject(center, 0, 0, false, 7));
+        blockObjectList.add(new SweeperBlockObject(center, 0, 0, false, 6));
 
+        blockObjectList.add(new SweeperBlockObject(center, 0, 0, true, 6));
+        blockObjectList.add(new SweeperBlockObject(center, 0, 0, true, 7));
         blockObjectList.add(new SweeperBlockObject(center, 0, 0, true, 8));
         blockObjectList.add(new SweeperBlockObject(center, 0, 0, true, 9));
-        blockObjectList.add(new SweeperBlockObject(center, 0, 0, true, 10));
-        blockObjectList.add(new SweeperBlockObject(center, 0, 0, true, 11));
 
         WLocation display = center.toCenter();
         display.setY(display.getY() + 4.5);

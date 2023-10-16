@@ -13,6 +13,7 @@ import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.ObstacleRegion;
 import org.stormdev.utils.Color;
+import org.stormdev.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class ObstacleBar {
     }
 
     public void startMap(Player player) {
-        BossBar bossBar = Bukkit.createBossBar(Color.colorize("&e&lCurrent obstacle: &r&cNone"), BarColor.YELLOW, BarStyle.SOLID);
+        BossBar bossBar = Bukkit.createBossBar(StringUtils.hex("&#F7CE50Current obstacle: &#BF1542None"), BarColor.YELLOW, BarStyle.SOLID);
         bossBar.setVisible(true);
         bossBar.setProgress(1.0);
 

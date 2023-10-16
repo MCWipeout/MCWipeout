@@ -51,7 +51,7 @@ public class MapTwoModule extends Map {
                 ObstacleRegion.FANS,
                 ObstacleRegion.SNAKE,
                 ObstacleRegion.PATTERN_MEMORIZATION,
-                ObstacleRegion.RED_BALLS,
+                ObstacleRegion.RED_BALLS2,
                 ObstacleRegion.BUMPER_WALL,
                 ObstacleRegion.MAZE,
                 ObstacleRegion.MOVING_PLATFORMS
@@ -76,7 +76,7 @@ public class MapTwoModule extends Map {
     @Override
     protected void setupObstacles() {
 
-        RedBallsObstacle redBallsObstacle = new RedBallsObstacle(120, 120);
+        RedBallsObstacle redBallsObstacle = new RedBallsObstacle(160, 160);
 
         ExtendedBumperWall extendedBumperWall = new ExtendedBumperWall(60,
                 List.of(BumperObject.of(30, WLocation.from(2854, 216, 17), WLocation.from(2854, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),

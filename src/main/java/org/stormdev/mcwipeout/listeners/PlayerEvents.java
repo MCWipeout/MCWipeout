@@ -109,8 +109,6 @@ public class PlayerEvents extends StormListener<Wipeout> {
     public void onFreeze(PlayerMoveEvent event) {
         if (!event.getPlayer().hasPermission("wipeout.play")) return;
 
-        if (event.getPlayer().isOp()) return;
-
         if (plugin().getGameManager().isFrozen()) {
             if (Utils.isSimilar(event.getFrom(), event.getTo())) {
                 return;

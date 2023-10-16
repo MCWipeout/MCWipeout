@@ -74,11 +74,19 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
                 return StringUtil.copyPartialMatches(args[1], Arrays.asList("create", "join", "unjoin", "setcolor", "list", "delete", "rename"), new ArrayList<>());
             }
             if (args[0].equalsIgnoreCase("map")) {
-                return StringUtil.copyPartialMatches(args[1], Arrays.asList("load", "start", "add", "forcestop", "autoteam", "unload", "type"), new ArrayList<>());
+                return StringUtil.copyPartialMatches(args[1], Arrays.asList("load", "start", "add", "forcestop", "autoteam", "unload", "type", "end"), new ArrayList<>());
             }
         }
         if (args.length == 3) {
             if (args[0].equalsIgnoreCase("team")) {
+                if (args[1].equalsIgnoreCase("delete")) {
+                    List<Team> teams = Wipeout.get().getTeamManager().getTeamList().stream().filter(team -> team.getId().toLowerCase().startsWith(args[2].toLowerCase())).collect(Collectors.toList());
+
+                    List<String> toReturn = new ArrayList<>();
+                    teams.forEach(x -> toReturn.add(x.getId()));
+
+                    return toReturn;
+                }
                 if (args[1].equalsIgnoreCase("setcolor")) {
                     List<Team> teams = Wipeout.get().getTeamManager().getTeamList().stream().filter(team -> team.getId().toLowerCase().startsWith(args[2].toLowerCase())).collect(Collectors.toList());
 

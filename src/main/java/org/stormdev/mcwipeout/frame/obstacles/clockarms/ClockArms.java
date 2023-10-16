@@ -122,6 +122,10 @@ public class ClockArms extends Obstacle {
 
             @Override
             public void run() {
+                if (!isEnabled()) {
+                    this.cancel();
+                }
+
                 if (itemDisplay1 == null || itemDisplay1.isDead() || itemDisplay2 == null || itemDisplay2.isDead())
                     return;
 
