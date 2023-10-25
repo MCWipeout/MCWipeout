@@ -19,23 +19,21 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.stormdev.builder.CustomItemBuilder;
-import org.stormdev.chat.Chat;
 import org.stormdev.chat.Titles;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.frame.board.Board;
+import org.stormdev.mcwipeout.frame.board.BoardManager;
+import org.stormdev.mcwipeout.frame.music.MusicEnum;
+import org.stormdev.mcwipeout.frame.music.MusicTask;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.utils.helpers.CachedItems;
+import org.stormdev.mcwipeout.utils.helpers.WLocation;
 import org.stormdev.utils.Color;
 import org.stormdev.utils.StringUtils;
 import org.stormdev.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class GameManager {
@@ -76,6 +74,12 @@ public class GameManager {
     @Setter
     private GameType type;
 
+    @Getter
+    private List<WLocation> teleportLocations;
+
+    @Getter
+    private MusicTask musicTask;
+
     public GameManager(Wipeout plugin) {
         this.plugin = plugin;
         activeMap = null;
@@ -86,6 +90,11 @@ public class GameManager {
         this.frozen = false;
         this.task = null;
         this.type = GameType.TEAMS;
+        this.teleportLocations = new LinkedList<>();
+
+        teleportLocations.add(WLocation.from(0.5, 2, -87.5).applyRotation(0, 0));
+        teleportLocations.add(WLocation.from(-7.5, 1, -85.5).applyRotation(0, -20f));
+        teleportLocations.add(WLocation.from(8.5, 1, -85.5).applyRotation(0, 20f));
     }
 
     public void runTimer() {
@@ -129,6 +138,8 @@ public class GameManager {
         frozen = true;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
+            BoardManager.getInstance().resetScoreboard(player);
+            BoardManager.getInstance().addObstacles(player, activeMap.getObstacleRegions());
             boolean isFound = false;
             for (Team team : activeMap.getTeamsPlaying()) {
                 if (team.getUUIDMembers().contains(player.getUniqueId())) {
@@ -146,12 +157,12 @@ public class GameManager {
 
             if (!player.hasPermission("wipeout.play")) continue;
             if (activeMap.getSpawnPoint() != null) {
-                Board.getInstance().addObstacles(player, activeMap.getObstacleRegions());
                 getTeamFromUUID(player.getUniqueId()).getCheckPointMap().put(player.getUniqueId(), activeMap.getSpawnPoint());
                 activeMap.getSpawnPoint().reset(player);
                 Wipeout.get().getObstacleBar().startMap(player);
                 Wipeout.get().getObstacleBar().updateBossBar(player, activeMap.getSpawnPoint().getObstacleRegion());
             }
+
             player.setGameMode(GameMode.ADVENTURE);
             player.removePotionEffect(PotionEffectType.SPEED);
             player.removePotionEffect(PotionEffectType.JUMP);
@@ -191,6 +202,18 @@ public class GameManager {
                     case 0 -> {
                         stopwatch = Stopwatch.createStarted();
 
+                        switch (activeMap.getMapName()) {
+                            case "Hydrohaul":
+                                musicTask = new MusicTask(MusicEnum.MAP_1_INTRO);
+                                break;
+                            case "Emerald Haven":
+                                musicTask = new MusicTask(MusicEnum.MAP_2_INTRO);
+                                break;
+                            case "Cityscape":
+                                musicTask = new MusicTask(MusicEnum.MAP_3_INTRO);
+                                break;
+                        }
+
                         if (type == GameType.SOLO) {
                             runTimer();
                         }
@@ -219,7 +242,8 @@ public class GameManager {
         if (activeMap == null) return;
         if (type == GameType.SOLO) {
             if (activeMap == null || activeMap.getTeamsPlaying() == null) return;
-            List<Team> teamList = activeMap.getTeamsPlaying();
+            List<Team> teamList =
+                    new ArrayList<>(activeMap.getTeamsPlaying());
             for (Team team : teamList) {
                 if (team.containsPlayer(player)) {
                     if (team.getFinishedMembers().contains(player.getUniqueId())) return;
@@ -230,6 +254,8 @@ public class GameManager {
                     plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_finish"), Sound.Source.MASTER, 1.0f, 1.0f));
 
                     spawnFirework(player);
+
+                    finishedPlayers.add(player.getUniqueId());
 
                     plugin.getObstacleBar().disable(player);
 
@@ -351,6 +377,10 @@ public class GameManager {
         }
 
         task = null;
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
+
         timerTask = null;
 
         if (bossBar != null) {
@@ -358,19 +388,24 @@ public class GameManager {
             bossBar = null;
         }
 
-        activeMap.setEnabled(false);
+        if (musicTask != null) {
+            musicTask.stop();
+            musicTask = null;
+        }
 
+        if (activeMap != null) {
+            activeMap.setEnabled(false);
+        }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Board.getInstance().resetScoreboard(player);
+            BoardManager.getInstance().resetScoreboard(player);
 
             player.getInventory().remove(Material.GHAST_TEAR);
-            if (!player.hasPermission("wipeout.play")) continue;
+            player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             plugin.getObstacleBar().disable(player);
             plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
             Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#BF1542&lGame Over!"));
             player.setGameMode(GameMode.ADVENTURE);
-            player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             Bukkit.getOnlinePlayers().forEach(x -> {
                 if (!x.getUniqueId().equals(player.getUniqueId())) {
                     player.showPlayer(Wipeout.get(), x);
@@ -382,8 +417,10 @@ public class GameManager {
                     getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> player.showPlayer(Wipeout.get(), x));
                 }
             }
+
         }
         if (!finishedTeams.isEmpty()) {
+            teleportTeams(finishedTeams);
             Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
             Bukkit.broadcastMessage(StringUtils.hex("#F7CE50&lMap " + activeMap.getMapName() + " Leaderboard:"));
 
@@ -397,6 +434,7 @@ public class GameManager {
 
                 StringBuilder builder = new StringBuilder();
                 if (type == GameType.TEAMS) {
+
                     Bukkit.broadcastMessage(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": " + finishedTeams.get(i).getColor() + finishedTeams.get(i).getId()));
 
                     for (int j = 0; j < finishedTeams.get(i).getMembers().size(); j++) {
@@ -415,10 +453,10 @@ public class GameManager {
 
             for (Player p : Bukkit.getOnlinePlayers()) {
 
-                int time = playerTimers.get(p.getUniqueId());
+                int time = 0;
 
-                if (!playerTimers.containsKey(p.getUniqueId())) {
-                    time = 0;
+                if (playerTimers.containsKey(p.getUniqueId())) {
+                    time = playerTimers.get(p.getUniqueId());
                 }
 
 
@@ -437,12 +475,15 @@ public class GameManager {
         finishedTeams.clear();
         finishedPlayers.clear();
 
-        activeMap.getObstacles().forEach(Obstacle::reset);
 
-        activeMap.getObstacles().forEach(obstacle -> obstacle.setEnabled(false));
+        if (activeMap != null) {
+            activeMap.getObstacles().forEach(Obstacle::reset);
 
-        activeMap.getTeamsPlaying().forEach(team -> team.getCheckPointMap().clear());
-        activeMap.getTeamsPlaying().clear();
+            activeMap.getObstacles().forEach(obstacle -> obstacle.setEnabled(false));
+
+            activeMap.getTeamsPlaying().forEach(team -> team.getCheckPointMap().clear());
+            activeMap.getTeamsPlaying().clear();
+        }
 
         //saveTimers();
 
@@ -456,6 +497,21 @@ public class GameManager {
         timerTask = null;
 
         activeMap = null;
+    }
+
+    private void teleportTeams(List<Team> finishedTeams) {
+        if (finishedTeams.size() >= 3) {
+            for (int i = 0; i < 3; i++) {
+                Team team = finishedTeams.get(i);
+                int finalI = i;
+                team.getMembers().forEach(wipeoutPlayer -> {
+                            if (wipeoutPlayer.asPlayer() != null) {
+                                wipeoutPlayer.asPlayer().teleport(teleportLocations.get(finalI).asLocation());
+                            }
+                        }
+                );
+            }
+        }
     }
 
     public void endOfGameTimer() {

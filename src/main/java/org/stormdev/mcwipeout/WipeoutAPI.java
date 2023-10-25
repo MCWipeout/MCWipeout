@@ -18,6 +18,10 @@ public class WipeoutAPI {
     }
 
     public boolean isMapRunning() {
-        return plugin.getGameManager().getActiveMap() != null;
+        if (plugin.getGameManager().getActiveMap() != null) {
+            return plugin.getGameManager().getActiveMap().getObstacles().get(0).isEnabled();
+        }
+
+        return false;
     }
 }

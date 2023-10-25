@@ -41,7 +41,7 @@ public class SweeperObstacle extends Obstacle {
     public SweeperObstacle() {
         this.blockObjectList = new ArrayList<>();
 
-        center = WLocation.from(3705, 199, -63).toCenter();
+        center = WLocation.from(3705, 199.5, -63).toCenter();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SweeperObstacle extends Obstacle {
 
             private float angle = 0;
 
-            private float displayAngle = 79;
+            private float displayAngle = 59;
 
             @Override
             public void run() {
@@ -64,28 +64,28 @@ public class SweeperObstacle extends Obstacle {
                     return;
                 }
 
-                if (displayAngle == 80) {
+                if (displayAngle == 60) {
                     transformation(itemDisplay1, 120);
                     transformation(itemDisplay2, 120);
                 }
-                if (displayAngle == 160) {
+                if (displayAngle == 120) {
                     transformation(itemDisplay1, 240);
                     transformation(itemDisplay2, 240);
                 }
 
-                if (displayAngle == 240) {
+                if (displayAngle == 180) {
                     transformation(itemDisplay1, 360);
                     transformation(itemDisplay2, 360);
                 }
 
-                if (displayAngle < 240) {
+                if (displayAngle < 180) {
                     displayAngle++;
-                } else if (displayAngle == 240) {
+                } else if (displayAngle == 180) {
                     displayAngle = 0;
                 }
 
                 if (angle < 360) {
-                    angle += 1.5F;
+                    angle += 2F;
                 } else {
                     angle = 0;
                 }
@@ -129,7 +129,7 @@ public class SweeperObstacle extends Obstacle {
                     for (SweeperBlockObject fakePatternBlock : blockObjectList) {
                         fakePatternBlock.teleport((float) (center.getX()), (float) (center.getZ()), 4 + angle);
 
-                        fakePatternBlock.getFakePatternBlock().getShulkerArmorStand().getLocation().getWorld().getNearbyEntities(fakePatternBlock.getFakePatternBlock().getShulker().getLocation(), 1, 0.2, 1).forEach(entity -> {
+                        fakePatternBlock.getFakePatternBlock().getShulkerArmorStand().getLocation().getWorld().getNearbyEntities(fakePatternBlock.getFakePatternBlock().getShulker().getLocation(), 1.5, 1.5, 1.5).forEach(entity -> {
 
                             Location loc1 = fakePatternBlock.getFakePatternBlock().getShulker().getLocation();
 
@@ -154,7 +154,6 @@ public class SweeperObstacle extends Obstacle {
                                     Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.fans"), Sound.Source.MASTER, 1.0f, 1.0f));
                                     player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20, 1));
                                     player.setVelocity(newVelocity.multiply(50).setY(0.5));
-                                    Bukkit.broadcastMessage("Velocity: " + newVelocity);
                                 }
                             }
                         });
@@ -241,7 +240,7 @@ public class SweeperObstacle extends Obstacle {
         transformation.getRightRotation().set(axisAngleRotMat);
 
         entity.setTransformation(transformation);
-        entity.setInterpolationDuration(80);
+        entity.setInterpolationDuration(60);
         entity.setInterpolationDelay(0);
     }
 }

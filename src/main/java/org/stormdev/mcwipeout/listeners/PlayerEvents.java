@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.stormdev.abstracts.StormListener;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.commands.sub.ExportSnakeCommand;
+import org.stormdev.mcwipeout.frame.board.BoardManager;
 import org.stormdev.mcwipeout.frame.game.GameType;
 import org.stormdev.mcwipeout.frame.team.Team;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
@@ -39,8 +40,7 @@ public class PlayerEvents extends StormListener<Wipeout> {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        org.bukkit.scoreboard.Team teamScoreboard = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("players");
-        teamScoreboard.addPlayer(event.getPlayer());
+        Player player = event.getPlayer();
 
         plugin().getTeamManager().getWipeoutPlayers().add(new WipeoutPlayer(event.getPlayer().getUniqueId(), false));
         if (event.getPlayer().isOp()) return;
@@ -49,19 +49,7 @@ public class PlayerEvents extends StormListener<Wipeout> {
             event.getPlayer().setGameMode(GameMode.ADVENTURE);
             event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999999, 1, false, false));
 
-            event.getPlayer().teleport(new Location(Bukkit.getWorld("maps"), -94.5, 35, -361.5, 90F, 0.0F));
-
-            /*
-
-            ItemStack helmet = new ItemStack(Material.GHAST_TEAR);
-            ItemMeta helmetMeta = helmet.getItemMeta();
-            helmetMeta.setCustomModelData(10008);
-            helmetMeta.setDisplayName(Color.colorize("&aHelmet"));
-            helmet.setItemMeta(helmetMeta);
-
-            event.getPlayer().getInventory().setHelmet(helmet);
-
-             */
+            event.getPlayer().teleport(new Location(Bukkit.getWorld("maps"), 0, 0, 0, -180F, 0.0F));
 
         }
 
@@ -209,6 +197,6 @@ public class PlayerEvents extends StormListener<Wipeout> {
         WipeoutPlayer wipeoutPlayer = plugin().getTeamManager().fromUUID(event.getPlayer().getUniqueId());
         plugin().getTeamManager().getWipeoutPlayers().remove(wipeoutPlayer);
 
-
+        BoardManager.getInstance().resetScoreboard(event.getPlayer());
     }
 }

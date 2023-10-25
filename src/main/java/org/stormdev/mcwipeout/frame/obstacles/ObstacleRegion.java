@@ -13,6 +13,7 @@ public enum ObstacleRegion {
     BUMPER_WALL("Bumper Wall &f\uE012", "\uE012", "\uE013"),
     DISAPPEARING_PLATFORM("Disappearing Platforms &f\uE014", "\uE014", "\uE015"),
     FANS("Fans &f\uE016", "\uE016", "\uE017"),
+    FANS2("Fans &f\uE016", "\uE016", "\uE017"),
     ICE("Disappearing Ice &f\uE018", "\uE018", "\uE019"),
     MOVING_PLATFORMS("Moving Platforms &f\uE01A", "\uE01A", "\uE01B"),
     SPIRAL_BUMPER("Bumper Spiral &f\uE01E", "\uE01E", "\uE01F"),

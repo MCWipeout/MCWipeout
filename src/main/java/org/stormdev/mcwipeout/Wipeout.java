@@ -17,7 +17,7 @@ import org.stormdev.mcwipeout.commands.PingCommand;
 import org.stormdev.mcwipeout.commands.StuckCommand;
 import org.stormdev.mcwipeout.commands.TogglePlayersCmd;
 import org.stormdev.mcwipeout.commands.WipeoutCommand;
-import org.stormdev.mcwipeout.frame.board.Board;
+import org.stormdev.mcwipeout.frame.board.BoardManager;
 import org.stormdev.mcwipeout.frame.bossbar.ObstacleBar;
 import org.stormdev.mcwipeout.frame.game.GameManager;
 import org.stormdev.mcwipeout.frame.game.MapManager;
@@ -150,7 +150,7 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             obstacleBar.disable(player);
-            Board.getInstance().resetScoreboard(player);
+            BoardManager.getInstance().resetScoreboard(player);
         }
 
         if (this.adventure != null) {
@@ -198,12 +198,6 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             new WipeoutPlaceholderExpansion().register();
         }
 
-        if (Bukkit.getScoreboardManager().getMainScoreboard().getTeam("players") == null) {
-            org.bukkit.scoreboard.Team team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam("players");
-            team.setOption(org.bukkit.scoreboard.Team.Option.COLLISION_RULE, org.bukkit.scoreboard.Team.OptionStatus.FOR_OWN_TEAM);
-            team.setOption(org.bukkit.scoreboard.Team.Option.NAME_TAG_VISIBILITY, org.bukkit.scoreboard.Team.OptionStatus.NEVER);
-        }
-
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(GenericLocationSet.class, new GenericLocationTypeAdapter()).registerTypeAdapter(JsonPlatformSection.class, new MovingSectionTypeAdapter()).disableHtmlEscaping().create();
 
         getLogger().info("Initializing managers!");
@@ -216,12 +210,10 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         new CachedItems();
 
-        task = getServer().getScheduler().runTaskTimer(Wipeout.get(), new Board(this), 0, 20L);
-
-        org.bukkit.scoreboard.Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("players");
+        task = getServer().getScheduler().runTaskTimer(Wipeout.get(), new BoardManager(this), 0, 20L);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            team.addPlayer(player);
+
             playerCache.remove(player.getUniqueId());
             playerCache.put(player.getUniqueId(), new WgPlayer(player));
 
@@ -232,8 +224,6 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 player.showPlayer(this, pl);
             }
-
-
         }
     }
 

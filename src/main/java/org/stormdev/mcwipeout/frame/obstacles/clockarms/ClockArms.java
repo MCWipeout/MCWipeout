@@ -52,7 +52,58 @@ public class ClockArms extends Obstacle {
 
     @Override
     public void run() {
+        new BukkitRunnable() {
 
+            private float angle = startingAngle;
+            private float displayAngle = 59;
+
+            @Override
+            public void run() {
+
+
+                if (itemDisplay1 == null || itemDisplay1.isDead() || itemDisplay2 == null || itemDisplay2.isDead()) {
+                    cancel();
+                    return;
+                }
+
+                if (displayAngle == 60) {
+                    transformation(itemDisplay1, 120);
+                    transformation(itemDisplay2, 120);
+                }
+                if (displayAngle == 120) {
+                    transformation(itemDisplay1, 240);
+                    transformation(itemDisplay2, 240);
+                }
+
+                if (displayAngle == 180) {
+                    transformation(itemDisplay1, 360);
+                    transformation(itemDisplay2, 360);
+                }
+
+                if (displayAngle < 180) {
+                    displayAngle++;
+                } else if (displayAngle == 180) {
+                    displayAngle = 0;
+                }
+
+
+                if (angle < 360) {
+                    angle += 2;
+                } else {
+                    angle = 0;
+                }
+
+                if (angle > 356) {
+                    for (ClockArmsPlatformObject fakePatternBlock : list) {
+                        fakePatternBlock.teleport((float) (center.getX()), (float) (center.getZ()), 4 - (360 - angle));
+                    }
+                } else {
+                    for (ClockArmsPlatformObject fakePatternBlock : list) {
+                        fakePatternBlock.teleport((float) (center.getX()), (float) (center.getZ()), 4 + angle);
+                    }
+                }
+            }
+        }.runTaskTimer(Wipeout.get(), 60L, 0L);
     }
 
     @Override
@@ -114,59 +165,6 @@ public class ClockArms extends Obstacle {
         itemDisplay2.setBrightness(new Display.Brightness(14, 14));
         itemDisplay2.setItemStack(head);
         itemDisplay2.setTransformation(transformation);
-
-        new BukkitRunnable() {
-
-            private float angle = startingAngle;
-            private float displayAngle = 59;
-
-            @Override
-            public void run() {
-                if (!isEnabled()) {
-                    this.cancel();
-                }
-
-                if (itemDisplay1 == null || itemDisplay1.isDead() || itemDisplay2 == null || itemDisplay2.isDead())
-                    return;
-
-                if (displayAngle == 60) {
-                    transformation(itemDisplay1, 120);
-                    transformation(itemDisplay2, 120);
-                }
-                if (displayAngle == 120) {
-                    transformation(itemDisplay1, 240);
-                    transformation(itemDisplay2, 240);
-                }
-
-                if (displayAngle == 180) {
-                    transformation(itemDisplay1, 360);
-                    transformation(itemDisplay2, 360);
-                }
-
-                if (displayAngle < 180) {
-                    displayAngle++;
-                } else if (displayAngle == 180) {
-                    displayAngle = 0;
-                }
-
-
-                if (angle < 360) {
-                    angle += 2;
-                } else {
-                    angle = 0;
-                }
-
-                if (angle > 356) {
-                    for (ClockArmsPlatformObject fakePatternBlock : list) {
-                        fakePatternBlock.teleport((float) (center.getX()), (float) (center.getZ()), 4 - (360 - angle));
-                    }
-                } else {
-                    for (ClockArmsPlatformObject fakePatternBlock : list) {
-                        fakePatternBlock.teleport((float) (center.getX()), (float) (center.getZ()), 4 + angle);
-                    }
-                }
-            }
-        }.runTaskTimer(Wipeout.get(), 20L, 0L);
     }
 
     @Override

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class Utils {
 
@@ -62,5 +63,13 @@ public class Utils {
         }
 
         return supportingBlocks;
+    }
+
+    public String getFormattedTime(long millis) {
+        return String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(millis),
+                TimeUnit.MILLISECONDS.toSeconds(millis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+        );
     }
 }

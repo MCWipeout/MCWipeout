@@ -43,12 +43,13 @@ public class MapThreeModule extends Map {
         setObstacleRegions(List.of(
                 ObstacleRegion.RED_BALLS,
                 ObstacleRegion.EXTENDED_BUMPER_WALL,
+                ObstacleRegion.FANS,
                 ObstacleRegion.CLOCK_ARMS,
                 ObstacleRegion.DISAPPEARING_PLATFORM,
                 ObstacleRegion.MOVING_PLATFORMS,
                 ObstacleRegion.SNAKE,
                 ObstacleRegion.ICE,
-                ObstacleRegion.FANS,
+                ObstacleRegion.FANS2,
                 ObstacleRegion.RED_BALLS2,
                 ObstacleRegion.SWEEPER
         ));
@@ -56,16 +57,17 @@ public class MapThreeModule extends Map {
 
     @Override
     protected void setupCheckpoints() {
-        checkPoints.add(new CheckPoint("map_3_cp1", WPoint.from(3735.5, 196, 110.5), 90.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp2", WPoint.from(3555.5, 196, 161.5), -90.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp3", WPoint.from(3643.5, 196, 161.5), -90.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp4", WPoint.from(3755.5, 196, 161.5), -90.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp5", WPoint.from(3856.5, 196, 120.5), 180F, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp6", WPoint.from(3817.5, 206, 31.5), 90F, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp7", WPoint.from(3720.5, 206, 15.5), 135f, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp8", WPoint.from(3624.5, 206, 5.5), 90f, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp9", WPoint.from(3563.5, 212, -67.5), -90f, 0F, null));
-        checkPoints.add(new CheckPoint("map_3_cp10", WPoint.from(3686.5, 199, -62.5), -90f, 0F, null));
+        checkPoints.add(new CheckPoint("map_3_cp1", WPoint.from(3735.5, 196, 110.5), 90.0F, 0F, ObstacleRegion.BUMPER_WALL));
+        checkPoints.add(new CheckPoint("map_3_cp2", WPoint.from(3555.5, 196, 161.5), -90.0F, 0F, ObstacleRegion.FANS));
+        checkPoints.add(new CheckPoint("map_3_cp3", WPoint.from(3643.5, 196, 161.5), -90.0F, 0F, ObstacleRegion.CLOCK_ARMS));
+        checkPoints.add(new CheckPoint("map_3_cp4", WPoint.from(3755.5, 196, 161.5), -90.0F, 0F, ObstacleRegion.DISAPPEARING_PLATFORM));
+        checkPoints.add(new CheckPoint("map_3_cp5", WPoint.from(3856.5, 196, 120.5), 180F, 0F, ObstacleRegion.MOVING_PLATFORMS));
+        checkPoints.add(new CheckPoint("map_3_cp6", WPoint.from(3817.5, 206, 31.5), 90F, 0F, ObstacleRegion.SNAKE));
+        checkPoints.add(new CheckPoint("map_3_cp7", WPoint.from(3720.5, 206, 15.5), 135f, 0F, ObstacleRegion.ICE));
+        checkPoints.add(new CheckPoint("map_3_cp8", WPoint.from(3624.5, 206, 5.5), 90f, 0F, ObstacleRegion.FANS2));
+        checkPoints.add(new CheckPoint("map_3_cp9", WPoint.from(3568.5, 206, -62.5), -90f, 0F, ObstacleRegion.RED_BALLS));
+        checkPoints.add(new CheckPoint("map_3_cp10", WPoint.from(3686.5, 199, -62.5), -90f, 0F, ObstacleRegion.SWEEPER));
+        checkPoints.add(new CheckPoint("map_3_cp11", WPoint.from(3686.5, 199, -62.5), -90f, 0F, null));
     }
 
     @Override

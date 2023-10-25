@@ -4,15 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.stormdev.chat.ActionBar;
 import org.stormdev.chat.Titles;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.frame.board.Board;
+import org.stormdev.mcwipeout.frame.board.BoardManager;
 import org.stormdev.mcwipeout.frame.obstacles.OOBArea;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.ObstacleRegion;
@@ -131,7 +129,7 @@ public abstract class Map {
                     Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
 
                     if (spawnPoint.getObstacleRegion() != null) {
-                        Board.getInstance().finishObstacle(player, spawnPoint.getObstacleRegion());
+                        BoardManager.getInstance().finishObstacle(player, spawnPoint.getObstacleRegion());
                     }
 
                     if (byRegion(region).getObstacleRegion() != null)
@@ -152,7 +150,7 @@ public abstract class Map {
                     Wipeout.get().getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.checkpoint"), Sound.Source.MASTER, 1.0f, 1.0f));
 
                     if (old != null) {
-                        Board.getInstance().finishObstacle(player, old);
+                        BoardManager.getInstance().finishObstacle(player, old);
                     }
 
                     if (point.getObstacleRegion() != null)

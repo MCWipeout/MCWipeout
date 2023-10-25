@@ -60,16 +60,18 @@ public class MapTwoModule extends Map {
 
     @Override
     protected void setupCheckpoints() {
-        checkPoints.add(new CheckPoint("map_2_cp1", WPoint.from(2931.5, 209, 31.5), 90.0F, -10F, null));
-        checkPoints.add(new CheckPoint("map_2_cp2", WPoint.from(2868.5, 209, 31.5), 125.0f, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp3", WPoint.from(2793.5, 210, 30.5), 19.0f, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp4", WPoint.from(2852.5, 209, 81.5), -90.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp5", WPoint.from(2918.5, 209, 120.5), 90.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp6", WPoint.from(2842.5, 209, 120.5), 90.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp7", WPoint.from(2742.5, 209, 105.5), 0.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp9", WPoint.from(2871.5, 209, 181.5), -55.0F, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp10", WPoint.from(2840.5, 209, 240.5), 90F, 0F, null));
-        checkPoints.add(new CheckPoint("map_2_cp11", WPoint.from(2749.5, 209, 279.5), -90F, 0F, null));
+        checkPoints.add(new CheckPoint("map_2_cp1", WPoint.from(2931.5, 209, 31.5), 90.0F, -10F, ObstacleRegion.WATER_STAIRS));
+        checkPoints.add(new CheckPoint("map_2_cp2", WPoint.from(2868.5, 209, 31.5), 125.0f, 0F, ObstacleRegion.EXTENDED_BUMPER_WALL));
+        checkPoints.add(new CheckPoint("map_2_cp3", WPoint.from(2793.5, 210, 30.5), 19.0f, 0F, ObstacleRegion.BUMPER_WALL));
+        checkPoints.add(new CheckPoint("map_2_cp4", WPoint.from(2852.5, 209, 81.5), -90.0F, 0F, ObstacleRegion.CLOCK_ARMS));
+        checkPoints.add(new CheckPoint("map_2_cp5", WPoint.from(2918.5, 209, 120.5), 90.0F, 0F, ObstacleRegion.FANS));
+        checkPoints.add(new CheckPoint("map_2_cp6", WPoint.from(2842.5, 209, 120.5), 90.0F, 0F, ObstacleRegion.SNAKE));
+        checkPoints.add(new CheckPoint("map_2_cp7", WPoint.from(2742.5, 209, 105.5), 0.0F, 0F, ObstacleRegion.PATTERN_MEMORIZATION));
+        checkPoints.add(new CheckPoint("map_2_cp8", WPoint.from(2777.5, 209, 181.5), -90F, 0F, ObstacleRegion.RED_BALLS2));
+        checkPoints.add(new CheckPoint("map_2_cp9", WPoint.from(2871.5, 209, 181.5), -55.0F, 0F, ObstacleRegion.ICE));
+        checkPoints.add(new CheckPoint("map_2_cp10", WPoint.from(2840.5, 209, 240.5), 90F, 0F, ObstacleRegion.MAZE));
+        checkPoints.add(new CheckPoint("map_2_cp11", WPoint.from(2749.5, 209, 279.5), -90F, 0F, ObstacleRegion.MOVING_PLATFORMS));
+        checkPoints.add(new CheckPoint("map_2_cp13", WPoint.from(2749.5, 209, 279.5), -90F, 0F, null));
 
     }
 
@@ -117,10 +119,9 @@ public class MapTwoModule extends Map {
                         BumperObject.of(30, WLocation.from(2788, 213, 41), WLocation.from(2790, 213.5, 41), -90f, 1, 0),
                         BumperObject.of(10, WLocation.from(2788, 212, 45), WLocation.from(2790, 212.5, 45), -90f, 1, 0),
                         BumperObject.of(0, WLocation.from(2788, 212, 49), WLocation.from(2790, 212.5, 49), -90f, 1, 0),
-                        BumperObject.of(5, WLocation.from(2788, 212, 53), WLocation.from(2790, 212.5, 53), -90f, 1, 0),
                         BumperObject.of(35, WLocation.from(2788, 213, 56), WLocation.from(2790, 213.5, 56), -90f, 1, 0),
                         BumperObject.of(50, WLocation.from(2788, 214, 59), WLocation.from(2790, 214.5, 59), -90f, 1, 0),
-                        BumperObject.of(40, WLocation.from(2788, 215, 62), WLocation.from(2790, 215.5, 62), -90f, 1, 0),
+                        BumperObject.of(40, WLocation.from(2788, 212, 53), WLocation.from(2790, 212.5, 53), -90f, 1, 0),
                         BumperObject.of(30, WLocation.from(2788, 214, 65), WLocation.from(2790, 214.5, 65), -90f, 1, 0),
                         BumperObject.of(5, WLocation.from(2788, 214, 69), WLocation.from(2790, 214.5, 69), -90f, 1, 0),
                         BumperObject.of(20, WLocation.from(2788, 215, 76), WLocation.from(2790, 215.5, 76), -90f, 1, 0),
@@ -128,15 +129,23 @@ public class MapTwoModule extends Map {
                 )
                 , 60);
 
-        ClockArmsHolder clockArmsHolder = new ClockArmsHolder(new ClockArms(WLocation.from(2868, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2886, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2904, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2922, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2940, 209, 81), 6.3, 90));
+        ClockArmsHolder clockArmsHolder = new ClockArmsHolder(new ClockArms(WLocation.from(2868, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2886, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2904, 209, 81), 6.3, 90));
 
-        FanWall fanWall = new FanWall(List.of(FanObject.of(Cuboid.from(2908, 209, 116, 2906, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2900, 209, 116, 2902, 211, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2896, 210, 116, 2894, 212, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2890, 211, 116, 2888, 213, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2883, 211, 116, 2881, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2877, 211, 116, 2875, 209, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2870, 211, 116, 2868, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2864, 212, 116, 2862, 210, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2858, 213, 116, 2856, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2852, 211, 116, 2850, 211.5, 122), FanRotation.POS_Z, 40, 60, 1)), 80);
+        FanWall fanWall = new FanWall(List.of(FanObject.of(Cuboid.from(2908, 209, 116, 2906, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2900, 209, 116, 2902, 211, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2896, 210, 116, 2894, 212, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2890, 211, 116, 2888, 213, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2883, 211, 116, 2881, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2877, 211, 116, 2875, 209, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2870, 211, 116, 2868, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2864, 212, 116, 2862, 210, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2858, 213, 116, 2856, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2852, 209, 116, 2850, 211, 122), FanRotation.POS_Z, 40, 60, 1)), 80);
 
         SnakeObstacle snakeObstacle = new SnakeObstacle("map-1-snake", Material.GREEN_CONCRETE);
 
         PatternPlatforms patternPlatforms = new PatternPlatforms(200, 20, 240, Arrays.asList(Material.GREEN_CONCRETE, Material.RED_CONCRETE, Material.BLUE_CONCRETE), "map-2-all-patterns", "map-2-pattern-1", "map-2-pattern-2", "map-2-pattern-3");
 
-        List<BumperObject> bumperObjects = new ArrayList<>(List.of(BumperObject.of(10, WLocation.from(2899, 211, 186), WLocation.from(2897, 211.5, 186), 90f, -1, 0), BumperObject.of(50, WLocation.from(2899, 212, 189), WLocation.from(2897, 212.5, 189), 90f, -1, 0), BumperObject.of(30, WLocation.from(2899, 213, 192), WLocation.from(2897, 213.5, 192), 90f, -1, 0), BumperObject.of(20, WLocation.from(2899, 212, 196), WLocation.from(2897, 212.5, 196), 90f, -1, 0), BumperObject.of(5, WLocation.from(2899, 212, 200), WLocation.from(2897, 212.5, 200), 90f, -1, 0), BumperObject.of(10, WLocation.from(2899, 212, 204), WLocation.from(2897, 212.5, 204), 90f, -1, 0), BumperObject.of(30, WLocation.from(2899, 212, 207), WLocation.from(2897, 212.5, 207), 90f, -1, 0), BumperObject.of(30, WLocation.from(2899, 212, 207), WLocation.from(2897, 212.5, 207), 90f, -1, 0)));
+        List<BumperObject> bumperObjects = new ArrayList<>(List.of(
+                BumperObject.of(10, WLocation.from(2899, 211, 186), WLocation.from(2897, 211.5, 186), 90f, -1, 0),
+                BumperObject.of(50, WLocation.from(2899, 212, 189), WLocation.from(2897, 212.5, 189), 90f, -1, 0),
+                BumperObject.of(30, WLocation.from(2899, 213, 192), WLocation.from(2897, 213.5, 192), 90f, -1, 0),
+                BumperObject.of(20, WLocation.from(2899, 212, 196), WLocation.from(2897, 212.5, 196), 90f, -1, 0),
+                BumperObject.of(5, WLocation.from(2899, 212, 200), WLocation.from(2897, 212.5, 200), 90f, -1, 0),
+                BumperObject.of(10, WLocation.from(2899, 212, 204), WLocation.from(2897, 212.5, 204), 90f, -1, 0),
+                BumperObject.of(20, WLocation.from(2899, 212, 204), WLocation.from(2897, 214.5, 210), 90f, -1, 0),
+                BumperObject.of(30, WLocation.from(2899, 212, 207), WLocation.from(2897, 213.5, 207), 90f, -1, 0)));
         bumperObjects.add(BumperObject.of(10, WLocation.from(2899, 214, 207), WLocation.from(2897, 214.5, 207), 90f, -1, 0));
         bumperObjects.add(BumperObject.of(5, WLocation.from(2899, 215, 213), WLocation.from(2897, 215.5, 213), 90f, -1, 0));
         bumperObjects.add(BumperObject.of(20, WLocation.from(2899, 215, 216), WLocation.from(2897, 215.5, 216), 90f, -1, 0));
