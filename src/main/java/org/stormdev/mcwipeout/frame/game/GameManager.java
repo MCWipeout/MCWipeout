@@ -22,6 +22,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.chat.Titles;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.board.BoardManager;
+import org.stormdev.mcwipeout.frame.io.impl.WipeoutResult;
 import org.stormdev.mcwipeout.frame.music.MusicEnum;
 import org.stormdev.mcwipeout.frame.music.MusicTask;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
@@ -241,7 +242,7 @@ public class GameManager {
     public void finish(String region, Player player) {
         if (activeMap == null) return;
         if (type == GameType.SOLO) {
-            if (activeMap == null || activeMap.getTeamsPlaying() == null) return;
+            if (activeMap.getTeamsPlaying() == null) return;
             List<Team> teamList =
                     new ArrayList<>(activeMap.getTeamsPlaying());
             for (Team team : teamList) {
@@ -257,10 +258,13 @@ public class GameManager {
 
                     finishedPlayers.add(player.getUniqueId());
 
+
                     plugin.getObstacleBar().disable(player);
 
                     Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#F7CE50Finished!"));
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
+
+                    setTimeForPlayer(player, timer);
 
                     playerTimers.put(player.getUniqueId(), timer);
 
@@ -289,7 +293,8 @@ public class GameManager {
                 }
             }
         } else if (type == GameType.TEAMS) {
-            if (activeMap == null || activeMap.getTeamsPlaying() == null) return;
+            if (activeMap.getTeamsPlaying() == null) return;
+            if (activeMap == null) return;
             for (Team team : activeMap.getTeamsPlaying()) {
                 if (team.containsPlayer(player)) {
                     if (team.getFinishedMembers().contains(player.getUniqueId())) return;
@@ -307,6 +312,8 @@ public class GameManager {
                             + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"));
 
                     playerTimers.put(player.getUniqueId(), timer);
+
+                    setTimeForPlayer(player, timer);
 
                     player.setGameMode(GameMode.SPECTATOR);
 
@@ -351,6 +358,20 @@ public class GameManager {
                     }
                 }
             }
+        }
+    }
+
+    private void setTimeForPlayer(Player player, int timer) {
+        switch (activeMap.getMapName()) {
+            case "Hydrohaul":
+                WipeoutResult.updatePlayerTimeInDatabase(player.getUniqueId(), 1, timer);
+                break;
+            case "Emerald Haven":
+                WipeoutResult.updatePlayerTimeInDatabase(player.getUniqueId(), 2, timer);
+                break;
+            case "Cityscape":
+                WipeoutResult.updatePlayerTimeInDatabase(player.getUniqueId(), 3, timer);
+                break;
         }
     }
 
@@ -412,12 +433,14 @@ public class GameManager {
                 }
             });
 
-            for (Team team : activeMap.getTeamsPlaying()) {
-                if (team.containsPlayer(player)) {
-                    getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> player.showPlayer(Wipeout.get(), x));
+            if (activeMap != null) {
+
+                for (Team team : activeMap.getTeamsPlaying()) {
+                    if (team.containsPlayer(player)) {
+                        getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> player.showPlayer(Wipeout.get(), x));
+                    }
                 }
             }
-
         }
         if (!finishedTeams.isEmpty()) {
             teleportTeams(finishedTeams);

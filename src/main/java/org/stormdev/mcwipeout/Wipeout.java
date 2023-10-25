@@ -21,6 +21,8 @@ import org.stormdev.mcwipeout.frame.board.BoardManager;
 import org.stormdev.mcwipeout.frame.bossbar.ObstacleBar;
 import org.stormdev.mcwipeout.frame.game.GameManager;
 import org.stormdev.mcwipeout.frame.game.MapManager;
+import org.stormdev.mcwipeout.frame.io.impl.WipeoutDatabase;
+import org.stormdev.mcwipeout.frame.io.sheets.SheetsManager;
 import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
@@ -87,6 +89,9 @@ public final class Wipeout extends StormPlugin<Wipeout> {
     private static Gson gson;
 
     private BukkitTask task;
+
+    @Getter
+    private WipeoutDatabase wipeoutDatabase;
 
     @Override
     public void onEnable() {
@@ -165,6 +170,7 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         Bukkit.broadcast(Color.colorize("&eDisabling MCWipeout..."), "mcwipeout.*");
 
         CommandRegistry.syncCommand();
+
     }
 
     private void registerListeners() {
@@ -229,6 +235,14 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
     @SneakyThrows
     private void loadData() {
+        File credentialsFile = new File(getDataFolder(), "credentials.json");
+        if (!credentialsFile.exists()) {
+            credentialsFile.getParentFile().mkdir();
+            saveResource("credentials.json", false);
+        }
+
+        new SheetsManager();
+
         File file = new File(getDataFolder(), "data.json");
         if (!file.exists()) {
             file.getParentFile().mkdir();
@@ -248,6 +262,12 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             teamManager.addTeam(newTeam);
         }
 
+        getServer().getScheduler().runTaskAsynchronously(this, () -> {
+            this.wipeoutDatabase = new WipeoutDatabase(this);
+            this.wipeoutDatabase.load();
+
+            getLogger().info("Loaded WipeoutDatabase!");
+        });
     }
 
     @SneakyThrows

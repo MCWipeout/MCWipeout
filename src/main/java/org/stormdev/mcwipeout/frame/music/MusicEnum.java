@@ -11,16 +11,16 @@ import org.stormdev.mcwipeout.Wipeout;
 public enum MusicEnum {
 
 
-    MAP_1_LOOP("wipeout:mcw.music.map1loop", 84368, null), // 1:25:368
+    MAP_1_LOOP("wipeout:mcw.music.map1loop", 85368, null), // 1:25:368
 
-    MAP_2_LOOP("wipeout:mcw.music.map2loop", 87033, null), // 1:28:033
-    MAP_3_LOOP("wipeout:mcw.music.map3loop", 73710, null), // 1:14:710
+    MAP_2_LOOP("wipeout:mcw.music.map2loop", 88033, null), // 1:28:033
+    MAP_3_LOOP("wipeout:mcw.music.map3loop", 74710, null), // 1:14:710
 
-    MAP_1_INTRO("wipeout:mcw.music.map1intro", 97717, MAP_1_LOOP), // 1:38:717
+    MAP_1_INTRO("wipeout:mcw.music.map1intro", 98717, MAP_1_LOOP), // 1:38:717
 
-    MAP_2_INTRO("wipeout:mcw.music.map2intro", 88051, MAP_2_LOOP), // 1:29:051
+    MAP_2_INTRO("wipeout:mcw.music.map2intro", 89051, MAP_2_LOOP), // 1:29:051
 
-    MAP_3_INTRO("wipeout:mcw.music.map3intro", 75042, MAP_3_LOOP); // 1:16:042
+    MAP_3_INTRO("wipeout:mcw.music.map3intro", 76042, MAP_3_LOOP); // 1:16:042
 
 
     @Getter
