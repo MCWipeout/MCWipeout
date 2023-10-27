@@ -35,10 +35,13 @@ public class MusicTask implements Runnable {
             MusicEnum old = currentMusic;
             if (old.getLoop() != null) {
                 currentMusic = old.getLoop();
-            }
+                timeStarted = System.currentTimeMillis() + old.getTimeAfterLoop();
 
-            Bukkit.getOnlinePlayers().forEach(currentMusic::send);
-            timeStarted = System.currentTimeMillis();
+                Bukkit.getOnlinePlayers().forEach(currentMusic::send);
+            } else {
+                Bukkit.getOnlinePlayers().forEach(currentMusic::send);
+                timeStarted = System.currentTimeMillis();
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers.extended;
   Created by Stormbits at 9/18/2023
 */
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;

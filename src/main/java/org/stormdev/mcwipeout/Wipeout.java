@@ -23,6 +23,7 @@ import org.stormdev.mcwipeout.frame.game.GameManager;
 import org.stormdev.mcwipeout.frame.game.MapManager;
 import org.stormdev.mcwipeout.frame.io.impl.WipeoutDatabase;
 import org.stormdev.mcwipeout.frame.io.sheets.SheetsManager;
+import org.stormdev.mcwipeout.frame.leaderboards.LeaderboardManager;
 import org.stormdev.mcwipeout.frame.obstacles.GenericLocationSet;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.helpers.JsonPlatformSection;
@@ -71,6 +72,9 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
     @Getter
     private GameManager gameManager;
+
+    @Getter
+    private LeaderboardManager leaderboardManager;
 
     @Getter
     private ObstacleBar obstacleBar;
@@ -210,6 +214,7 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         teamManager = new TeamManager(this);
         gameManager = new GameManager(this);
         mapManager = new MapManager(this);
+        leaderboardManager = new LeaderboardManager(this);
         commandList = new ArrayList<>();
 
         obstacleBar = new ObstacleBar(this);
@@ -241,8 +246,6 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             saveResource("credentials.json", false);
         }
 
-        new SheetsManager();
-
         File file = new File(getDataFolder(), "data.json");
         if (!file.exists()) {
             file.getParentFile().mkdir();
@@ -268,6 +271,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
             getLogger().info("Loaded WipeoutDatabase!");
         });
+
+        new SheetsManager(this);
     }
 
     @SneakyThrows

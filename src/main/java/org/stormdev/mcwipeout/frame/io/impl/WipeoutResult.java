@@ -30,7 +30,6 @@ public class WipeoutResult {
     }
 
     public static void updatePlayerTimeInDatabase(UUID uuid, int map, long currentTime) {
-        Bukkit.broadcastMessage("test");
         Result result = new Result() {
             @Override
             public void done(long time) {

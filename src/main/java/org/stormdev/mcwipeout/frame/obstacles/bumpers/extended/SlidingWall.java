@@ -4,6 +4,7 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers.extended;
 */
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Display;
@@ -53,8 +54,6 @@ public class SlidingWall {
         this.xTranslation = xTranslation;
         this.zTranslation = zTranslation;
         this.displays = new ArrayList<>();
-
-        cuboid.blockList().forEachRemaining(block -> slidingBlockList.add(new SlidingBlock(WLocation.from(block), dx, dz)));
     }
 
     public SlidingWall setSize(WallSize wallSize) {
@@ -98,6 +97,8 @@ public class SlidingWall {
     }
 
     public void load() {
+        cuboid.blockList().forEachRemaining(block -> slidingBlockList.add(new SlidingBlock(WLocation.from(block), dx, dz)));
+
         slidingBlockList.forEach(SlidingBlock::load);
 
         if (direction != null) {
@@ -131,9 +132,8 @@ public class SlidingWall {
             display.remove();
         }
 
-        displays.clear();
-
         slidingBlockList.clear();
+        displays.clear();
     }
 
     public static double[] lerp3D(double amount, double x1, double y1, double z1, double x2, double y2, double z2) {

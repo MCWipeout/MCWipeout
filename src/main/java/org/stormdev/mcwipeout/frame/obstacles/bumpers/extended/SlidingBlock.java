@@ -60,6 +60,11 @@ public class SlidingBlock {
 
             @Override
             public void run() {
+                if (shulkerArmorStand == null) {
+                    this.cancel();
+                    return;
+                }
+
                 timer++;
                 if (timer <= duration / 2) {
 
@@ -93,7 +98,13 @@ public class SlidingBlock {
     }
 
     public void remove() {
-        if (shulkerArmorStand != null) shulkerArmorStand.remove();
-        if (shulker != null) shulker.remove();
+        if (shulkerArmorStand != null) {
+            shulkerArmorStand.remove();
+            shulkerArmorStand = null;
+        }
+        if (shulker != null) {
+            shulker.remove();
+            shulker = null;
+        }
     }
 }

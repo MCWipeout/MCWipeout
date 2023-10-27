@@ -45,6 +45,11 @@ public class TeamCommand extends StormSubCommand {
         }
 
         if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("clear")) {
+                plugin.getTeamManager().getTeamList().clear();
+                sender.sendMessage(ChatColor.RED + "Team List cleared!");
+                return;
+            }
             if (args[0].equalsIgnoreCase("list")) {
                 sender.sendMessage(Color.colorize("&8&m-----------------------------------"));
                 for (Team team : plugin.getTeamManager().getTeamList()) {
@@ -105,7 +110,7 @@ public class TeamCommand extends StormSubCommand {
                     return;
                 }
             }
-            if(args[0].equalsIgnoreCase("rename")) {
+            if (args[0].equalsIgnoreCase("rename")) {
                 if (!plugin.getTeamManager().exists(args[1])) {
                     sender.sendMessage(ChatColor.RED + "Team does not exist!");
                     return;
