@@ -147,7 +147,7 @@ public class MapThreeModule extends Map {
 
         DissapearingPlatforms dissapearingPlatforms = new DissapearingPlatforms("map-3-dissapearing", 65);
 
-        MovingPlatforms movingPlatforms = new MovingPlatforms("map-3-moving-platforms", 102);
+        MovingPlatforms movingPlatforms = new MovingPlatforms("map-3-exported", 102);
 
         SnakeObstacle snakeObstacle = new SnakeObstacle("map-3-snake", Material.GREEN_CONCRETE);
 
