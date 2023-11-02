@@ -20,6 +20,7 @@ import org.stormdev.mcwipeout.frame.obstacles.fans.FanObject;
 import org.stormdev.mcwipeout.frame.obstacles.fans.FanRotation;
 import org.stormdev.mcwipeout.frame.obstacles.fans.FanWall;
 import org.stormdev.mcwipeout.frame.obstacles.ice.FreezingIce;
+import org.stormdev.mcwipeout.frame.obstacles.maze.MazeObstacle;
 import org.stormdev.mcwipeout.frame.obstacles.patterns.PatternPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.platforms.MovingPlatforms;
 import org.stormdev.mcwipeout.frame.obstacles.redballs.RedBallsObstacle;
@@ -52,7 +53,7 @@ public class MapTwoModule extends Map {
                 ObstacleRegion.SNAKE,
                 ObstacleRegion.PATTERN_MEMORIZATION,
                 ObstacleRegion.RED_BALLS2,
-                ObstacleRegion.BUMPER_WALL,
+                ObstacleRegion.ICE,
                 ObstacleRegion.MAZE,
                 ObstacleRegion.MOVING_PLATFORMS
         ));
@@ -71,8 +72,7 @@ public class MapTwoModule extends Map {
         checkPoints.add(new CheckPoint("map_2_cp9", WPoint.from(2871.5, 209, 181.5), -55.0F, 0F, ObstacleRegion.ICE));
         checkPoints.add(new CheckPoint("map_2_cp10", WPoint.from(2840.5, 209, 240.5), 90F, 0F, ObstacleRegion.MAZE));
         checkPoints.add(new CheckPoint("map_2_cp11", WPoint.from(2749.5, 209, 279.5), -90F, 0F, ObstacleRegion.MOVING_PLATFORMS));
-        checkPoints.add(new CheckPoint("map_2_cp13", WPoint.from(2749.5, 209, 279.5), -90F, 0F, null));
-
+        checkPoints.add(new CheckPoint("map_2_cp13", WPoint.from(2819.5, 209, 279.5), -90F, 0F, null));
     }
 
     @Override
@@ -86,31 +86,18 @@ public class MapTwoModule extends Map {
                         BumperObject.of(40, WLocation.from(2830, 216, 17), WLocation.from(2830, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
                         BumperObject.of(10, WLocation.from(2816, 216, 17), WLocation.from(2816, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
                         BumperObject.of(30, WLocation.from(2807, 216, 17), WLocation.from(2807, 216.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
-                        BumperObject.of(20, WLocation.from(2807, 210, 17), WLocation.from(2807, 210.5, 17.2), 0, 0, 1).setScale(new Vector(3, 3, 3)),
                         BumperObject.of(10, WLocation.from(2855, 209, 18), WLocation.from(2855, 209.5, 20), 0, 0, 1),
                         BumperObject.of(30, WLocation.from(2853, 209, 18), WLocation.from(2853, 209.5, 20), 0, 0, 1),
                         BumperObject.of(40, WLocation.from(2851, 209, 18), WLocation.from(2851, 209.5, 20), 0, 0, 1),
                         BumperObject.of(0, WLocation.from(2826, 215, 18), WLocation.from(2826, 215.5, 20), 0, 0, 1),
                         BumperObject.of(20, WLocation.from(2823, 215, 18), WLocation.from(2823, 215.5, 20), 0, 0, 1),
                         BumperObject.of(60, WLocation.from(2820, 215, 18), WLocation.from(2820, 215.5, 20), 0, 0, 1),
-                        BumperObject.of(50, WLocation.from(2804, 215, 18), WLocation.from(2804, 215.5, 20), 0, 0, 1),
-                        BumperObject.of(60, WLocation.from(2804, 209, 18), WLocation.from(2804, 209.5, 20), 0, 0, 1),
-                        BumperObject.of(40, WLocation.from(2810, 209, 18), WLocation.from(2810, 209.5, 20), 0, 0, 1)),
+                        BumperObject.of(50, WLocation.from(2804, 215, 18), WLocation.from(2804, 215.5, 20), 0, 0, 1)),
 
                 SlidingWall.of(WLocation.from(2847, 208, 21), WLocation.from(2848, 210, 19), 0, 1, 0, 1.2f, 50).setDirection(Direction.SOUTH).setSize(WallSize.TWO_BY_THREE),
                 SlidingWall.of(WLocation.from(2843, 208, 21), WLocation.from(2844, 209, 19), 0, 1, 0, 1.2f, 30).setDirection(Direction.SOUTH).setSize(WallSize.TWO_BY_TWO),
-                SlidingWall.of(WLocation.from(2840, 208, 21), WLocation.from(2840, 208, 19), 0, 1, 0, 1.2f, 10).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_ONE),
-                SlidingWall.of(WLocation.from(2831, 208, 21), WLocation.from(2831, 210, 19), 0, 1, 0, 1.2f, 10).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2829, 208, 21), WLocation.from(2829, 210, 19), 0, 1, 0, 1.2f, 20).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2827, 208, 21), WLocation.from(2827, 210, 19), 0, 1, 0, 1.2f, 30).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2825, 208, 21), WLocation.from(2825, 210, 19), 0, 1, 0, 1.2f, 40).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2823, 208, 21), WLocation.from(2823, 210, 19), 0, 1, 0, 1.2f, 50).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2821, 208, 21), WLocation.from(2821, 210, 19), 0, 1, 0, 1.2f, 50).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2819, 208, 21), WLocation.from(2819, 210, 19), 0, 1, 0, 1.2f, 40).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2817, 208, 21), WLocation.from(2817, 210, 19), 0, 1, 0, 1.2f, 30).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2815, 208, 21), WLocation.from(2815, 210, 19), 0, 1, 0, 1.2f, 20).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2813, 208, 21), WLocation.from(2813, 210, 19), 0, 1, 0, 1.2f, 10).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_THREE),
-                SlidingWall.of(WLocation.from(2803, 208, 21), WLocation.from(2803, 208, 19), 0, 1, 0, 1.2f, 20).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_ONE));
+                SlidingWall.of(WLocation.from(2840, 208, 21), WLocation.from(2840, 208, 19), 0, 1, 0, 1.2f, 10).setDirection(Direction.SOUTH).setSize(WallSize.ONE_BY_ONE));
+
 
         BumperWall newBumperWall = new BumperWall(
                 List.of(
@@ -129,7 +116,9 @@ public class MapTwoModule extends Map {
                 )
                 , 60);
 
-        ClockArmsHolder clockArmsHolder = new ClockArmsHolder(new ClockArms(WLocation.from(2868, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2886, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2904, 209, 81), 6.3, 90));
+        ClockArmsHolder clockArmsHolder = new ClockArmsHolder(new ClockArms(WLocation.from(2868, 209, 81), 6.3, 90),
+                new ClockArms(WLocation.from(2886, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2904, 209, 81), 6.3, 90));
+
 
         FanWall fanWall = new FanWall(List.of(FanObject.of(Cuboid.from(2908, 209, 116, 2906, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2900, 209, 116, 2902, 211, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2896, 210, 116, 2894, 212, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2890, 211, 116, 2888, 213, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2883, 211, 116, 2881, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2877, 211, 116, 2875, 209, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2870, 211, 116, 2868, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2864, 212, 116, 2862, 210, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2858, 213, 116, 2856, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2852, 209, 116, 2850, 211, 122), FanRotation.POS_Z, 40, 60, 1)), 80);
 
@@ -173,6 +162,7 @@ public class MapTwoModule extends Map {
         obstacles.add(freezingIce);
         obstacles.add(waterSlide);
         obstacles.add(newBumperWall);
+        obstacles.add(new MazeObstacle());
 
 
         obstacles.forEach(Obstacle::load);

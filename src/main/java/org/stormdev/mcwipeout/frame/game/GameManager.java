@@ -173,8 +173,12 @@ public class GameManager {
         }
 
         for (Team team : activeMap.getTeamsPlaying()) {
-            for (WipeoutPlayer wipeoutPlayer : team.getMembers()) {
-                Player player = Bukkit.getPlayer(wipeoutPlayer.getUuid());
+            if (type == GameType.TEAMS) {
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getWipeoutDatabase().insertTeam(team.getId()));
+            }
+
+            for (UUID uuid : team.getMembers()) {
+                Player player = Bukkit.getPlayer(uuid);
                 if (player == null) continue;
 
                 getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> {
@@ -335,6 +339,8 @@ public class GameManager {
 
                         teamTimers.put(team, timer);
 
+                        setTimeForTeam(team.getId(), timer);
+
                         Bukkit.getOnlinePlayers().forEach(player1 -> plugin.getAdventure().player(player1).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 0.5f, 1.0f)));
 
                         Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
@@ -371,6 +377,20 @@ public class GameManager {
                 break;
             case "Cityscape":
                 WipeoutResult.updatePlayerTimeInDatabase(player.getUniqueId(), 3, timer);
+                break;
+        }
+    }
+
+    private void setTimeForTeam(String team, int timer) {
+        switch (activeMap.getMapName()) {
+            case "Hydrohaul":
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getWipeoutDatabase().setTime(team, 1, timer));
+                break;
+            case "Emerald Haven":
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getWipeoutDatabase().setTime(team, 2, timer));
+                break;
+            case "Cityscape":
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getWipeoutDatabase().setTime(team, 3, timer));
                 break;
         }
     }
@@ -443,6 +463,7 @@ public class GameManager {
             }
         }
         if (!finishedTeams.isEmpty()) {
+
             teleportTeams(finishedTeams);
             Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
             Bukkit.broadcastMessage(StringUtils.hex("#F7CE50&lMap " + activeMap.getMapName() + " Leaderboard:"));
@@ -461,14 +482,14 @@ public class GameManager {
                     Bukkit.broadcastMessage(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": " + finishedTeams.get(i).getColor() + finishedTeams.get(i).getId()));
 
                     for (int j = 0; j < finishedTeams.get(i).getMembers().size(); j++) {
-                        builder.append(Bukkit.getOfflinePlayer(finishedTeams.get(i).getMembers().get(j).getUuid()).getName());
+                        builder.append(Bukkit.getOfflinePlayer(finishedTeams.get(i).getMembers().get(j)).getName());
                         if (j < finishedTeams.get(i).getMembers().size() - 1) {
                             builder.append(", ");
                         }
                     }
                     Bukkit.broadcastMessage(StringUtils.hex("#F7CE50" + builder));
                 } else {
-                    finishedTeams.get(i).getMembers().forEach(x -> builder.append(Bukkit.getOfflinePlayer(x.getUuid()).getName()).append(" "));
+                    finishedTeams.get(i).getMembers().forEach(x -> builder.append(Bukkit.getOfflinePlayer(x).getName()).append(" "));
                     Bukkit.broadcastMessage(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": #F7CE50" + builder));
                 }
                 Bukkit.broadcastMessage(" ");
@@ -523,13 +544,17 @@ public class GameManager {
     }
 
     private void teleportTeams(List<Team> finishedTeams) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.teleport(WLocation.from(0.5, -2, -69.5).applyRotation(-5, -180F).asLocation());
+        }
+
         if (finishedTeams.size() >= 3) {
             for (int i = 0; i < 3; i++) {
                 Team team = finishedTeams.get(i);
                 int finalI = i;
-                team.getMembers().forEach(wipeoutPlayer -> {
-                            if (wipeoutPlayer.asPlayer() != null) {
-                                wipeoutPlayer.asPlayer().teleport(teleportLocations.get(finalI).asLocation());
+                team.getMembers().forEach(uuid -> {
+                            if (Bukkit.getPlayer(uuid) != null) {
+                                Bukkit.getPlayer(uuid).teleport(teleportLocations.get(finalI).asLocation());
                             }
                         }
                 );

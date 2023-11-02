@@ -85,6 +85,8 @@ public class FakePatternBlock {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             CraftPlayer craftPlayer = (CraftPlayer) player;
+
+            //if (player.getLocation().distanceSquared(armorStand.getBukkitEntity().getLocation()) > 900) continue;
             craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
             if (armorStand1 != null) {
                 craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));

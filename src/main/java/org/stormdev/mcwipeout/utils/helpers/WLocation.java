@@ -38,7 +38,7 @@ public class WLocation {
     }
 
     public Location asLocation() {
-        return new Location(world, x, y, z, pitch, yaw);
+        return new Location(world, x, y, z, yaw, pitch);
     }
 
     public Block asBlock() {

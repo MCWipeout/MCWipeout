@@ -175,6 +175,13 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
         CommandRegistry.syncCommand();
 
+        try {
+            if (wipeoutDatabase.connection != null && !wipeoutDatabase.connection.isClosed()) {
+                wipeoutDatabase.connection.close();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void registerListeners() {

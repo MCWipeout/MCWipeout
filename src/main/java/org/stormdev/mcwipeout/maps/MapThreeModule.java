@@ -57,7 +57,7 @@ public class MapThreeModule extends Map {
 
     @Override
     protected void setupCheckpoints() {
-        checkPoints.add(new CheckPoint("map_3_cp1", WPoint.from(3735.5, 196, 110.5), 90.0F, 0F, ObstacleRegion.BUMPER_WALL));
+        checkPoints.add(new CheckPoint("map_3_cp1", WPoint.from(3717.5, 196, 110.5), 90.0F, 0F, ObstacleRegion.BUMPER_WALL));
         checkPoints.add(new CheckPoint("map_3_cp2", WPoint.from(3555.5, 196, 161.5), -90.0F, 0F, ObstacleRegion.FANS));
         checkPoints.add(new CheckPoint("map_3_cp3", WPoint.from(3643.5, 196, 161.5), -90.0F, 0F, ObstacleRegion.CLOCK_ARMS));
         checkPoints.add(new CheckPoint("map_3_cp4", WPoint.from(3755.5, 196, 161.5), -90.0F, 0F, ObstacleRegion.DISAPPEARING_PLATFORM));
@@ -143,6 +143,7 @@ public class MapThreeModule extends Map {
                 ClockArms.of(WLocation.from(3677, 196, 161), 6.3, 90),
                 ClockArms.of(WLocation.from(3695, 196, 161), 6.3, 90)
         );
+
 
         DissapearingPlatforms dissapearingPlatforms = new DissapearingPlatforms("map-3-dissapearing", 65);
 

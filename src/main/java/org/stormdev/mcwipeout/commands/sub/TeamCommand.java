@@ -53,15 +53,15 @@ public class TeamCommand extends StormSubCommand {
             if (args[0].equalsIgnoreCase("list")) {
                 sender.sendMessage(Color.colorize("&8&m-----------------------------------"));
                 for (Team team : plugin.getTeamManager().getTeamList()) {
-                    String message = "";
+                    StringBuilder message = new StringBuilder();
 
                     for (UUID member : team.getUUIDMembers()) {
                         OfflinePlayer target = Bukkit.getOfflinePlayer(member);
 
                         if (!target.isOnline()) {
-                            message += ChatColor.RED + target.getName() + " ";
+                            message.append(ChatColor.RED).append(target.getName()).append(" ");
                         } else {
-                            message += ChatColor.GREEN + target.getName() + " ";
+                            message.append(ChatColor.GREEN).append(target.getName()).append(" ");
                         }
                     }
                     sender.sendMessage(StringUtils.hex(team.getColor() + team.getId() + "&7: " + message));

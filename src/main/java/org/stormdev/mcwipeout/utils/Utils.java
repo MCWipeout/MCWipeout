@@ -12,13 +12,27 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BoundingBox;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.ByteBuffer;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Utils {
+
+    public static void storeUUID(UUID uuid, PreparedStatement statement, int columnID) throws SQLException {
+        ByteBuffer buffer = ByteBuffer.allocate(16);
+        buffer.putLong(uuid.getMostSignificantBits());
+        buffer.putLong(uuid.getLeastSignificantBits());
+
+        statement.setBytes(columnID, buffer.array());
+    }
+
+    public static UUID fetchUUID(ResultSet resultSet, int columnID) throws SQLException {
+        ByteBuffer buffer = ByteBuffer.wrap(resultSet.getBytes(columnID));
+        return new UUID(buffer.getLong(), buffer.getLong());
+    }
 
     public static boolean isSimilar(Location location1, Location location2) {
         double x1 = location1.getX();

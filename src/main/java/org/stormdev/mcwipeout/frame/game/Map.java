@@ -85,7 +85,7 @@ public abstract class Map {
                 team.getCheckPointMap().clear();
             }
             team.getMembers().forEach(uuid -> {
-                Player player = Bukkit.getPlayer(uuid.getUuid());
+                Player player = Bukkit.getPlayer(uuid);
                 if (player != null) {
                     if (spawnPoint != null) {
                         spawnPoint.reset(player);

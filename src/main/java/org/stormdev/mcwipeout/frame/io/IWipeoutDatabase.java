@@ -31,7 +31,7 @@ public abstract class IWipeoutDatabase {
     public void initialize() {
         connection = getSQLConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE player = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + table + ";");
             ResultSet rs = ps.executeQuery();
             close(ps, rs);
 

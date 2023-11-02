@@ -16,7 +16,7 @@ public class WipeoutResult {
         Result result = new Result() {
             @Override
             public void done(long time) {
-                sender.sendMessage("§a" + Bukkit.getOfflinePlayer(uuid).getName() + "§7's time on map §a" + map + "§7 is §a" + time + " ( " + Utils.formatTime(time) + " ) §7!");
+                sender.sendMessage("§a" + Bukkit.getOfflinePlayer(uuid).getName() + "§7's time on map §a" + map + "§7 is §a" + time + " ( " + Utils.formatTime(time) + "  ) §7!");
             }
         };
         getTime(uuid, map, result);
@@ -34,6 +34,7 @@ public class WipeoutResult {
             @Override
             public void done(long time) {
                 if (currentTime < time || time == 0) {
+
                     Bukkit.getServer().getScheduler().runTaskAsynchronously(Wipeout.get(), ()
                             -> Wipeout.get().getWipeoutDatabase().setTime(uuid, map, currentTime));
 

@@ -108,7 +108,7 @@ public class BoardManager implements Runnable {
         }
 
         iBoard.addLine(" ");
-        iBoard.addLine(StringUtils.center("§b@ᴍᴄᴡɪᴘᴇᴏᴜᴛ", 20));
+        iBoard.addLine(StringUtils.center("§b@ᴍᴄ_ᴡɪᴘᴇᴏᴜᴛ", 20));
         iBoard.addLine(StringUtils.center("§7ᴍᴄᴡɪᴘᴇᴏᴜᴛ.ᴄᴏᴍ", 20));
 
         iBoard.update(player);
@@ -189,7 +189,10 @@ public class BoardManager implements Runnable {
         team.addPlayer(player);
 
         org.bukkit.scoreboard.Team finalTeam = team;
-        Bukkit.getOnlinePlayers().forEach(finalTeam::addPlayer);
+        Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
+            onlinePlayer.getScoreboard().getTeam("players").addPlayer(player);
+            finalTeam.addPlayer(onlinePlayer);
+        });
     }
 
     private void updateRunningScoreboard(Player player, WipeoutPlayer wipeoutPlayer) {

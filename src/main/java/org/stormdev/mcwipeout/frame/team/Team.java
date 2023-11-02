@@ -13,14 +13,14 @@ import java.util.*;
 public class Team {
 
     private String id;
-    private List<WipeoutPlayer> members;
+    private List<UUID> members;
     private String color;
 
     private transient List<UUID> finishedMembers;
 
     private transient Map<UUID, CheckPoint> checkPointMap;
 
-    public Team(String id, List<WipeoutPlayer> members) {
+    public Team(String id, List<UUID> members) {
         this.id = id;
         this.members = members;
         this.color = "#54504F";
@@ -29,25 +29,24 @@ public class Team {
     }
 
     public boolean containsPlayer(OfflinePlayer player) {
-        return members.stream().anyMatch(uuid -> uuid.getUuid().equals(player.getUniqueId()));
+        return members.stream().anyMatch(uuid -> uuid.equals(player.getUniqueId()));
     }
 
     public void add(OfflinePlayer player) {
-        members.add(new WipeoutPlayer(player.getUniqueId(), false));
+        members.add(player.getUniqueId());
     }
 
     public void remove(OfflinePlayer player) {
         for (int i = 0; i < members.size(); i++) {
-            WipeoutPlayer wipeoutPlayer = members.get(i);
-            if (wipeoutPlayer.getUuid().equals(player.getUniqueId())) {
-                members.remove(wipeoutPlayer);
+            if (members.get(i).equals(player.getUniqueId())) {
+                members.remove(player.getUniqueId());
             }
         }
     }
 
     public void sendTeamMessage(String text) {
-        for (WipeoutPlayer wipeoutPlayer : members) {
-            Player target = Bukkit.getPlayer(wipeoutPlayer.getUuid());
+        for (UUID uuid : members) {
+            Player target = Bukkit.getPlayer(uuid);
             if (target != null) {
                 target.sendMessage(text);
             }
@@ -55,17 +54,15 @@ public class Team {
     }
 
     public void finish(Player player, CheckPoint checkPoint) {
-        for (WipeoutPlayer wipeoutPlayer : members) {
-            checkPointMap.put(wipeoutPlayer.getUuid(), checkPoint);
+        for (UUID uuid : members) {
+            checkPointMap.put(player.getUniqueId(), checkPoint);
         }
 
         player.setGameMode(GameMode.SPECTATOR);
     }
 
     public List<UUID> getUUIDMembers() {
-        List<UUID> array = new ArrayList<>();
-        members.forEach(member -> array.add(member.getUuid()));
 
-        return array;
+        return members;
     }
 }

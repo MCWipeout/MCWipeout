@@ -59,11 +59,18 @@ public class ObstacleBar {
             return;
         }
 
+        if (obstacleRegion == ObstacleRegion.SKIP) {
+            bossBar.setTitle(Color.colorize("&eCurrent obstacle: &r&cClock Arms &f\uE025"));
+            obstacleIndex.put(player.getUniqueId(), obstacleIndex.getOrDefault(player.getUniqueId(), 0) + 1);
+            currentObstacles.replace(player.getUniqueId(), obstacleRegion);
+            return;
+        }
+
         if (obstacleRegion != ObstacleRegion.FINISH) {
-            bossBar.setTitle(Color.colorize("&e&lCurrent obstacle: &r&c" + obstacleRegion.getText()));
+            bossBar.setTitle(Color.colorize("&eCurrent obstacle: &r&c" + obstacleRegion.getText()));
             obstacleIndex.put(player.getUniqueId(), obstacleIndex.getOrDefault(player.getUniqueId(), 0) + 1);
         } else {
-            bossBar.setTitle(Color.colorize("&e&lCurrent obstacle: &r&cFinish"));
+            bossBar.setTitle(Color.colorize("&eCurrent obstacle: &r&cFinish"));
         }
 
         currentObstacles.replace(player.getUniqueId(), obstacleRegion);

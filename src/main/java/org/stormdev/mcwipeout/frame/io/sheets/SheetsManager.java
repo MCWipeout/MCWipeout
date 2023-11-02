@@ -65,12 +65,12 @@ public class SheetsManager {
                     String[] content;
                     try {
                         content = line.split(",");
-                        if (content.length < 17) {
+                        if (content.length < 24) {
                             continue;
                         }
-                        String shortHand = content[17];
+                        String shortHand = content[19];
 
-                        if(shortHand.equalsIgnoreCase("4")) {
+                        if (shortHand.equalsIgnoreCase("4")) {
                             continue;
                         }
 

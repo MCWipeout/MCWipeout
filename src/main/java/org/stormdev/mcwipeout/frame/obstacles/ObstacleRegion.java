@@ -11,6 +11,7 @@ public enum ObstacleRegion {
 
     RED_BALLS("Red Balls &f\uE01C", "\uE01C", "\uE01D"),
     BUMPER_WALL("Bumper Wall &f\uE012", "\uE012", "\uE013"),
+    BUMPER_WALL2("Bumper Wall &f\uE012", "\uE012", "\uE013"),
     DISAPPEARING_PLATFORM("Disappearing Platforms &f\uE014", "\uE014", "\uE015"),
     FANS("Fans &f\uE016", "\uE016", "\uE017"),
     FANS2("Fans &f\uE016", "\uE016", "\uE017"),
@@ -26,7 +27,7 @@ public enum ObstacleRegion {
     SNAKE("Snake &f\uE02F", "\uE02F", "\uE030"),
 
     RED_BALLS2("Red Balls &f\uE01C", "\uE01C", "\uE01D"),
-    FINISH("None", "", "");
+    FINISH("None", "", ""), SKIP("None", "", "");
 
     @Getter
     private String text;

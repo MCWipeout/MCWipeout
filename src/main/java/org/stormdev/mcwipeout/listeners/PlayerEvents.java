@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.stormdev.abstracts.StormListener;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.commands.sub.ExportSnakeCommand;
@@ -42,6 +43,26 @@ public class PlayerEvents extends StormListener<Wipeout> {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        plugin().getWipeoutDatabase().addPlayer(player.getUniqueId());
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                org.bukkit.scoreboard.Team teamSb = player.getScoreboard().getTeam("players");
+                if (teamSb == null) {
+                    teamSb = player.getScoreboard().registerNewTeam("players");
+                    teamSb.setOption(org.bukkit.scoreboard.Team.Option.COLLISION_RULE, org.bukkit.scoreboard.Team.OptionStatus.FOR_OWN_TEAM);
+                    teamSb.setOption(org.bukkit.scoreboard.Team.Option.NAME_TAG_VISIBILITY, org.bukkit.scoreboard.Team.OptionStatus.NEVER);
+                }
+
+                teamSb.addPlayer(player);
+
+                org.bukkit.scoreboard.Team finalTeam = teamSb;
+                Bukkit.getOnlinePlayers().forEach(finalTeam::addPlayer);
+            }
+        }.runTaskLater(plugin(), 20L);
+
+
         plugin().getTeamManager().getWipeoutPlayers().add(new WipeoutPlayer(event.getPlayer().getUniqueId(), false));
         if (event.getPlayer().isOp()) return;
 
@@ -59,15 +80,16 @@ public class PlayerEvents extends StormListener<Wipeout> {
                 for (Team team : plugin().getGameManager().getActiveMap().getTeamsPlaying()) {
                     if (team.getUUIDMembers().contains(event.getPlayer().getUniqueId())) {
                         isFound = true;
+                        plugin().getGameManager().getPlayersExcludeTeamMembers(team.getUUIDMembers(), player).forEach(x -> {
+                            player.hidePlayer(Wipeout.get(), x);
+                        });
                     }
                 }
 
                 if (!isFound) {
                     event.getPlayer().setGameMode(GameMode.SPECTATOR);
-                    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                        onlinePlayer.hidePlayer(plugin(), event.getPlayer());
-                    }
                 }
+
             }
             if (plugin().getGameManager().getFinishedTeams() != null && !plugin().getGameManager().getFinishedTeams().isEmpty())
                 for (Team team : plugin().getGameManager().getFinishedTeams()) {
@@ -143,7 +165,7 @@ public class PlayerEvents extends StormListener<Wipeout> {
             }
         }
 
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.RIGHT_CLICK_AIR) return;
 
         ItemStack itemStack = event.getItem();
         if (itemStack.getType() != Material.GHAST_TEAR) return;
