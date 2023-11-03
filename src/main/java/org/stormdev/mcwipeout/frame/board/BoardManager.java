@@ -190,7 +190,9 @@ public class BoardManager implements Runnable {
 
         org.bukkit.scoreboard.Team finalTeam = team;
         Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
-            onlinePlayer.getScoreboard().getTeam("players").addPlayer(player);
+            if (onlinePlayer.getScoreboard().getTeam("players") != null) {
+                onlinePlayer.getScoreboard().getTeam("players").addPlayer(player);
+            }
             finalTeam.addPlayer(onlinePlayer);
         });
     }

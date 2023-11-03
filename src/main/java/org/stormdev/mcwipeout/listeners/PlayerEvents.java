@@ -27,6 +27,7 @@ import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.utils.Utils;
 import org.stormdev.mcwipeout.utils.helpers.CachedItems;
 import org.stormdev.mcwipeout.utils.helpers.WLocation;
+import org.stormdev.menus.v2.StormMenu;
 import org.stormdev.utils.Color;
 
 import java.util.UUID;
@@ -117,6 +118,7 @@ public class PlayerEvents extends StormListener<Wipeout> {
 
     @EventHandler
     public void onFreeze(PlayerMoveEvent event) {
+
         if (!event.getPlayer().hasPermission("wipeout.play")) return;
 
         if (plugin().getGameManager().isFrozen()) {

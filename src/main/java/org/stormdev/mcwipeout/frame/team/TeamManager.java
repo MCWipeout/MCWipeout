@@ -75,6 +75,8 @@ public class TeamManager {
                 return wipeoutPlayer;
             }
         }
-        return null;
+        WipeoutPlayer wipeoutPlayer = new WipeoutPlayer(uuid, false);
+        getWipeoutPlayers().add(wipeoutPlayer);
+        return wipeoutPlayer;
     }
 }

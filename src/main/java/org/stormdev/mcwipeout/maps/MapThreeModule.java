@@ -138,11 +138,11 @@ public class MapThreeModule extends Map {
                 SlidingWall.of(WLocation.from(3653, 201, 138), WLocation.from(3653, 203, 140), 0, 0, 0, -1.2f, 40).setDirection(Direction.NORTH).setSize(WallSize.ONE_BY_THREE)
         );
 
-        ClockArmsHolder clockArms = new ClockArmsHolder(
-                ClockArms.of(WLocation.from(3659, 196, 161), 6.3, 90),
-                ClockArms.of(WLocation.from(3677, 196, 161), 6.3, 90),
-                ClockArms.of(WLocation.from(3695, 196, 161), 6.3, 90)
-        );
+//        ClockArmsHolder clockArms = new ClockArmsHolder(
+//                ClockArms.of(WLocation.from(3659, 196, 161), 6.3, 90),
+//                ClockArms.of(WLocation.from(3677, 196, 161), 6.3, 90),
+//                ClockArms.of(WLocation.from(3695, 196, 161), 6.3, 90)
+//        );
 
 
         DissapearingPlatforms dissapearingPlatforms = new DissapearingPlatforms("map-3-dissapearing", 65);
@@ -159,7 +159,7 @@ public class MapThreeModule extends Map {
         obstacles.add(sweeperObstacle);
         obstacles.add(bumperWall);
         obstacles.add(fanWallFinal);
-        obstacles.add(clockArms);
+        //obstacles.add(clockArms);
         obstacles.add(redBallsObstacle);
         obstacles.add(dissapearingPlatforms);
         obstacles.add(movingPlatforms);

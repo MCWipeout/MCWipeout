@@ -12,6 +12,7 @@ import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ import org.stormdev.mcwipeout.frame.music.MusicEnum;
 import org.stormdev.mcwipeout.frame.music.MusicTask;
 import org.stormdev.mcwipeout.frame.obstacles.Obstacle;
 import org.stormdev.mcwipeout.frame.team.Team;
+import org.stormdev.mcwipeout.frame.team.WPoint;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.utils.helpers.CachedItems;
 import org.stormdev.mcwipeout.utils.helpers.WLocation;
@@ -36,6 +38,7 @@ import org.stormdev.utils.Utils;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class GameManager {
 
@@ -80,6 +83,9 @@ public class GameManager {
 
     @Getter
     private MusicTask musicTask;
+
+    @Getter
+    private TeleportTimer teleportTimer;
 
     public GameManager(Wipeout plugin) {
         this.plugin = plugin;
@@ -138,6 +144,8 @@ public class GameManager {
 
         frozen = true;
 
+        teleportTimer = new TeleportTimer(activeMap.getSpawnPoint());
+
         Bukkit.getWorld("maps").setTime(6000);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -161,7 +169,9 @@ public class GameManager {
             if (!player.hasPermission("wipeout.play")) continue;
             if (activeMap.getSpawnPoint() != null) {
                 getTeamFromUUID(player.getUniqueId()).getCheckPointMap().put(player.getUniqueId(), activeMap.getSpawnPoint());
-                activeMap.getSpawnPoint().reset(player);
+
+                teleportTimer.addPlayer(player.getUniqueId());
+
                 Wipeout.get().getObstacleBar().startMap(player);
                 Wipeout.get().getObstacleBar().updateBossBar(player, activeMap.getSpawnPoint().getObstacleRegion());
             }
@@ -189,9 +199,11 @@ public class GameManager {
             }
         }
 
+        teleportTimer.start();
+
         new BukkitRunnable() {
 
-            int secondsLeft = 11;
+            int secondsLeft = 45;
 
             @Override
             public void run() {
@@ -237,7 +249,7 @@ public class GameManager {
                         Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&l" + secondsLeft), ""));
                         Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #A1BDD7Game starts in #8eee3a%s seconds").formatted(secondsLeft));
                     }
-                    case 6, 7, 8, 9, 10 ->
+                    case 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 ->
                             Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #A1BDD7Game starts in #8eee3a%s seconds").formatted(secondsLeft));
                 }
 
@@ -263,7 +275,6 @@ public class GameManager {
                     spawnFirework(player);
 
                     finishedPlayers.add(player.getUniqueId());
-
 
                     plugin.getObstacleBar().disable(player);
 
@@ -442,12 +453,18 @@ public class GameManager {
             activeMap.setEnabled(false);
         }
 
+        teleportTimer.reset();
+
+        teleportTimer = null;
+
+        new TeleportTimer(Bukkit.getOnlinePlayers().stream().map((Entity::getUniqueId)).collect(Collectors.toList()),
+                new CheckPoint("spawn", WPoint.from(0.5, 0, 0.5), -180, 0, null)).start();
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             BoardManager.getInstance().resetScoreboard(player);
 
             player.getInventory().setItem(4, null);
             player.getInventory().setItem(8, null);
-            player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             plugin.getObstacleBar().disable(player);
             plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
             Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#BF1542&lGame Over!"));
