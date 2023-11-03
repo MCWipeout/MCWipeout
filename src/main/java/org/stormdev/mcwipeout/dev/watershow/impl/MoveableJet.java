@@ -11,9 +11,8 @@ import org.bukkit.entity.FallingBlock;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.dev.watershow.ShowElement;
 
-public class MoveableJet extends ShowElement {
+public class MoveableJet {
 
     public Location location;
     @Getter
@@ -31,11 +30,6 @@ public class MoveableJet extends ShowElement {
         this.location.setPitch(this.pitch);
         this.location.setYaw(this.yaw);
         this.range = range;
-    }
-
-    @Override
-    public void execute() {
-
     }
 
     public void setYaw(float yaw) {

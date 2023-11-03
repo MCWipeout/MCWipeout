@@ -3,14 +3,11 @@ package org.stormdev.mcwipeout.commands;
   Created by Stormbits at 4/21/2023
 */
 
-import org.apache.commons.math3.util.Precision;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormCommand;
 import org.stormdev.mcwipeout.Wipeout;
-import org.stormdev.mcwipeout.dev.shulkertests.*;
-import org.stormdev.mcwipeout.dev.watershow.ShowTest;
 import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 
 
@@ -38,11 +35,9 @@ public class PingCommand extends StormCommand<Player> {
 
 
             if (commandContext.args()[0].equalsIgnoreCase("water")) {
-                new ShowTest();
                 player.sendMessage(ChatColor.GREEN + "Show Started!");
                 return;
             } else if (commandContext.args()[0].equalsIgnoreCase("circle")) {
-                new ShulkerTestCircle().setup();
                 player.sendMessage(ChatColor.GREEN + "Shulker Started!");
                 return;
             }

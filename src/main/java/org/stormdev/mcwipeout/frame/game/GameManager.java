@@ -138,6 +138,8 @@ public class GameManager {
 
         frozen = true;
 
+        Bukkit.getWorld("maps").setTime(6000);
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             BoardManager.getInstance().resetScoreboard(player);
             BoardManager.getInstance().addObstacles(player, activeMap.getObstacleRegions());
@@ -413,6 +415,8 @@ public class GameManager {
     }
 
     public void stopActiveMap() {
+        Bukkit.getWorld("maps").setTime(18000);
+
         if (task != null) {
             task.cancel();
         }

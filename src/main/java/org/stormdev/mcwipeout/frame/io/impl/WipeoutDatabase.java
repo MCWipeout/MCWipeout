@@ -36,7 +36,7 @@ public class WipeoutDatabase extends IWipeoutDatabase {
         this.timedTeams = new HashMap<>();
 
         instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, this::loadPlayerData, 20L);
-        instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, this::loadTeamsData, 20L);
+        instance.getServer().getScheduler().runTaskLaterAsynchronously(instance, this::loadTeamsData, 100L);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             addPlayer(player.getUniqueId());
@@ -245,6 +245,7 @@ public class WipeoutDatabase extends IWipeoutDatabase {
         }
         return 0L;
     }
+
     public Long getTime(String teamId, int map) {
         Connection conn = null;
         PreparedStatement ps = null;
