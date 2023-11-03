@@ -445,7 +445,8 @@ public class GameManager {
         for (Player player : Bukkit.getOnlinePlayers()) {
             BoardManager.getInstance().resetScoreboard(player);
 
-            player.getInventory().remove(Material.GHAST_TEAR);
+            player.getInventory().setItem(4, null);
+            player.getInventory().setItem(8, null);
             player.teleport(new Location(Bukkit.getWorld("maps"), 0.5, 0, 0.5, -180f, 0.0F));
             plugin.getObstacleBar().disable(player);
             plugin.getAdventure().player(player).playSound(Sound.sound(Key.key("wipeout:mcw.sfx.game_end"), Sound.Source.MASTER, 1.0f, 1.0f));
