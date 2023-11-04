@@ -40,8 +40,8 @@ public class TeleportTimer {
 
         builder.addToQueue(players);
 
-        builder.interval(5);
-        builder.maxInterval(5);
+        builder.interval(10);
+        builder.maxInterval(10);
         builder.consumer(uuid -> {
             Player target = Bukkit.getPlayer(uuid);
             if (target != null) checkPoint.reset(target);
