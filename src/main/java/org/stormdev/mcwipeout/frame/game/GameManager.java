@@ -203,7 +203,7 @@ public class GameManager {
 
         new BukkitRunnable() {
 
-            int secondsLeft = 45;
+            int secondsLeft = 60;
 
             @Override
             public void run() {
@@ -237,16 +237,16 @@ public class GameManager {
                             runTimer();
                         }
 
-                        Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&lGO!"), ""));
+                        //Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&lGO!"), ""));
                         Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #EAAB30&lGO GO GO!"));
                     }
                     case 1 -> {
-                        Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&l1"), ""));
+                        //Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&l1"), ""));
                         Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #A1BDD7Game starts in #8eee3a1 second"));
 
                     }
                     case 2, 3, 4, 5 -> {
-                        Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&l" + secondsLeft), ""));
+                        //Bukkit.getOnlinePlayers().forEach(x -> Titles.sendTitle(x, 0, 100, 20, StringUtils.hex("#EAAB30&l" + secondsLeft), ""));
                         Bukkit.broadcastMessage(StringUtils.hex("#5A6E9C&l| #A1BDD7Game starts in #8eee3a%s seconds").formatted(secondsLeft));
                     }
                     case 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 ->
