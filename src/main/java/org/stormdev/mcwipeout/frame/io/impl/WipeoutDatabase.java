@@ -128,9 +128,9 @@ public class WipeoutDatabase extends IWipeoutDatabase {
 
     public Connection getSQLConnection() {
 
-        final String username = "server_1091109";
-        final String password = "Y94c6qF2aK96uTsW2cG";
-        final String url = "jdbc:mysql://66.85.144.162:3306/server_1091109_7c220a92";
+        final String username = "u28_NJOG2Nkj9C";
+        final String password = "Di!Bjccn@4wp@QD!C44I+Uks";
+        final String url = "jdbc:mysql://node.gsumc.live:3306/s28_mcwipeout";
 
         try {
             if (connection != null && !connection.isClosed()) {

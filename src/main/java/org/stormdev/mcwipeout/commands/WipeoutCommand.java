@@ -74,7 +74,7 @@ public class WipeoutCommand extends StormCommand<CommandSender> {
                 return StringUtil.copyPartialMatches(args[1], Arrays.asList("create", "join", "unjoin", "setcolor", "list", "delete", "rename", "clear"), new ArrayList<>());
             }
             if (args[0].equalsIgnoreCase("map")) {
-                return StringUtil.copyPartialMatches(args[1], Arrays.asList("load", "start", "add", "forcestop", "autoteam", "unload", "type", "end"), new ArrayList<>());
+                return StringUtil.copyPartialMatches(args[1], Arrays.asList("load", "start", "add", "forcestop", "autoteam", "unload", "type", "end", "endtimer"), new ArrayList<>());
             }
         }
         if (args.length == 3) {

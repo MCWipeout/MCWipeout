@@ -372,7 +372,7 @@ public class GameManager {
                         }
 
                         if (finishedTeams.size() == 3) {
-                            endOfGameTimer();
+                            //endOfGameTimer();
                         }
                     }
                 }

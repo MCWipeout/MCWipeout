@@ -190,6 +190,15 @@ public class MapCommand extends StormSubCommand {
                 }
             }
         }
+
+        if (args[0].equals("endtimer")) {
+            if (plugin.getGameManager().getActiveMap() != null) {
+                plugin.getGameManager().endOfGameTimer();
+                sender.sendMessage(ChatColor.GREEN + "Started end timer");
+                return;
+            }
+
+        }
     }
 }
 
