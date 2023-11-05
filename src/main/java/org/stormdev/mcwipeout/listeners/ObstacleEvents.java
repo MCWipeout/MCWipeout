@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.stormdev.abstracts.StormListener;
 import org.stormdev.mcwipeout.Wipeout;
+import org.stormdev.mcwipeout.frame.game.Map;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -51,11 +52,10 @@ public class ObstacleEvents extends StormListener<Wipeout> {
 
 
     private void handleObstacles(Event e){
-        CompletableFuture.supplyAsync(
-                () -> plugin().getGameManager().getActiveMap()).thenAccept(activeMap -> {
-            if (activeMap != null) {
-                activeMap.getObstacles().forEach(obstacle -> obstacle.handle(e));
-            }
-        });
+        Map activeMap = plugin().getGameManager().getActiveMap();
+
+        if (activeMap != null) {
+            activeMap.getObstacles().forEach(obstacle -> obstacle.handle(e));
+        }
     }
 }
