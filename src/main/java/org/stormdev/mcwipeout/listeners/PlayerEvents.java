@@ -13,7 +13,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,8 +26,6 @@ import org.stormdev.mcwipeout.frame.team.WipeoutPlayer;
 import org.stormdev.mcwipeout.utils.Utils;
 import org.stormdev.mcwipeout.utils.helpers.CachedItems;
 import org.stormdev.mcwipeout.utils.helpers.WLocation;
-import org.stormdev.menus.v2.StormMenu;
-import org.stormdev.utils.Color;
 
 import java.util.UUID;
 
@@ -44,7 +41,12 @@ public class PlayerEvents extends StormListener<Wipeout> {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        plugin().getWipeoutDatabase().addPlayer(player.getUniqueId());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                plugin().getWipeoutDatabase().addPlayer(player.getUniqueId());
+            }
+        }.runTaskAsynchronously(plugin());
 
         new BukkitRunnable() {
             @Override

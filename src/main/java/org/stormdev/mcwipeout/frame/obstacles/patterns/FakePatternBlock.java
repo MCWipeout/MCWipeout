@@ -3,7 +3,11 @@ package org.stormdev.mcwipeout.frame.obstacles.patterns;
   Created by Stormbits at 9/17/2023
 */
 
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.utility.MinecraftReflection;
+import io.netty.buffer.ByteBuf;
 import lombok.Getter;
+import net.minecraft.network.protocol.BundleDelimiterPacket;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -74,7 +78,7 @@ public class FakePatternBlock {
 
         armorStand.setPos(x, armorStand.getY(), z);
 
-        CraftArmorStand craftArmorStand1 = null;
+        CraftArmorStand craftArmorStand1;
         net.minecraft.world.entity.decoration.ArmorStand armorStand1 = null;
         if (blockArmorStand != null) {
             craftArmorStand1 = (CraftArmorStand) blockArmorStand;
@@ -83,8 +87,12 @@ public class FakePatternBlock {
             armorStand1.setPos(x, armorStand1.getY(), z);
         }
 
+
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             CraftPlayer craftPlayer = (CraftPlayer) player;
+
+            craftPlayer.getHandle().connection.send(new BundleDelimiterPacket<>());
 
             //if (player.getLocation().distanceSquared(armorStand.getBukkitEntity().getLocation()) > 900) continue;
             craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
