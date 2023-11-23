@@ -6,6 +6,7 @@ package org.stormdev.mcwipeout.maps;
 import org.bukkit.Bukkit;
 import org.stormdev.mcwipeout.frame.game.CheckPoint;
 import org.stormdev.mcwipeout.frame.game.Map;
+import org.stormdev.mcwipeout.frame.obstacles.redballs.RedBallsObstacle;
 import org.stormdev.mcwipeout.frame.team.WPoint;
 
 public class MapFourModule extends Map {
@@ -24,6 +25,9 @@ public class MapFourModule extends Map {
 
     @Override
     protected void setupObstacles() {
+        RedBallsObstacle redBallsObstacle = new RedBallsObstacle(240, 240);
 
+
+        obstacles.add(redBallsObstacle);
     }
 }

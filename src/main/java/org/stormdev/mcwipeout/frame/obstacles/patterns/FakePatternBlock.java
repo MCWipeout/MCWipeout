@@ -8,6 +8,7 @@ import com.comphenix.protocol.utility.MinecraftReflection;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import net.minecraft.network.protocol.BundleDelimiterPacket;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -80,6 +81,7 @@ public class FakePatternBlock {
 
         CraftArmorStand craftArmorStand1;
         net.minecraft.world.entity.decoration.ArmorStand armorStand1 = null;
+
         if (blockArmorStand != null) {
             craftArmorStand1 = (CraftArmorStand) blockArmorStand;
             armorStand1 = craftArmorStand1.getHandle();
@@ -87,17 +89,17 @@ public class FakePatternBlock {
             armorStand1.setPos(x, armorStand1.getY(), z);
         }
 
-
+        Packet armorStandPacket = new ClientboundTeleportEntityPacket(armorStand);
+        Packet armorStand1Packet = new ClientboundTeleportEntityPacket(armorStand1);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            CraftPlayer craftPlayer = (CraftPlayer) player;
-
-            craftPlayer.getHandle().connection.send(new BundleDelimiterPacket<>());
 
             //if (player.getLocation().distanceSquared(armorStand.getBukkitEntity().getLocation()) > 900) continue;
-            craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
+
             if (armorStand1 != null) {
-                craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand1));
+                Wipeout.get().getPacketBundler().addPackets(player, armorStandPacket, armorStand1Packet);
+            } else {
+                Wipeout.get().getPacketBundler().addPackets(player, armorStandPacket);
             }
         }
     }

@@ -3,6 +3,8 @@ package org.stormdev.mcwipeout.frame.obstacles.bumpers.extended;
   Created by Stormbits at 9/18/2023
 */
 
+import com.comphenix.protocol.events.PacketContainer;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -73,9 +75,10 @@ public class SlidingBlock {
 
                     armorStand.setPos(armorStand.getX() + xTranslation, armorStand.getY() + yTranslation, armorStand.getZ() + zTranslation);
 
+                    Packet packet = new ClientboundTeleportEntityPacket(armorStand);
+
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        CraftPlayer craftPlayer = (CraftPlayer) player;
-                        craftPlayer.getHandle().connection.send(new ClientboundTeleportEntityPacket(armorStand));
+                        Wipeout.get().getPacketBundler().addPackets(player, packet);
                     }
 
 

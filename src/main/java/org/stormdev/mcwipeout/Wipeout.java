@@ -19,6 +19,7 @@ import org.stormdev.mcwipeout.commands.TogglePlayersCmd;
 import org.stormdev.mcwipeout.commands.WipeoutCommand;
 import org.stormdev.mcwipeout.frame.board.BoardManager;
 import org.stormdev.mcwipeout.frame.bossbar.ObstacleBar;
+import org.stormdev.mcwipeout.frame.bundling.PacketBundler;
 import org.stormdev.mcwipeout.frame.game.GameManager;
 import org.stormdev.mcwipeout.frame.game.MapManager;
 import org.stormdev.mcwipeout.frame.io.impl.WipeoutDatabase;
@@ -96,6 +97,9 @@ public final class Wipeout extends StormPlugin<Wipeout> {
 
     @Getter
     private WipeoutDatabase wipeoutDatabase;
+
+    @Getter
+    private PacketBundler packetBundler;
 
     @Override
     public void onEnable() {
@@ -179,7 +183,7 @@ public final class Wipeout extends StormPlugin<Wipeout> {
             if (wipeoutDatabase.connection != null && !wipeoutDatabase.connection.isClosed()) {
                 wipeoutDatabase.connection.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -223,6 +227,8 @@ public final class Wipeout extends StormPlugin<Wipeout> {
         mapManager = new MapManager(this);
         leaderboardManager = new LeaderboardManager(this);
         commandList = new ArrayList<>();
+
+        packetBundler = new PacketBundler(this);
 
         obstacleBar = new ObstacleBar(this);
 
