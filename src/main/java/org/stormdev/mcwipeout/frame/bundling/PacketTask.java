@@ -25,15 +25,19 @@ public class PacketTask extends BukkitRunnable {
 
         Iterator<Map.Entry<UUID, List<Packet>>> iterator = bundler.getPackets().entrySet().iterator();
 
-        while (iterator.hasNext()) {
-            Map.Entry<UUID, List<Packet>> entry = iterator.next();
-            if (entry.getValue().isEmpty()) {
-                iterator.remove();
-                continue;
-            }
+        try {
+            while (iterator.hasNext()) {
+                Map.Entry<UUID, List<Packet>> entry = iterator.next();
+                if (entry.getValue().isEmpty()) {
+                    iterator.remove();
+                    continue;
+                }
 
-            bundler.sendPackets(entry.getKey());
-            iterator.remove();
+                bundler.sendPackets(entry.getKey());
+                iterator.remove();
+            }
+        } catch (Exception e) {
+            //do nothing
         }
     }
 }

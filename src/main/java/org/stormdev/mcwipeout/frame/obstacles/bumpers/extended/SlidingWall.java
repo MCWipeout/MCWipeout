@@ -37,6 +37,8 @@ public class SlidingWall {
 
     private float dx, dz;
 
+    private float oldXTranslation, oldZTranslation;
+
     private WallSize size;
 
     private Direction direction;
@@ -63,6 +65,18 @@ public class SlidingWall {
 
     public SlidingWall setDirection(Direction direction) {
         this.direction = direction;
+
+        this.oldZTranslation = zTranslation;
+        this.oldXTranslation = xTranslation;
+
+        if(direction == Direction.WEST) {
+            this.oldXTranslation = xTranslation;
+            this.oldZTranslation = zTranslation;
+
+            this.xTranslation = oldZTranslation;
+            this.zTranslation = oldXTranslation;
+        }
+
         return this;
     }
 
@@ -72,7 +86,11 @@ public class SlidingWall {
     }
 
     public void move() {
-        slidingBlockList.forEach(slidingBlock -> slidingBlock.moveTo(xTranslation, 0, zTranslation, 32, true));
+        if(direction == Direction.WEST) {
+            slidingBlockList.forEach(slidingBlock -> slidingBlock.moveTo(-oldXTranslation, 0, -oldZTranslation, 32, true));
+        } else {
+            slidingBlockList.forEach(slidingBlock -> slidingBlock.moveTo(xTranslation, 0, zTranslation, 32, true));
+        }
 
         if (displays.size() > 0) {
             ItemDisplay displayEntity = displays.get(0);
@@ -115,7 +133,11 @@ public class SlidingWall {
 
             Location location = itemDisplay.getLocation();
 
-            location.setYaw(0);
+            if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+                location.setYaw(0);
+            } else {
+                location.setYaw(90);
+            }
 
             itemDisplay.teleport(location);
 

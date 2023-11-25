@@ -3,12 +3,9 @@ package org.stormdev.mcwipeout.frame.obstacles.patterns;
   Created by Stormbits at 9/17/2023
 */
 
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.utility.MinecraftReflection;
-import io.netty.buffer.ByteBuf;
 import lombok.Getter;
-import net.minecraft.network.protocol.BundleDelimiterPacket;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -89,12 +86,15 @@ public class FakePatternBlock {
             armorStand1.setPos(x, armorStand1.getY(), z);
         }
 
-        Packet armorStandPacket = new ClientboundTeleportEntityPacket(armorStand);
-        Packet armorStand1Packet = new ClientboundTeleportEntityPacket(armorStand1);
+        Packet<ClientGamePacketListener> armorStandPacket = new ClientboundTeleportEntityPacket(armorStand);
+        Packet<ClientGamePacketListener> armorStand1Packet = null;
+        if (armorStand1 != null) {
+            armorStand1Packet = new ClientboundTeleportEntityPacket(armorStand1);
+        }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
 
-            //if (player.getLocation().distanceSquared(armorStand.getBukkitEntity().getLocation()) > 900) continue;
+            if (player.getLocation().distanceSquared(armorStand.getBukkitEntity().getLocation()) > 900) continue;
 
             if (armorStand1 != null) {
                 Wipeout.get().getPacketBundler().addPackets(player, armorStandPacket, armorStand1Packet);

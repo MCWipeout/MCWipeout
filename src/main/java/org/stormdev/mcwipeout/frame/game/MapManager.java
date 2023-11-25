@@ -41,6 +41,7 @@ public class MapManager {
         oobAreaList.add(new OOBArea("map_3_oob"));
 
         this.maps.put("map4", new MapFourModule());
+        oobAreaList.add(new OOBArea("map_4_oob"));
     }
 
     public boolean isOOB(RegionEnteredEvent event) {

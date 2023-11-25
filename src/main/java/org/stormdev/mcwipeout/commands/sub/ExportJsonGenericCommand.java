@@ -6,9 +6,11 @@ package org.stormdev.mcwipeout.commands.sub;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormSubCommand;
 import org.stormdev.mcwipeout.Wipeout;
@@ -77,6 +79,31 @@ public class ExportJsonGenericCommand extends StormSubCommand {
 
             return;
 
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("here")) {
+                Player player = (Player) sender;
+                Location loc = player.getLocation();
+                int x = loc.getBlockX();
+                int y = loc.getBlockY() - 1;
+                int z = loc.getBlockZ();
+                Material material = Material.valueOf(args[1]);
+
+                Set<Block> list = BlockFaceHelper.getConnectionWithType(WLocation.from(x, y, z).asBlock(), material);
+
+                Map<WLocation, Material> map = new HashMap<>();
+
+                list.forEach(block -> {
+                    if (block.getType() == material) {
+                        map.put(WLocation.from(block), block.getType());
+                    }
+                });
+
+                GenericLocationSet jsonPlatformSection = new GenericLocationSet(map);
+
+                Bukkit.broadcast(Color.colorize("&eExported a JSON Object, Block list: " + map.size()), "wipeout.*");
+
+                exports.add(jsonPlatformSection);
+            }
         } else if (args.length == 4) {
             int x = Integer.parseInt(args[0]);
             int y = Integer.parseInt(args[1]);

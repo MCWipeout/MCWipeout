@@ -6,9 +6,11 @@ package org.stormdev.mcwipeout.commands.sub;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.stormdev.commands.CommandContext;
 import org.stormdev.commands.StormSubCommand;
 import org.stormdev.mcwipeout.Wipeout;
@@ -56,6 +58,25 @@ public class ExportJsonPlatformsCommand extends StormSubCommand {
         if (args.length == 0) {
             sender.sendMessage(ChatColor.RED + "/wipeout exportasjsonplatform (x, y, z)");
             sender.sendMessage(ChatColor.RED + "/wipeout exportasjsonplatform (fileId)");
+
+            Player player = (Player) sender;
+            Location loc = player.getLocation();
+            int x = loc.getBlockX();
+            int y = loc.getBlockY() - 1;
+            int z = loc.getBlockZ();
+
+            Set<Block> list = BlockFaceHelper.getConnection(WLocation.from(x, y, z).asBlock());
+
+            Map<WLocation, Material> map = new HashMap<>();
+
+            list.forEach(block -> map.put(WLocation.from(block), block.getType()));
+
+            JsonPlatformSection jsonPlatformSection = new JsonPlatformSection(map, PlatformSettings.builder().build());
+
+            Bukkit.broadcast(Color.colorize("&eExported a JSON Object, Block list: " + list.size()), "wipeout.*");
+
+            exports.add(jsonPlatformSection);
+
             return;
         } else if (args.length == 1) {
             String fileId = args[0];

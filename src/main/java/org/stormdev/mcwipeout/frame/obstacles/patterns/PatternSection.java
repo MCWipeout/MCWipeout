@@ -71,7 +71,7 @@ public class PatternSection {
             }
 
             if (entry.getKey().getY() >= highestY) {
-                Collection<Entity> collection = world.getNearbyEntities(entry.getKey().asLocation(), 2, 1, 2);
+                Collection<Entity> collection = world.getNearbyEntities(entry.getKey().asLocation(), 1, 1, 1);
                 collection.forEach(entity -> {
                     if (entity.getType().name().contains("SHULKER")) {
                         this.delete();
