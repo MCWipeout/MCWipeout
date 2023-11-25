@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.stormdev.mcwipeout.Wipeout;
 import org.stormdev.mcwipeout.frame.obstacles.OOBArea;
+import org.stormdev.mcwipeout.maps.MapFourModule;
 import org.stormdev.mcwipeout.maps.MapOneModule;
 import org.stormdev.mcwipeout.maps.MapThreeModule;
 import org.stormdev.mcwipeout.maps.MapTwoModule;
@@ -38,6 +39,8 @@ public class MapManager {
 
         this.maps.put("map3", new MapThreeModule());
         oobAreaList.add(new OOBArea("map_3_oob"));
+
+        this.maps.put("map4", new MapFourModule());
     }
 
     public boolean isOOB(RegionEnteredEvent event) {

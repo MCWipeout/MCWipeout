@@ -116,8 +116,8 @@ public class MapTwoModule extends Map {
                 )
                 , 60);
 
-//        ClockArmsHolder clockArmsHolder = new ClockArmsHolder(new ClockArms(WLocation.from(2868, 209, 81), 6.3, 90),
-//                new ClockArms(WLocation.from(2886, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2904, 209, 81), 6.3, 90));
+        ClockArmsHolder clockArmsHolder = new ClockArmsHolder(new ClockArms(WLocation.from(2868, 209, 81), 6.3, 90),
+                new ClockArms(WLocation.from(2886, 209, 81), 6.3, 90), new ClockArms(WLocation.from(2904, 209, 81), 6.3, 90));
 
 
         FanWall fanWall = new FanWall(List.of(FanObject.of(Cuboid.from(2908, 209, 116, 2906, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2900, 209, 116, 2902, 211, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2896, 210, 116, 2894, 212, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2890, 211, 116, 2888, 213, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2883, 211, 116, 2881, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2877, 211, 116, 2875, 209, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2870, 211, 116, 2868, 209, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2864, 212, 116, 2862, 210, 122), FanRotation.POS_Z, 40, 60, 1), FanObject.of(Cuboid.from(2858, 213, 116, 2856, 211, 122), FanRotation.POS_Z, 0, 20, 1), FanObject.of(Cuboid.from(2852, 209, 116, 2850, 211, 122), FanRotation.POS_Z, 40, 60, 1)), 80);

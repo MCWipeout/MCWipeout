@@ -153,7 +153,7 @@ public class MapThreeModule extends Map {
 
         FreezingIce freezingIce = new FreezingIce("map-3-ice");
 
-        SweeperObstacle sweeperObstacle = new SweeperObstacle();
+        SweeperObstacle sweeperObstacle = new SweeperObstacle(WLocation.from(3705, 199.5, -63).toCenter());
 
         obstacles.add(fanWall);
         obstacles.add(sweeperObstacle);

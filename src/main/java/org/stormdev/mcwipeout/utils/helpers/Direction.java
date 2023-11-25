@@ -11,7 +11,8 @@ import org.stormdev.mcwipeout.frame.obstacles.bumpers.extended.WallSize;
 public enum Direction {
 
     NORTH(),
-    SOUTH();
+    SOUTH(),
+    WEST();
 
     public Location getTranslatedLocation(Location location, WallSize wallSize, Direction direction) {
         switch (direction) {
@@ -25,6 +26,19 @@ public enum Direction {
                     }
                     case TWO_BY_THREE -> {
                         return location.clone().add(1, 0.5, -0.4);
+                    }
+
+                }
+            case WEST:
+                switch (wallSize) {
+                    case ONE_BY_ONE, ONE_BY_THREE -> {
+                        return location.clone().add(0.5, 0.5, 0.4);
+                    }
+                    case TWO_BY_TWO -> {
+                        return location.clone().add(1, 0, 0.4);
+                    }
+                    case TWO_BY_THREE -> {
+                        return location.clone().add(1, 0.5, 0.4);
                     }
 
                 }

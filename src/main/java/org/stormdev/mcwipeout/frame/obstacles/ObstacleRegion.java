@@ -23,6 +23,7 @@ public enum ObstacleRegion {
     CLOCK_ARMS("Clock Arms &f\uE025", "\uE025", "\uE026"),
     MAZE("Maze &f\uE02B", "\uE02B", "\uE02C"),
     SWEEPER("Sweeper &f\uE02D", "\uE02D", "\uE02E"),
+    SWEEPER2("Sweeper &f\uE02D", "\uE02D", "\uE02E"),
     EXTENDED_BUMPER_WALL("Extended Bumper Wall &f\uE027", "\uE027", "\uE028"),
     SNAKE("Snake &f\uE02F", "\uE02F", "\uE030"),
 

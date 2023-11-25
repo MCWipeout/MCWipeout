@@ -38,10 +38,10 @@ public class SweeperObstacle extends Obstacle {
     private ItemDisplay itemDisplay1;
     private ItemDisplay itemDisplay2;
 
-    public SweeperObstacle() {
+    public SweeperObstacle(WLocation wLocation) {
         this.blockObjectList = new ArrayList<>();
 
-        center = WLocation.from(3705, 199.5, -63).toCenter();
+        center = wLocation;
     }
 
     @Override

@@ -149,8 +149,8 @@ public class GameManager {
         Bukkit.getWorld("maps").setTime(6000);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            //BoardManager.getInstance().resetScoreboard(player);
-            //BoardManager.getInstance().addObstacles(player, activeMap.getObstacleRegions());
+            BoardManager.getInstance().resetScoreboard(player);
+            BoardManager.getInstance().addObstacles(player, activeMap.getObstacleRegions());
             boolean isFound = false;
             for (Team team : activeMap.getTeamsPlaying()) {
                 if (team.getUUIDMembers().contains(player.getUniqueId())) {
@@ -172,8 +172,8 @@ public class GameManager {
 
                 teleportTimer.addPlayer(player.getUniqueId());
 
-                //Wipeout.get().getObstacleBar().startMap(player);
-                //Wipeout.get().getObstacleBar().updateBossBar(player, activeMap.getSpawnPoint().getObstacleRegion());
+                Wipeout.get().getObstacleBar().startMap(player);
+                Wipeout.get().getObstacleBar().updateBossBar(player, activeMap.getSpawnPoint().getObstacleRegion());
             }
 
             player.setGameMode(GameMode.ADVENTURE);
@@ -203,7 +203,7 @@ public class GameManager {
 
         new BukkitRunnable() {
 
-            int secondsLeft = 60;
+            int secondsLeft = 10;
 
             @Override
             public void run() {
