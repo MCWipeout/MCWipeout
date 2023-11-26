@@ -15,12 +15,13 @@ public enum MusicEnum {
 
     MAP_2_LOOP("wipeout:mcw.music.map2loop", 87033, null, 1000), // 1:28:033
     MAP_3_LOOP("wipeout:mcw.music.map3loop", 74710, null, 500), // 1:14:710
-
+    MAP_4_LOOP("wipeout:mcw.music.map4loop", 133333, null, 0), // 2:13:333
     MAP_1_INTRO("wipeout:mcw.music.map1intro", 98717, MAP_1_LOOP, 0), // 1:38:717
 
     MAP_2_INTRO("wipeout:mcw.music.map2intro", 89051, MAP_2_LOOP, 0), // 1:29:051
 
-    MAP_3_INTRO("wipeout:mcw.music.map3intro", 76042, MAP_3_LOOP, 0); // 1:16:042
+    MAP_3_INTRO("wipeout:mcw.music.map3intro", 76042, MAP_3_LOOP, 0), // 1:16:042
+    MAP_4_INTRO("wipeout:mcw.music.map4intro", 136000, MAP_4_LOOP, 0); // 2:16:000
 
 
     @Getter

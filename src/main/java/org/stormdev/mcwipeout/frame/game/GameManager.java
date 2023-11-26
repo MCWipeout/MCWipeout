@@ -232,6 +232,9 @@ public class GameManager {
                             case "Cityscape":
                                 musicTask = new MusicTask(MusicEnum.MAP_3_INTRO);
                                 break;
+                            case "Turbulent Tides":
+                                musicTask = new MusicTask(MusicEnum.MAP_4_INTRO);
+                                break;
                         }
 
                         if (type == GameType.SOLO) {
@@ -326,8 +329,20 @@ public class GameManager {
 
                     Titles.sendTitle(player, 0, 100, 20, "", StringUtils.hex("#F7CE50Finished!"));
                     int timer = (int) stopwatch.elapsed(TimeUnit.MILLISECONDS);
-                    Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] " + team.getColor() + player.getName() + " #A1BDD7has finished in #F7CE50" + Utils.formatTime(timer)
-                            + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"));
+
+                    //uncomment for normal
+//                    Bukkit.broadcastMessage(StringUtils.hex("&8[#8eee3a⭐&8] " + team.getColor() + player.getName() + " #A1BDD7has finished in #F7CE50" + Utils.formatTime(timer)
+//                            + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"));
+
+                    team.getMembers().forEach(uuid -> {
+                        if (Bukkit.getPlayer(uuid) != null) {
+                            Bukkit.getPlayer(uuid).sendMessage(StringUtils.hex("&8[#8eee3a⭐&8] " + team.getColor() + player.getName() + " #A1BDD7has finished in #F7CE50" + "N/A"
+                                    + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"));
+                        }
+                    });
+
+                    Bukkit.broadcast(StringUtils.hex("&8[#8eee3a⭐&8] " + team.getColor() + player.getName() + " #A1BDD7has finished in #F7CE50" + Utils.formatTime(timer)
+                            + "! &8(#8eee3a" + team.getFinishedMembers().size() + "/" + team.getMembers().size() + "&8)"), "wipeout.admin");
 
                     playerTimers.put(player.getUniqueId(), timer);
 
@@ -346,6 +361,8 @@ public class GameManager {
                         team.getFinishedMembers().forEach(x -> {
                             if (Bukkit.getPlayer(x) != null) {
                                 Titles.sendTitle(Bukkit.getPlayer(x), 0, 100, 20, "", StringUtils.hex("#F7CE50Team Finish!"));
+
+                                Bukkit.getPlayer(x).sendMessage(StringUtils.hex("&8[#8eee3a⭐&8] #F7CE50" + team.getColor() + team.getId() + " #A1BDD7has finished!"));
                             }
                         });
 
@@ -357,10 +374,11 @@ public class GameManager {
 
                         Bukkit.getOnlinePlayers().forEach(player1 -> plugin.getAdventure().player(player1).playSound(Sound.sound(Key.key("wipeout:mcw.gamefinish"), Sound.Source.MASTER, 0.5f, 1.0f)));
 
-                        Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
-                        Bukkit.broadcastMessage(StringUtils.hex("&8[#BF1542⭐&8] #A1BDD7Team " + team.getColor() + team.getId() + " #A1BDD7has finished in #8eee3a"
-                                + ordinal((finishedTeams.size() + 1)) + " place! &8(#F7CE50" + Utils.formatTime(timer) + "&8)"));
-                        Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
+                        Bukkit.broadcast(Color.colorize("&8&m                                                            "), "wipeout.admin");
+                        Bukkit.broadcast(StringUtils.hex("&8[#BF1542⭐&8] #A1BDD7Team " + team.getColor() + team.getId() + " #A1BDD7has finished in #8eee3a"
+                                + ordinal((finishedTeams.size() + 1)) + " place! &8(#F7CE50" + Utils.formatTime(timer) + "&8)"), "wipeout.admin");
+                        Bukkit.broadcast(Color.colorize("&8&m                                                            "), "wipeout.admin");
+
 
                         finishedTeams.add(team);
 
@@ -392,6 +410,9 @@ public class GameManager {
             case "Cityscape":
                 WipeoutResult.updatePlayerTimeInDatabase(player.getUniqueId(), 3, timer);
                 break;
+            case "Turbulent Tides":
+                WipeoutResult.updatePlayerTimeInDatabase(player.getUniqueId(), 4, timer);
+                break;
         }
     }
 
@@ -405,6 +426,9 @@ public class GameManager {
                 break;
             case "Cityscape":
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getWipeoutDatabase().setTime(team, 3, timer));
+                break;
+            case "Turbulent Tides":
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getWipeoutDatabase().setTime(team, 4, timer));
                 break;
         }
     }
@@ -487,9 +511,10 @@ public class GameManager {
         }
         if (!finishedTeams.isEmpty()) {
 
-            teleportTeams(finishedTeams);
-            Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
-            Bukkit.broadcastMessage(StringUtils.hex("#F7CE50&lMap " + activeMap.getMapName() + " Leaderboard:"));
+            //teleportTeams(finishedTeams);
+
+            Bukkit.broadcast(Color.colorize("&8&m                                                            "), "wipeout.admin");
+            Bukkit.broadcast(StringUtils.hex("#F7CE50&lMap " + activeMap.getMapName() + " Leaderboard:"), "wipeout.admin");
 
             int maxI = 3;
             if (finishedTeams.size() < maxI) {
@@ -497,12 +522,12 @@ public class GameManager {
             }
 
             for (int i = 0; i < maxI; i++) {
-                Bukkit.broadcastMessage(" ");
+                Bukkit.broadcast(" ", "wipeout.admin");
 
                 StringBuilder builder = new StringBuilder();
                 if (type == GameType.TEAMS) {
 
-                    Bukkit.broadcastMessage(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": " + finishedTeams.get(i).getColor() + finishedTeams.get(i).getId()));
+                    Bukkit.broadcast(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": " + finishedTeams.get(i).getColor() + finishedTeams.get(i).getId()), "wipeout.admin");
 
                     for (int j = 0; j < finishedTeams.get(i).getMembers().size(); j++) {
                         builder.append(Bukkit.getOfflinePlayer(finishedTeams.get(i).getMembers().get(j)).getName());
@@ -510,12 +535,12 @@ public class GameManager {
                             builder.append(", ");
                         }
                     }
-                    Bukkit.broadcastMessage(StringUtils.hex("#F7CE50" + builder));
+                    Bukkit.broadcast(StringUtils.hex("#F7CE50" + builder), "wipeout.admin");
                 } else {
                     finishedTeams.get(i).getMembers().forEach(x -> builder.append(Bukkit.getOfflinePlayer(x).getName()).append(" "));
-                    Bukkit.broadcastMessage(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": #F7CE50" + builder));
+                    Bukkit.broadcast(StringUtils.hex("#8eee3a" + ordinal((i + 1)) + ": #F7CE50" + builder), "wipeout.admin");
                 }
-                Bukkit.broadcastMessage(" ");
+                Bukkit.broadcast(" ", "wipeout.admin");
             }
 
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -528,13 +553,13 @@ public class GameManager {
 
 
                 if (type == GameType.TEAMS) {
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30") + Utils.formatTime(time)); //TODO: solo time
-                    p.sendMessage(StringUtils.hex("#A1BDD7Your team's time: #EAAB30" + Utils.formatTime(time))); //TODO: team time
+                    //p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30") + Utils.formatTime(time)); //TODO: solo time
+                    //p.sendMessage(StringUtils.hex("#A1BDD7Your team's time: #EAAB30" + Utils.formatTime(time))); //TODO: team time
                 } else if (type == GameType.SOLO) {
                     p.sendMessage(StringUtils.hex("#A1BDD7Your time: #EAAB30" + Utils.formatTime(time))); //TODO: solo time
                 }
             }
-            Bukkit.broadcastMessage(Color.colorize("&8&m                                                            "));
+            Bukkit.broadcast(Color.colorize("&8&m                                                            "), "wipeout.admin");
         }
 
         stopwatch = null;

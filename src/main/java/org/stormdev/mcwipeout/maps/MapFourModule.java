@@ -37,12 +37,13 @@ import java.util.List;
 public class MapFourModule extends Map {
 
     public MapFourModule() {
-        super("Map 4");
+        super("Turbulent Tides");
 
         setSpawnPoint(new CheckPoint("", new WPoint(4804.5, 106, 111.5), -90.0F, 0F, ObstacleRegion.RED_BALLS));
         setFinish(new CheckPoint("map_4_finish", new WPoint(4804.5, 106, 111.5), -90.0F, 0F, null));
 
         setObstacleRegions(List.of(
+                ObstacleRegion.RED_BALLS,
                 ObstacleRegion.CLOCK_ARMS,
                 ObstacleRegion.EXTENDED_BUMPER_WALL,
                 ObstacleRegion.BUMPER_WALL,
@@ -64,7 +65,7 @@ public class MapFourModule extends Map {
         checkPoints.add(new CheckPoint("map_4_cp2", new WPoint(5027.5, 102, 96.5), -140.0F, 0F, ObstacleRegion.EXTENDED_BUMPER_WALL));
         checkPoints.add(new CheckPoint("map_4_cp3", new WPoint(5028.5, 102, 22.5), 105.0F, 0F, ObstacleRegion.BUMPER_WALL));
         checkPoints.add(new CheckPoint("map_4_cp4", new WPoint(4943.5, 102, 2.5), 90.0F, 0F, ObstacleRegion.SWEEPER));
-        checkPoints.add(new CheckPoint("map_4_cp5", new WPoint(4839.5, 102, -10.5), 90.0F, 0F, ObstacleRegion.DISAPPEARING_PLATFORM));
+        checkPoints.add(new CheckPoint("map_4_cp5", new WPoint(4893.5, 102, -10.5), 90.0F, 0F, ObstacleRegion.DISAPPEARING_PLATFORM));
         checkPoints.add(new CheckPoint("map_4_cp6", new WPoint(4771.5, 102, -40.5), 90.0F, 0F, ObstacleRegion.PATTERN_MEMORIZATION));
         checkPoints.add(new CheckPoint("map_4_cp7", new WPoint(4733, 102, 38), 0.0F, 0F, ObstacleRegion.SWEEPER2));
         checkPoints.add(new CheckPoint("map_4_cp8", new WPoint(4733.5, 102, 202.5), 0.0F, 0F, ObstacleRegion.WATER_STAIRS));
@@ -93,7 +94,7 @@ public class MapFourModule extends Map {
                         BumperObject.of(40, WLocation.from(5040, 101.5, 80), WLocation.from(5038, 101.5, 80), 90, -1, 0),
                         BumperObject.of(0, WLocation.from(5040, 107.5, 55), WLocation.from(5038, 107.5, 55), 90, -1, 0),
                         BumperObject.of(20, WLocation.from(5040, 107.5, 52), WLocation.from(5038, 107.5, 52), 90, -1, 0),
-                        BumperObject.of(60, WLocation.from(5040, 107.5, 50), WLocation.from(5038, 107.5, 50), 90, -1, 0),
+                        BumperObject.of(60, WLocation.from(5040, 107.5, 49), WLocation.from(5038, 107.5, 49), 90, -1, 0),
                         BumperObject.of(50, WLocation.from(5040, 107.5, 33), WLocation.from(5038, 107.5, 33), 90, -1, 0)),
 
                 SlidingWall.of(WLocation.from(5038, 100, 76), WLocation.from(5039, 102, 77), 0, 0, 0.8f, 0, 50).setDirection(Direction.WEST).setSize(WallSize.TWO_BY_THREE),

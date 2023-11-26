@@ -63,7 +63,7 @@ public class WaterSlide extends Obstacle {
         if (event instanceof PlayerMoveEvent e) {
             if (e.getPlayer().getGameMode() == GameMode.SPECTATOR) return;
 
-            if (Wipeout.get().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_1_water") || Wipeout.get().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_2_water")) {
+            if (Wipeout.get().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_1_water") || Wipeout.get().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_2_water") || Wipeout.get().getPlayer(e.getPlayer().getUniqueId()).isInRegion("map_3_water")) {
 
                 Location to = e.getTo();
                 Block steppedOn = to.clone().getBlock();
